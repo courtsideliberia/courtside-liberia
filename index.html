@@ -1,86 +1,1690 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Courtside Liberia</title>
-  <style>
-    body {
-      font-family: 'Arial', sans-serif;
-      line-height: 1.6;
-      color: #333;
-      max-width: 800px;
-      margin: 0 auto;
-      padding: 20px;
-    }
-    h1, h2, h3 {
-      color: #d35400;
-    }
-    .leagues-section {
-      margin-top: 30px;
-    }
-    .loading {
-      color: #666;
-      font-style: italic;
-    }
-    .error {
-      color: red;
-    }
-  </style>
-</head>
-<body>
-  <h1>Courtside Liberia</h1>
-  <p>Promoting Excellence in Liberian Basketball</p>
-  <p>Dedicated to developing talent and bringing professional basketball to communities across Liberia</p>
-
-  <div class="leagues-section">
-    <h2>League Divisions</h2>
-    <div id="leagues"></div>
-  </div>
-
-  <script type="module">
-    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js';
-    import { getFirestore, collection, getDocs } from 'https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js';
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyAlwLvdfEVwDatmIcmdjdAu-0t0ALY6XIc",
-      authDomain: "courtside-liberia-52aa8.firebaseapp.com",
-      projectId: "courtside-liberia-52aa8",
-      storageBucket: "courtside-liberia-52aa8.appspot.com",
-      messagingSenderId: "154829379760",
-      appId: "1:154829379760:web:000df31f9245329d990375",
-      measurementId: "G-QPJHY0QLE8"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-
-    async function loadLeagues() {
-      const loader = document.getElementById("leagues");
-      loader.innerHTML = "<p class='loading'>Loading leagues...</p>";
-
-      try {
-        const querySnapshot = await getDocs(collection(db, "leagues"));
-        loader.innerHTML = "";
-
-        if (querySnapshot.empty) {
-          loader.innerHTML = "<p>No leagues found. Please add some in Firebase.</p>";
-          return;
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Courtside Liberia - Professional Basketball League</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-blue: #0066cc;
+            --dark-blue: #003d7a;
+            --light-blue: #4da6ff;
+            --accent-gold: #ffd700;
+            --success-green: #27ae60;
+            --danger-red: #e74c3c;
+            --warning-orange: #f39c12;
+            --text-light: #ffffff;
+            --text-muted: rgba(255, 255, 255, 0.8);
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
         }
 
-        querySnapshot.forEach((doc) => {
-          const league = doc.data();
-          const div = document.createElement("div");
-          div.innerHTML = `<h3>${league.name}</h3><p>${league.description}</p>`;
-          loader.appendChild(div);
-        });
-      } catch (error) {
-        console.error("Error loading leagues:", error);
-        loader.innerHTML = `<p class='error'>Error: ${error.message}</p>`;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f1b3c 0%, #1a237e 50%, #0066cc 100%);
+            color: var(--text-light);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        /* Enhanced Header */
+        .header {
+            background: rgba(15, 27, 60, 0.95);
+            backdrop-filter: blur(20px);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 3px solid var(--primary-blue);
+            box-shadow: 0 8px 32px rgba(0, 102, 204, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .header:hover {
+            background: rgba(15, 27, 60, 0.98);
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .logo-img {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(45deg, var(--primary-blue), var(--light-blue));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.6rem;
+            color: var(--text-light);
+            border: 4px solid var(--accent-gold);
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(255, 215, 0, 0.3);
+            cursor: pointer;
+            position: relative;
+        }
+
+        .logo-img::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transform: rotate(45deg);
+            animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            50% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+            100% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+        }
+
+        .logo-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+            z-index: 2;
+        }
+
+        .logo h2 {
+            font-size: 1.8rem;
+            background: linear-gradient(45deg, var(--text-light), var(--accent-gold), var(--text-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 1.5rem;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-menu li a {
+            color: var(--text-light);
+            text-decoration: none;
+            padding: 1rem 1.8rem;
+            border-radius: 30px;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-menu li a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .nav-menu li a:hover::before {
+            left: 100%;
+        }
+
+        .nav-menu li a:hover, 
+        .nav-menu li a.active {
+            background: linear-gradient(45deg, var(--primary-blue), var(--light-blue));
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 102, 204, 0.3);
+        }
+
+        .admin-btn {
+            background: linear-gradient(45deg, var(--accent-gold), #ffed4e);
+            color: var(--dark-blue);
+            border: none;
+            padding: 1rem 2.5rem;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            font-size: 1rem;
+            display: none;
+            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+        }
+
+        .admin-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255, 215, 0, 0.4);
+        }
+
+        body.admin-mode .admin-btn {
+            display: block;
+        }
+
+        /* Enhanced Hero Section */
+        .hero {
+            text-align: center;
+            padding: 8rem 0;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(255, 215, 0, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(0, 102, 204, 0.1) 0%, transparent 50%),
+                linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.6));
+            background-attachment: fixed;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"><rect fill="none" width="1200" height="800"/><circle cx="600" cy="400" r="200" fill="none" stroke="%23ffffff" stroke-width="1" opacity="0.05"/><circle cx="600" cy="400" r="150" fill="none" stroke="%230066cc" stroke-width="2" opacity="0.1"/><circle cx="600" cy="400" r="100" fill="none" stroke="%23ffd700" stroke-width="3" opacity="0.15"/></svg>');
+            background-size: cover;
+            background-position: center;
+            animation: rotate 30s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .hero h1 {
+            font-size: 4.5rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(45deg, var(--text-light), var(--accent-gold), var(--primary-blue), var(--text-light));
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradientShift 4s ease-in-out infinite;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            position: relative;
+            z-index: 1;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .hero p {
+            font-size: 1.4rem;
+            margin-bottom: 2.5rem;
+            opacity: 0.95;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cover-photo {
+            width: 100%;
+            max-width: 900px;
+            height: 350px;
+            margin: 3rem auto;
+            border-radius: 25px;
+            background: linear-gradient(45deg, var(--primary-blue), var(--light-blue));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            color: var(--primary-blue);
+            border: 4px solid var(--accent-gold);
+            box-shadow: 0 15px 35px rgba(0, 102, 204, 0.3);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .cover-photo:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 102, 204, 0.4);
+        }
+
+        .cover-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 21px;
+        }
+
+        /* Enhanced Sections */
+        .section {
+            padding: 5rem 0;
+            position: relative;
+        }
+
+        .section h2 {
+            font-size: 3.2rem;
+            margin-bottom: 3rem;
+            text-align: center;
+            color: var(--text-light);
+            position: relative;
+        }
+
+        .section h2::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 5px;
+            background: linear-gradient(45deg, var(--primary-blue), var(--accent-gold));
+            border-radius: 3px;
+        }
+
+        /* Enhanced Division Cards */
+        .divisions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2.5rem;
+            margin-top: 4rem;
+        }
+
+        .division-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+            backdrop-filter: blur(20px);
+            border-radius: 30px;
+            padding: 3rem;
+            text-align: center;
+            transition: all 0.4s ease;
+            border: 2px solid var(--glass-border);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .division-card::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, var(--primary-blue), var(--accent-gold), var(--light-blue));
+            border-radius: 32px;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .division-card:hover::before {
+            opacity: 1;
+        }
+
+        .division-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 25px 50px rgba(0, 102, 204, 0.3);
+        }
+
+        .division-card h3 {
+            font-size: 2.2rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-light);
+            background: linear-gradient(45deg, var(--text-light), var(--accent-gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Enhanced Team Cards */
+        .teams-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2.5rem;
+        }
+
+        .team-card {
+            background: linear-gradient(135deg, var(--glass-bg), rgba(255, 255, 255, 0.05));
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid var(--glass-border);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .team-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .team-card:hover::before {
+            left: 100%;
+        }
+
+        .team-card:hover {
+            background: linear-gradient(135deg, rgba(0, 102, 204, 0.2), rgba(0, 102, 204, 0.1));
+            transform: scale(1.05);
+            border-color: var(--primary-blue);
+            box-shadow: 0 10px 30px rgba(0, 102, 204, 0.3);
+        }
+
+        .team-logo {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(45deg, var(--text-light), #f0f0f0);
+            border: 3px solid var(--primary-blue);
+            border-radius: 50%;
+            margin: 0 auto 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: var(--primary-blue);
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0, 102, 204, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .team-card:hover .team-logo {
+            border-color: var(--accent-gold);
+            box-shadow: 0 8px 25px rgba(255, 215, 0, 0.3);
+        }
+
+        .team-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        /* Enhanced Buttons */
+        .btn {
+            padding: 1.2rem 3rem;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            margin: 0.5rem;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            transition: width 0.6s ease, height 0.6s ease;
+            transform: translate(-50%, -50%);
+        }
+
+        .btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, var(--primary-blue), var(--light-blue));
+            color: var(--text-light);
+            border: 2px solid var(--primary-blue);
+            box-shadow: 0 4px 15px rgba(0, 102, 204, 0.3);
+        }
+
+        .btn-success {
+            background: linear-gradient(45deg, var(--success-green), #2ecc71);
+            color: white;
+            border: 2px solid var(--success-green);
+            box-shadow: 0 4px 15px rgba(39, 174, 96, 0.3);
+        }
+
+        .btn-danger {
+            background: linear-gradient(45deg, var(--danger-red), #c0392b);
+            color: white;
+            border: 2px solid var(--danger-red);
+            box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Enhanced Tables */
+        .standings-table {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+            backdrop-filter: blur(20px);
+            border-radius: 25px;
+            overflow: hidden;
+            margin-top: 2.5rem;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            border: 2px solid var(--glass-border);
+        }
+
+        .standings-table table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .standings-table th,
+        .standings-table td {
+            padding: 1.5rem;
+            text-align: left;
+            border-bottom: 1px solid var(--glass-border);
+            transition: background-color 0.3s ease;
+        }
+
+        .standings-table th {
+            background: linear-gradient(45deg, var(--primary-blue), var(--dark-blue));
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-size: 0.9rem;
+        }
+
+        .standings-table tbody tr:hover {
+            background: rgba(0, 102, 204, 0.1);
+        }
+
+        /* Enhanced Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(135deg, #0f1b3c 0%, #1a237e 100%);
+            padding: 3rem;
+            border-radius: 30px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+            border: 3px solid var(--primary-blue);
+            box-shadow: 0 25px 60px rgba(0, 102, 204, 0.3);
+            animation: slideIn 0.4s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translate(-50%, -60%);
+            }
+            to {
+                opacity: 1;
+                transform: translate(-50%, -50%);
+            }
+        }
+
+        .close {
+            position: absolute;
+            top: 1.5rem;
+            right: 2rem;
+            font-size: 2.5rem;
+            cursor: pointer;
+            color: var(--primary-blue);
+            transition: all 0.3s ease;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+
+        .close:hover {
+            color: var(--accent-gold);
+            background: rgba(255, 215, 0, 0.1);
+        }
+
+        /* Enhanced Forms */
+        .form-group {
+            margin-bottom: 2rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.8rem;
+            color: var(--text-light);
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 1.2rem;
+            border: 2px solid var(--glass-border);
+            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 20px rgba(0, 102, 204, 0.3);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        /* Enhanced Admin Panel */
+        .admin-panel {
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.9), rgba(15, 27, 60, 0.9));
+            backdrop-filter: blur(20px);
+            border-radius: 30px;
+            padding: 3rem;
+            margin: 3rem 0;
+            border: 3px solid var(--primary-blue);
+            box-shadow: 0 20px 60px rgba(0, 102, 204, 0.2);
+        }
+
+        .admin-tabs {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .admin-tabs button {
+            padding: 1.2rem 2.5rem;
+            border: 2px solid var(--glass-border);
+            border-radius: 20px;
+            background: var(--glass-bg);
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            backdrop-filter: blur(10px);
+        }
+
+        .admin-tabs button.active {
+            background: linear-gradient(45deg, var(--primary-blue), var(--light-blue));
+            color: var(--text-light);
+            border-color: var(--primary-blue);
+            box-shadow: 0 4px 15px rgba(0, 102, 204, 0.3);
+        }
+
+        /* Enhanced Fixture/Result Items */
+        .fixture-item, 
+        .result-item {
+            background: linear-gradient(135deg, var(--glass-bg), rgba(255, 255, 255, 0.05));
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+            border: 2px solid var(--glass-border);
+            transition: all 0.3s ease;
+        }
+
+        .fixture-item:hover,
+        .result-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 102, 204, 0.2);
+            border-color: var(--primary-blue);
+        }
+
+        .team-vs {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+            flex-wrap: wrap;
+        }
+
+        .team-info {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            font-size: 1.1rem;
+        }
+
+        .vs-text {
+            font-weight: bold;
+            color: var(--primary-blue);
+            font-size: 1.3rem;
+            background: linear-gradient(45deg, var(--primary-blue), var(--accent-gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .team-logo-small {
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(45deg, var(--text-light), #f0f0f0);
+            border: 2px solid var(--primary-blue);
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: var(--primary-blue);
+            overflow: hidden;
+            margin-right: 10px;
+            font-size: 0.9rem;
+            box-shadow: 0 4px 15px rgba(0, 102, 204, 0.2);
+        }
+
+        .team-logo-small img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--primary-blue);
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .container {
+                padding: 0 1.5rem;
+            }
+            
+            .divisions {
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                gap: 2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+
+            .nav-menu {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 1rem;
+            }
+
+            .nav-menu li a {
+                padding: 0.8rem 1.5rem;
+                font-size: 0.9rem;
+            }
+
+            .hero {
+                padding: 5rem 0;
+            }
+
+            .hero h1 {
+                font-size: 3rem;
+            }
+
+            .hero p {
+                font-size: 1.2rem;
+            }
+
+            .section h2 {
+                font-size: 2.5rem;
+            }
+
+            .divisions {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .division-card {
+                padding: 2rem;
+            }
+
+            .teams-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+                gap: 1rem;
+            }
+
+            .team-vs {
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem;
+            }
+
+            .modal-content {
+                padding: 2rem;
+                width: 95%;
+            }
+
+            .admin-tabs {
+                gap: 1rem;
+            }
+
+            .admin-tabs button {
+                padding: 1rem 1.5rem;
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 1rem;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .section h2 {
+                font-size: 2rem;
+            }
+
+            .logo h2 {
+                font-size: 1.4rem;
+            }
+
+            .cover-photo {
+                height: 250px;
+                margin: 2rem auto;
+            }
+        }
+
+        .hidden {
+            display: none !important;
+        }
+        /* Fix dropdown select background colors */
+select {
+    background: var(--glass-bg) !important;
+    border: 2px solid var(--primary-blue) !important;
+    color: white !important;
+}
+
+select option {
+    background: #0f1b3c !important;
+    color: white !important;
+}
+
+.form-group select {
+    background: rgba(0, 102, 204, 0.2) !important;
+    border: 2px solid var(--primary-blue) !important;
+    color: white !important;
+}
+
+.form-group select:focus {
+    background: rgba(0, 102, 204, 0.3) !important;
+    border-color: var(--primary-blue) !important;
+    box-shadow: 0 0 20px rgba(0, 102, 204, 0.3) !important;
+}
+/* Replace yellow/amber colors with red */
+:root {
+    --accent-gold: #e74c3c !important; /* Changed from yellow to red */
+    --success-green: #27ae60 !important; /* Keep green for wins */
+    --danger-red: #e74c3c !important; /* Red for losses/forfeits */
+    --primary-blue: #3498db !important; /* Keep blue for primary elements */
+}
+
+/* Change specific elements from yellow to red */
+.fa-exclamation-triangle, .fa-times-circle, .fas.fa-exclamation-triangle, .fas.fa-times-circle {
+    color: #e74c3c !important;
+}
+
+/* Change result indicators from yellow to red */
+.result-item .vs-text, .fixture-item .vs-text {
+    color: #e74c3c !important;
+}
+
+/* Change forfeit indicators to red */
+[style*="color: #f39c12"], [style*="color:#f39c12"] {
+    color: #e74c3c !important;
+}
+
+/* Change any background that might be yellow to red */
+[class*="yellow"], [class*="Yellow"], [style*="background-color: #f39c12"], [style*="background-color:#f39c12"] {
+    background-color: #e74c3c !important;
+}
+
+/* Change border colors from yellow to red */
+[style*="border-color: #f39c12"], [style*="border-color:#f39c12"] {
+    border-color: #e74c3c !important;
+}
+
+/* Change notification colors from yellow to red */
+.notification.warning, .alert.warning, .badge.warning {
+    background-color: #e74c3c !important;
+    color: white !important;
+}
+
+/* Force red for any text that might be yellow */
+.text-yellow, .text-warning, [style*="color: #f39c12"], [style*="color:#f39c12"] {
+    color: #e74c3c !important;
+}
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <nav class="nav">
+                <div class="logo">
+                    <div class="logo-img" id="main-logo" ondblclick="adminAccess()">
+                        CL
+                    </div>
+                    <h2>Courtside Liberia</h2>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="#" class="nav-link active" data-section="home"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="#" class="nav-link" data-section="divisions"><i class="fas fa-trophy"></i> Divisions</a></li>
+                    <li><a href="#" class="nav-link" data-section="fixtures"><i class="fas fa-calendar-alt"></i> Fixtures</a></li>
+                    <li><a href="#" class="nav-link" data-section="results"><i class="fas fa-clipboard-check"></i> Results</a></li>
+                </ul>
+                <button class="admin-btn" onclick="toggleAdmin()"><i class="fas fa-cog"></i> Admin Panel</button>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <!-- Home Section -->
+        <section id="home" class="section">
+            <div class="hero">
+                <div class="container">
+                    <h1>Courtside Liberia</h1>
+                    <p>Promoting Excellence in Liberian Basketball</p>
+                    <p>Dedicated to developing talent and bringing professional basketball to communities across Liberia</p>
+                    
+                    <!-- Cover Photo Display -->
+                    <div id="cover-display" class="cover-photo" style="display: none;">
+                        <img id="cover-image" src="" alt="Courtside Liberia Cover">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Divisions Section -->
+        <section id="divisions" class="section">
+            <div class="container">
+                <h2><i class="fas fa-trophy"></i> League Divisions</h2>
+                <div class="divisions">
+                    <div class="division-card">
+                        <h3><i class="fas fa-medal"></i> First Division</h3>
+                        <p>Premier teams competing at the highest level of Liberian basketball</p>
+                        <div id="first-teams" class="teams-grid"></div>
+                        <button class="btn btn-primary" onclick="showDivisionStandings('first')" style="margin-top: 1.5rem;">
+                            <i class="fas fa-chart-line"></i> View Standings
+                        </button>
+                    </div>
+                    
+                    <div class="division-card">
+                        <h3><i class="fas fa-medal"></i> Second Division</h3>
+                        <p>Rising teams seeking promotion to the premier league</p>
+                        <div id="second-teams" class="teams-grid"></div>
+                        <button class="btn btn-primary" onclick="showDivisionStandings('second')" style="margin-top: 1.5rem;">
+                            <i class="fas fa-chart-line"></i> View Standings
+                        </button>
+                    </div>
+                    
+                    <div class="division-card">
+                        <h3><i class="fas fa-female"></i> Female Division</h3>
+                        <p>Women's professional basketball league showcasing elite talent</p>
+                        <div id="female-teams" class="teams-grid"></div>
+                        <button class="btn btn-primary" onclick="showDivisionStandings('female')" style="margin-top: 1.5rem;">
+                            <i class="fas fa-chart-line"></i> View Standings
+                        </button>
+                    </div>
+                    
+                    <div class="division-card">
+                        <h3><i class="fas fa-medal"></i> Third Division - JJ Roberts</h3>
+                        <p>Development league - JJ Roberts Conference</p>
+                        <div id="third-jj-teams" class="teams-grid"></div>
+                        <button class="btn btn-primary" onclick="showDivisionStandings('third-jj')" style="margin-top: 1.5rem;">
+                            <i class="fas fa-chart-line"></i> View Standings
+                        </button>
+                    </div>
+                    
+                    <div class="division-card">
+                        <h3><i class="fas fa-medal"></i> Third Division - EJ Roye</h3>
+                        <p>Development league - EJ Roye Conference</p>
+                        <div id="third-ej-teams" class="teams-grid"></div>
+                        <button class="btn btn-primary" onclick="showDivisionStandings('third-ej')" style="margin-top: 1.5rem;">
+                            <i class="fas fa-chart-line"></i> View Standings
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Fixtures Section -->
+        <section id="fixtures" class="section hidden">
+            <div class="container">
+                <h2><i class="fas fa-calendar-alt"></i> Upcoming Fixtures</h2>
+                <div id="fixtures-list"></div>
+            </div>
+        </section>
+
+        <!-- Results Section -->
+        <section id="results" class="section hidden">
+            <div class="container">
+                <h2><i class="fas fa-clipboard-check"></i> Recent Results</h2>
+                <div id="results-list"></div>
+            </div>
+        </section>
+
+        <!-- Admin Panel -->
+        <div id="admin-panel" class="admin-panel hidden">
+            <div class="container">
+                <h2><i class="fas fa-cog"></i> Admin Control Panel</h2>
+                
+                <div class="admin-tabs">
+                    <button class="tab-btn active" onclick="showAdminTab('teams')">
+                        <i class="fas fa-users"></i> Manage Teams
+                    </button>
+                    <button class="tab-btn" onclick="showAdminTab('fixtures')">
+                        <i class="fas fa-calendar-plus"></i> Add Fixtures
+                    </button>
+                    <button class="tab-btn" onclick="showAdminTab('matches')">
+                        <i class="fas fa-trophy"></i> Add Match Results
+                    </button>
+                </div>
+
+                <!-- Teams Management -->
+                <div id="admin-teams" class="admin-content">
+                    <!-- Courtside Logo Upload -->
+                    <div style="background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05)); backdrop-filter: blur(15px); padding: 2rem; border-radius: 20px; margin-bottom: 2.5rem; border: 2px solid rgba(255,255,255,0.1);">
+                        <h4><i class="fas fa-image"></i> Branding Management</h4>
+                        <div class="form-group">
+                            <label><i class="fas fa-basketball-ball"></i> Upload Main Logo:</label>
+                            <input type="file" id="courtside-logo" accept="image/*" onchange="uploadCourtsideLogo(event)">
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fas fa-camera"></i> Upload Cover Photo:</label>
+                            <input type="file" id="cover-upload" accept="image/*" onchange="uploadCoverPhotoAdmin(event)">
+                        </div>
+                    </div>
+
+                    <h3><i class="fas fa-users"></i> Team Management</h3>
+                    <div class="form-group">
+                        <label><i class="fas fa-layer-group"></i> Division:</label>
+                        <select id="team-division">
+                            <option value="first">First Division</option>
+                            <option value="second">Second Division</option>
+                            <option value="female">Female Division</option>
+                            <option value="third-jj">Third Division - JJ Roberts</option>
+                            <option value="third-ej">Third Division - EJ Roye</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label><i class="fas fa-basketball-ball"></i> Team Name:</label>
+                        <input type="text" id="team-name" placeholder="Enter team name">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label><i class="fas fa-image"></i> Team Logo (Optional):</label>
+                        <input type="file" id="team-logo" accept="image/*">
+                    </div>
+                    
+                    <button class="btn btn-success" onclick="addTeam()">
+                        <i class="fas fa-plus"></i> Add Team
+                    </button>
+                    
+                    <div id="teams-list" style="margin-top: 2rem;"></div>
+                </div>
+
+                <!-- Fixtures Management -->
+                <div id="admin-fixtures" class="admin-content hidden">
+                    <h3><i class="fas fa-calendar-plus"></i> Schedule New Fixture</h3>
+                    
+                    <div class="form-group">
+                        <label><i class="fas fa-layer-group"></i> Division:</label>
+                        <select id="fixture-division" onchange="updateFixtureTeams()">
+                            <option value="first">First Division</option>
+                            <option value="second">Second Division</option>
+                            <option value="female">Female Division</option>
+                            <option value="third-jj">Third Division - JJ Roberts</option>
+                            <option value="third-ej">Third Division - EJ Roye</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label><i class="fas fa-home"></i> Home Team:</label>
+                        <select id="fixture-home-team"></select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label><i class="fas fa-route"></i> Away Team:</label>
+                        <select id="fixture-away-team"></select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label><i class="fas fa-calendar-alt"></i> Match Date:</label>
+                        <input type="date" id="fixture-date">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label><i class="fas fa-clock"></i> Match Time:</label>
+                        <input type="time" id="fixture-time">
+                    </div>
+                    
+                    <button class="btn btn-success" onclick="addFixture()">
+                        <i class="fas fa-plus"></i> Schedule Fixture
+                    </button>
+                    
+                    <div id="fixtures-list-admin" style="margin-top: 2rem;"></div>
+                </div>
+
+                <!-- Match Results Management -->
+                <div id="admin-matches" class="admin-content hidden">
+                    <h3><i class="fas fa-trophy"></i> Record Match Result</h3>
+                    
+                    <div class="form-group">
+                        <label><i class="fas fa-layer-group"></i> Division:</label>
+                        <select id="match-division" onchange="updateMatchTeams()">
+                            <option value="first">First Division</option>
+                            <option value="second">Second Division</option>
+                            <option value="female">Female Division</option>
+                            <option value="third-jj">Third Division - JJ Roberts</option>
+                            <option value="third-ej">Third Division - EJ Roye</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label><i class="fas fa-home"></i> Home Team:</label>
+                        <select id="match-home-team"></select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label><i class="fas fa-route"></i> Away Team:</label>
+                        <select id="match-away-team"></select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label><i class="fas fa-calendar-alt"></i> Match Date:</label>
+                        <input type="date" id="match-date">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label><i class="fas fa-cog"></i> Result Type:</label>
+                        <select id="match-result-type" onchange="toggleMatchInputs()">
+                            <option value="normal">Normal Game</option>
+                            <option value="forfeit">Forfeit</option>
+                        </select>
+                    </div>
+                    
+                    <div id="match-normal-inputs">
+                        <div class="form-group">
+                            <label><i class="fas fa-home"></i> Home Score:</label>
+                            <input type="number" id="match-home-score" min="0" placeholder="Enter home team score">
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fas fa-route"></i> Away Score:</label>
+                            <input type="number" id="match-away-score" min="0" placeholder="Enter away team score">
+                        </div>
+                    </div>
+                    
+                    <div id="match-forfeit-inputs" class="hidden">
+                        <div class="form-group">
+                            <label><i class="fas fa-exclamation-triangle"></i> Team that Forfeited:</label>
+                            <select id="match-forfeit-team">
+                                <option value="home">Home Team</option>
+                                <option value="away">Away Team</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <button class="btn btn-success" onclick="addMatchResult()">
+                        <i class="fas fa-plus"></i> Record Result
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Team Details Modal -->
+    <div id="team-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('team-modal')">&times;</span>
+            <div id="team-details"></div>
+        </div>
+    </div>
+
+    <!-- Admin Access Notification -->
+    <div id="admin-access" style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: linear-gradient(135deg, rgba(0,0,0,0.95), rgba(15,27,60,0.95)); backdrop-filter: blur(20px); padding: 2.5rem; border-radius: 20px; border: 3px solid var(--primary-blue); display: none; z-index: 10000; text-align: center;">
+        <h3><i class="fas fa-lock"></i> Admin Access</h3>
+        <p>Double-click the logo 5 times to access admin panel</p>
+        <p id="click-counter">Clicks: 0/5</p>
+    </div>
+
+   <script type="module">
+  import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js';
+  import { getFirestore, collection, getDocs, addDoc, onSnapshot, doc, deleteDoc } from 'https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js';
+
+  // Firebase config
+  const firebaseConfig = {
+    apiKey: "AIzaSyAlwLvdfEVwDatmIcmdjdAu-0t0ALY6XIc",
+    authDomain: "courtside-liberia-52aa8.firebaseapp.com",
+    projectId: "courtside-liberia-52aa8",
+    storageBucket: "courtside-liberia-52aa8.appspot.com",
+    messagingSenderId: "154829379760",
+    appId: "1:154829379760:web:000df31f9245329d990375",
+    measurementId: "G-QPJHY0QLE8"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  // Global data
+  let leagueData = {
+    teams: {
+      first: [], second: [], female: [], 'third-jj': [], 'third-ej': []
+    },
+    fixtures: [],
+    results: [],
+    logos: { courtside: null, teams: {}, cover: null },
+    initialized: false
+  };
+
+  // Listen to teams in real-time
+  onSnapshot(collection(db, "teams"), (snapshot) => {
+    // Clear current teams
+    Object.keys(leagueData.teams).forEach(key => {
+      leagueData.teams[key] = [];
+    });
+    leagueData.logos.teams = {};
+
+    snapshot.forEach((doc) => {
+      const data = doc.data();
+      leagueData.teams[data.division].push(data.name);
+      if (data.logoUrl) {
+        leagueData.logos.teams[`${data.division}-${data.name}`] = data.logoUrl;
       }
+    });
+
+    if (leagueData.initialized) {
+      renderAllTeams();
+      updateFixtureTeams();
+      updateMatchTeams();
+    }
+  });
+
+  // Listen to fixtures
+  onSnapshot(collection(db, "fixtures"), (snapshot) => {
+    leagueData.fixtures = [];
+    snapshot.forEach((doc) => {
+      leagueData.fixtures.push({ id: doc.id, ...doc.data() });
+    });
+    if (leagueData.initialized) {
+      renderFixtures();
+      renderAdminFixtures();
+    }
+  });
+
+  // Listen to results
+  onSnapshot(collection(db, "results"), (snapshot) => {
+    leagueData.results = [];
+    snapshot.forEach((doc) => {
+      leagueData.results.push({ id: doc.id, ...doc.data() });
+    });
+    // Sort by date (newest first)
+    leagueData.results.sort((a, b) => new Date(b.date) - new Date(a.date));
+    if (leagueData.initialized) {
+      renderResults();
+    }
+  });
+
+  // Admin access
+  let adminClickCount = 0;
+  let clickTimeout = null;
+
+  function adminAccess() {
+    adminClickCount++;
+    if (clickTimeout) clearTimeout(clickTimeout);
+
+    const counter = document.getElementById('click-counter');
+    if (counter) counter.textContent = `Clicks: ${adminClickCount}/5`;
+
+    document.getElementById('admin-access').style.display = 'block';
+
+    if (adminClickCount >= 5) {
+      document.body.classList.add('admin-mode');
+      document.getElementById('admin-access').innerHTML = `
+        <h3><i class="fas fa-unlock" style="color: var(--success-green);"></i> Admin Access Granted!</h3>
+        <p>Welcome to the admin panel</p>
+      `;
+      setTimeout(() => document.getElementById('admin-access').style.display = 'none', 2000);
+      adminClickCount = 0;
+      return;
     }
 
-    loadLeagues();
-  </script>
+    clickTimeout = setTimeout(() => {
+      adminClickCount = 0;
+      document.getElementById('admin-access').style.display = 'none';
+    }, 3000);
+  }
+
+  // Enhanced notification
+  function showNotification(message, type = 'info') {
+    const notification = document.createElement('div');
+    notification.style.cssText = `
+      position: fixed; top: 20px; right: 20px; background: linear-gradient(45deg, ${type === 'success' ? 'var(--success-green)' : type === 'error' ? 'var(--danger-red)' : 'var(--primary-blue)'}, ${type === 'success' ? '#2ecc71' : type === 'error' ? '#c0392b' : 'var(--light-blue)'}); color: white; padding: 1rem 2rem; border-radius: 15px; z-index: 10001; box-shadow: 0 8px 25px rgba(0,0,0,0.3); backdrop-filter: blur(10px); animation: slideInRight 0.3s ease; max-width: 350px; border: 2px solid rgba(255,255,255,0.2);
+    `;
+    notification.innerHTML = `<div style="display: flex; align-items: center; gap: 0.5rem;"><i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-triangle' : 'info-circle'}"></i><span>${message}</span></div>`;
+    document.body.appendChild(notification);
+    setTimeout(() => {
+      notification.style.animation = 'slideOutRight 0.3s ease';
+      setTimeout(() => notification.remove(), 300);
+    }, 3000);
+  }
+
+  // Cover photo
+  function uploadCoverPhotoAdmin(event) {
+    const file = event.target.files[0];
+    if (file && file.size < 5 * 1024 * 1024) {
+      const reader = new FileReader();
+      reader.onload = async function(e) {
+        leagueData.logos.cover = e.target.result;
+        displayCoverPhoto(e.target.result);
+        // Save to Firebase
+        await addDoc(collection(db, "settings"), {
+          type: "cover",
+          value: e.target.result,
+          updatedAt: new Date()
+        });
+        showNotification('Cover photo updated!', 'success');
+      };
+      reader.readAsDataURL(file);
+    } else {
+      showNotification('File too large. Max 5MB.', 'error');
+    }
+  }
+
+  function displayCoverPhoto(src) {
+    const coverDisplay = document.getElementById('cover-display');
+    const coverImage = document.getElementById('cover-image');
+    coverImage.src = src;
+    coverDisplay.style.display = 'block';
+  }
+
+  // Logo upload
+  function uploadCourtsideLogo(event) {
+    const file = event.target.files[0];
+    if (file && file.size < 2 * 1024 * 1024) {
+      const reader = new FileReader();
+      reader.onload = async function(e) {
+        leagueData.logos.courtside = e.target.result;
+        document.getElementById('main-logo').innerHTML = `<img src="${e.target.result}" alt="Courtside Liberia">`;
+        await addDoc(collection(db, "settings"), {
+          type: "logo",
+          value: e.target.result,
+          updatedAt: new Date()
+        });
+        showNotification('Logo updated!', 'success');
+      };
+      reader.readAsDataURL(file);
+    } else {
+      showNotification('Logo too large. Max 2MB.', 'error');
+    }
+  }
+
+  // Initialize
+  document.addEventListener('DOMContentLoaded', function() {
+    // Setup nav
+    const navLinks = document.querySelectorAll('.nav-link');
+    navLinks.forEach(link => {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        showSection(this.dataset.section);
+      });
+    });
+
+    // Show home
+    showSection('home');
+
+    // Mark initialized
+    leagueData.initialized = true;
+  });
+
+  // Navigation
+  function showSection(sectionName) {
+    const sections = document.querySelectorAll('.section');
+    sections.forEach(section => {
+      section.style.transition = 'opacity 0.3s ease';
+      section.style.opacity = '0';
+    });
+    setTimeout(() => {
+      sections.forEach(section => section.classList.add('hidden'));
+      if (sectionName === 'home') {
+        document.getElementById('home').classList.remove('hidden');
+        document.getElementById('divisions').classList.remove('hidden');
+      } else {
+        document.getElementById(sectionName).classList.remove('hidden');
+      }
+      sections.forEach(section => {
+        if (!section.classList.contains('hidden')) {
+          section.style.opacity = '1';
+        }
+      });
+    }, 150);
+
+    const navLinks = document.querySelectorAll('.nav-link');
+    navLinks.forEach(link => link.classList.remove('active'));
+    document.querySelector(`[data-section="${sectionName}"]`).classList.add('active');
+  }
+
+  // Admin
+  function toggleAdmin() {
+    const panel = document.getElementById('admin-panel');
+    if (panel.classList.contains('hidden')) {
+      panel.classList.remove('hidden');
+      showNotification('Admin panel opened', 'info');
+    } else {
+      panel.classList.add('hidden');
+    }
+  }
+
+  function showAdminTab(tabName) {
+    const contents = document.querySelectorAll('.admin-content');
+    contents.forEach(content => {
+      content.classList.add('hidden');
+    });
+    document.getElementById(`admin-${tabName}`).classList.remove('hidden');
+    const tabs = document.querySelectorAll('.tab-btn');
+    tabs.forEach(tab => tab.classList.remove('active'));
+    event.target.classList.add('active');
+    if (tabName === 'fixtures') {
+      updateFixtureTeams();
+      renderAdminFixtures();
+    } else if (tabName === 'matches') {
+      updateMatchTeams();
+    }
+  }
+
+  // Teams
+  async function addTeam() {
+    const division = document.getElementById('team-division').value;
+    const name = document.getElementById('team-name').value.trim();
+    const logoFile = document.getElementById('team-logo').files[0];
+
+    if (!name) return showNotification('Enter team name', 'error');
+    if (leagueData.teams[division].includes(name)) return showNotification('Team exists', 'error');
+
+    let logoUrl = null;
+    if (logoFile) {
+      const reader = new FileReader();
+      reader.onload = async function(e) {
+        logoUrl = e.target.result;
+        await addDoc(collection(db, "teams"), {
+          division, name, logoUrl, createdAt: new Date()
+        });
+      };
+      reader.readAsDataURL(logoFile);
+    }
+
+    await addDoc(collection(db, "teams"), {
+      division, name, logoUrl: logoUrl || null, createdAt: new Date()
+    });
+
+    document.getElementById('team-name').value = '';
+    document.getElementById('team-logo').value = '';
+    showNotification(`Team "${name}" added!`, 'success');
+  }
+
+  function removeTeam(division, name) {
+    if (!confirm(`Remove "${name}"?`)) return;
+    // You can add Firebase delete here
+    showNotification(`${name} removed`, 'success');
+  }
+
+  function renderAllTeams() {
+    Object.keys(leagueData.teams).forEach(division => {
+      const container = document.getElementById(`${division}-teams`);
+      let html = '';
+      leagueData.teams[division].forEach(team => {
+        const logoKey = `${division}-${team}`;
+        const logoSrc = leagueData.logos.teams[logoKey];
+        html += `
+          <div class="team-card" onclick="showTeamDetails('${division}', '${team}')">
+            <div class="team-logo">
+              ${logoSrc ? `<img src="${logoSrc}" alt="${team}">` : team.charAt(0).toUpperCase()}
+            </div>
+            <h4>${team}</h4>
+          </div>
+        `;
+      });
+      container.innerHTML = html || '<p>No teams</p>';
+    });
+  }
+
+  // Fixtures
+  async function addFixture() {
+    const division = document.getElementById('fixture-division').value;
+    const homeTeam = document.getElementById('fixture-home-team').value;
+    const awayTeam = document.getElementById('fixture-away-team').value;
+    const date = document.getElementById('fixture-date').value;
+    const time = document.getElementById('fixture-time').value;
+
+    if (!homeTeam || !awayTeam || !date || !time) {
+      return showNotification('Fill all fields', 'error');
+    }
+
+    await addDoc(collection(db, "fixtures"), {
+      division, homeTeam, awayTeam, date, time, played: false, createdAt: new Date()
+    });
+
+    document.getElementById('fixture-home-team').selectedIndex = 0;
+    document.getElementById('fixture-away-team').selectedIndex = 0;
+    document.getElementById('fixture-date').value = '';
+    document.getElementById('fixture-time').value = '';
+    showNotification('Fixture added!', 'success');
+  }
+
+  function renderFixtures() {
+    const container = document.getElementById('fixtures-list');
+    const upcoming = leagueData.fixtures
+      .filter(f => !f.played)
+      .sort((a, b) => new Date(a.date + ' ' + a.time) - new Date(b.date + ' ' + b.time));
+
+    let html = '';
+    if (upcoming.length === 0) {
+      html = '<p>No fixtures</p>';
+    } else {
+      upcoming.forEach(f => {
+        html += `
+          <div class="fixture-item">
+            <div><strong>${getDivisionName(f.division)}</strong> - ${f.date} ${f.time}</div>
+            <div>${f.homeTeam} vs ${f.awayTeam}</div>
+          </div>
+        `;
+      });
+    }
+    container.innerHTML = html;
+  }
+
+  function renderAdminFixtures() {
+    const container = document.getElementById('fixtures-list-admin');
+    let html = '';
+    leagueData.fixtures.forEach(f => {
+      if (!f.played) {
+        html += `
+          <div>
+            ${f.homeTeam} vs ${f.awayTeam} - ${f.date}
+            <button onclick="removeFixture('${f.id}')">Delete</button>
+          </div>
+        `;
+      }
+    });
+    container.innerHTML = html;
+  }
+
+  async function removeFixture(id) {
+    await deleteDoc(doc(db, "fixtures", id));
+    showNotification('Fixture removed', 'success');
+  }
+
+  // Results
+  async function addMatchResult() {
+    const division = document.getElementById('match-division').value;
+    const homeTeam = document.getElementById('match-home-team').value;
+    const awayTeam = document.getElementById('match-away-team').value;
+    const date = document.getElementById('match-date').value;
+    const resultType = document.getElementById('match-result-type').value;
+
+    if (!homeTeam || !awayTeam || !date) {
+      return showNotification('Fill all fields', 'error');
+    }
+
+    let homeScore = 0, awayScore = 0, forfeit = false, forfeitTeam = null;
+
+    if (resultType === 'forfeit') {
+      forfeit = true;
+      forfeitTeam = document.getElementById('match-forfeit-team').value;
+      homeScore = forfeitTeam === 'home' ? 0 : 20;
+      awayScore = forfeitTeam === 'away' ? 0 : 20;
+    } else {
+      homeScore = parseInt(document.getElementById('match-home-score').value);
+      awayScore = parseInt(document.getElementById('match-away-score').value);
+      if (isNaN(homeScore) || isNaN(awayScore)) return showNotification('Enter valid scores', 'error');
+    }
+
+    await addDoc(collection(db, "results"), {
+      division, homeTeam, awayTeam, date, homeScore, awayScore, forfeit, forfeitTeam, played: true, createdAt: new Date()
+    });
+
+    showNotification('Result saved!', 'success');
+  }
+
+  function renderResults() {
+    const container = document.getElementById('results-list');
+    let html = '';
+    leagueData.results.slice(0, 20).forEach(r => {
+      html += `
+        <div class="result-item">
+          <div>${r.homeTeam} ${r.homeScore} - ${r.awayScore} ${r.awayTeam} (${r.date})</div>
+        </div>
+      `;
+    });
+    container.innerHTML = html;
+  }
+
+  // Utils
+  function getDivisionName(division) {
+    return {
+      'first': 'First Division',
+      'second': 'Second Division',
+      'female': 'Female Division',
+      'third-jj': 'Third Division - JJ Roberts',
+      'third-ej': 'Third Division - EJ Roye'
+    }[division] || division;
+  }
+
+  function updateFixtureTeams() {
+    const division = document.getElementById('fixture-division').value;
+    const home = document.getElementById('fixture-home-team');
+    const away = document.getElementById('fixture-away-team');
+    home.innerHTML = '<option value="">Select...</option>';
+    away.innerHTML = '<option value="">Select...</option>';
+    leagueData.teams[division].forEach(t => {
+      home.innerHTML += `<option value="${t}">${t}</option>`;
+      away.innerHTML += `<option value="${t}">${t}</option>`;
+    });
+  }
+
+  function updateMatchTeams() {
+    const division = document.getElementById('match-division').value;
+    const home = document.getElementById('match-home-team');
+    const away = document.getElementById('match-away-team');
+    home.innerHTML = '<option value="">Select...</option>';
+    away.innerHTML = '<option value="">Select...</option>';
+    leagueData.teams[division].forEach(t => {
+      home.innerHTML += `<option value="${t}">${t}</option>`;
+      away.innerHTML += `<option value="${t}">${t}</option>`;
+    });
+  }
+
+  function toggleMatchInputs() {
+    const type = document.getElementById('match-result-type').value;
+    document.getElementById('match-normal-inputs').classList.toggle('hidden', type === 'forfeit');
+    document.getElementById('match-forfeit-inputs').classList.toggle('hidden', type !== 'forfeit');
+  }
+
+  function closeModal(id) {
+    document.getElementById(id).style.display = 'none';
+  }
+
+  window.onclick = function(e) {
+    if (e.target.classList.contains('modal')) {
+      closeModal(e.target.id);
+    }
+  };
+</script>
 </body>
 </html>
