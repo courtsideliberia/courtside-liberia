@@ -1224,24 +1224,67 @@ select option {
     </div>
 
     <script>
-        // Global data storage with enhanced structure
-        let leagueData = {
-            teams: {
-                first: [],
-                second: [],
-                female: [],
-                'third-jj': [],
-                'third-ej': []
-            },
-            fixtures: [],
-            results: [],
-            logos: {
-                courtside: null,
-                teams: {},
-                cover: null
-            },
-            initialized: false
-        };
+        
+       // 🔥 Firebase Config (DO NOT CHANGE)
+const firebaseConfig = {
+  apiKey: "AIzaSyAlwLvdFEvWDatmIcmdjdAu-0t0ALY6XIc",
+  authDomain: "courtside-liberia-52aa8.firebaseapp.com",
+  databaseURL: "https://courtside-liberia-52aa8-default-rtdb.firebaseio.com",
+  projectId: "courtside-liberia-52aa8",
+  storageBucket: "courtside-liberia-52aa8.appspot.com",
+  messagingSenderId: "154829379760",
+  appId: "1:154829379760:web:000df31f9245329d990375",
+  measurementId: "G-QPJHY0QLE8"
+};
+
+// Global leagueData (will sync with Firebase)
+window.leagueData = {
+  teams: {
+    first: [], second: [], female: [], 'third-jj': [], 'third-ej': []
+  },
+  fixtures: [], results: [],
+  logos: { courtside: null, teams: {}, cover: null },
+  initialized: false
+};
+
+// 🌐 Load Firebase
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js';
+import { getDatabase, ref, onValue, set } from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-database.js';
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+const dataRef = ref(db, 'leagueData');
+
+// 📥 Load data from cloud when page opens
+onValue(dataRef, (snapshot) => {
+  const data = snapshot.val();
+  if (data) {
+    Object.assign(window.leagueData, data);
+    renderAllTeams();
+    renderFixtures();
+    renderResults();
+    if (window.leagueData.logos?.cover) {
+      displayCoverPhoto(window.leagueData.logos.cover);
+    }
+    if (window.leagueData.logos?.courtside) {
+      document.getElementById('main-logo').innerHTML = `<img src="${window.leagueData.logos.courtside}" alt="Logo">`;
+    }
+  } else {
+    initializeSampleData();
+  }
+});
+
+// 📤 Save to cloud
+window.saveToFirebase = function() {
+  set(dataRef, window.leagueData)
+    .then(() => showNotification('✅ Saved to cloud!', 'success'))
+    .catch(err => {
+      console.error("Save failed:", err);
+      showNotification('❌ Save failed', 'error');
+    });
+};
+        
 
         // Admin access counter
         let adminClickCount = 0;
@@ -1253,22 +1296,43 @@ select option {
             
             // Sample teams with more realistic names
             leagueData.teams.first = [
-                'Mighty Barrolle F', 
-                'LPRC Oilers', 
-                'Spartacus', 
-                'Bushrod Bulls',
-                'NPA Pythons',
-                'Cestos Mongars'
-               'Highway Kings'
+                'Mighty Barrolle ', 
+                'LPRC Oilers',
+                'Cominssiones',
+                'Spartacus',
+                'Bushrod Bulls', 
+                 
+                
+                
+                
+                
+                
+                
+                
+                
             ];
             
             leagueData.teams.second = [
-                'Rising Stars FC', 
-                'New Generation Eagles', 
-                'Future Lions', 
-                'Coastal United',
-                'Jungle Lions',
-                'River Gee Tigers'
+                '72ND Wildcats', 
+                'Barnesville Lion', 
+                'Bushrod Ballers', 
+                'Bushrod Dreamz',
+                'Destiny Kings',
+                'Du Runners',
+                'Georgia Warriors',
+                'Global Pythons',
+                'Invincible hooters',
+                'Kakata Rockets',
+                'Kardinals',
+                'King George Knights',
+                'Knight Reapers',
+                'Paynesville Bull Dog',
+                'Royal Legends',
+                'Sac Base',
+                'TS Warriors',
+                'Monrovia Admirals',
+                
+                
             ];
             
             leagueData.teams.female = [
@@ -1281,21 +1345,66 @@ select option {
             ];
             
             leagueData.teams['third-jj'] = [
-                'JJ Roberts Lions', 
-                'Roberts United', 
-                'Young Talents FC', 
-                'Future Stars',
-                'Paynesville Bulls',
-                'New Kru Town Eagles'
+                'Afro Prince ', 
+                'Afro Shooters', 
+                'B.W Spartants', 
+                'Broklyn Ballers',
+                'Dreamers',
+                'Duazon Knights',
+                'Duazon Raiders',
+                'Gibi Hustlers',
+               'Highway Prince',
+                'HighwayMilitants', 
+                'Jay Jay Y Rockets', 
+                'Kakata Prince', 
+                'King George Prince', 
+                'Luisiana Blazzer',
+                'Mamba Point Forces',
+                'Spartan Prince',
+                'Superkids',
+                'Supreme Brothers',
+                'U-City Warriors',
+                'Yolo Kings',
+
+
+
+
+                
             ];
             
             leagueData.teams['third-ej'] = [
-                'EJ Roye Warriors', 
-                'Roye Eagles', 
-                'New Hope FC', 
-                'Rising Sun United',
-                'Caldwell Spartans',
-                'Logan Town Knights'
+                'Afro Beasts', 
+                'D-14 Warriors', 
+                'Destiny Prince', 
+                'Highlanders',
+                'Invincible Islanders',
+                'Invincible Shooters II',
+                'Jr. Rockets',
+                'Kate Knights',
+                'Monrovia Brusers',
+                'Net Rangers', 
+                'Monrovia Brusers',
+                'Net Rangers',
+                'Phoenix Knight',
+                'Spark Giants',
+                'Sports & Leadership',
+                'STE Commanders',
+                'T Legions',
+                'The Kings',
+                'Ultimate 68',
+                'Virgina Rockets',
+
+
+
+
+
+
+
+
+
+
+
+
             ];
 
             // Add some sample fixtures and results for demonstration
@@ -1335,15 +1444,15 @@ select option {
                 played: false
             });
 
-            // Sample results
+            
             leagueData.results.push({
                 id: Date.now() + 3,
-                division: 'first',
-                homeTeam: 'University of Liberia Panthers',
-                awayTeam: 'Monrovia Club Breweries',
+                division: 'second',
+                homeTeam: 'Du Runners',
+                awayTeam: 'Invincible Shooters',
                 date: pastDate.toISOString().split('T')[0],
-                homeScore: 78,
-                awayScore: 72,
+                homeScore: 44,
+                awayScore: 59,
                 forfeit: false,
                 played: true
             });
@@ -1351,16 +1460,18 @@ select option {
             leagueData.results.push({
                 id: Date.now() + 4,
                 division: 'second',
-                homeTeam: 'Rising Stars FC',
-                awayTeam: 'New Generation Eagles',
+                homeTeam: 'Bushrod Dreamz',
+                awayTeam: 'Bushrod Ballers',
                 date: pastDate.toISOString().split('T')[0],
-                homeScore: 20,
-                awayScore: 0,
-                forfeit: true,
-                forfeitTeam: 'away',
+                homeScore: 63,
+                awayScore:53,
+                forfeit: false,
                 played: true
+                
             });
+            
         }
+        
 
         // Enhanced admin access with timeout
         function adminAccess() {
@@ -1488,6 +1599,7 @@ select option {
                     const logoElement = document.getElementById('main-logo');
                     logoElement.innerHTML = `<img src="${e.target.result}" alt="Courtside Liberia">`;
                     showNotification('Courtside logo updated successfully!', 'success');
+                    saveToFirebase();
                 };
                 reader.readAsDataURL(file);
             }
@@ -1593,7 +1705,7 @@ select option {
         }
 
         // Enhanced team management
-        function addTeam() {
+        function addTeam()  {
             const division = document.getElementById('team-division').value;
             const name = document.getElementById('team-name').value.trim();
             const logoFile = document.getElementById('team-logo').files[0];
@@ -1638,6 +1750,7 @@ select option {
             renderAdminFixtures();
             
             showNotification(`Team "${name}" added successfully!`, 'success');
+            saveToFirebase();
         }
 
         function removeTeam(division, index) {
@@ -1811,6 +1924,7 @@ select option {
             document.getElementById('fixture-time').value = '';
 
             showNotification('Fixture scheduled successfully!', 'success');
+            saveToFirebase();
         }
 
         function renderFixtures() {
@@ -2040,6 +2154,7 @@ select option {
 
             const resultMessage = resultType === 'forfeit' ? 'Match forfeit recorded successfully!' : 'Match result added successfully!';
             showNotification(resultMessage, 'success');
+            saveToFirebase();
         }
 
         function renderResults() {
@@ -2484,4 +2599,3 @@ select option {
     </script>
 </body>
 </html>
-
