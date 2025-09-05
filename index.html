@@ -527,6 +527,10 @@
             }
         }
     </style>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
+
 </head>
 <body>
     <header class="header">
@@ -1939,117 +1943,652 @@
     getStorage, ref, uploadBytes, getDownloadURL
   } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-storage.js";
 
-  // ↓↓↓ replace with YOUR config from Firebase Console
-  const firebaseConfig = {
-    apiKey: "YOUR_API_KEY",
-    authDomain: "YOUR_PROJECT.firebaseapp.com",
-    projectId: "YOUR_PROJECT",
-    storageBucket: "YOUR_PROJECT.appspot.com",
-    messagingSenderId: "XXXXXXXXXXXX",
-    appId: "1:XXXXXXXXXXXX:web:XXXXXXXXXXXX"
-  };
+  // Firebase Configuration - Replace with your actual config
+const firebaseConfig = {
+    apiKey: "your-api-key-here",
+    authDomain: "your-project-id.firebaseapp.com", 
+    projectId: "your-project-id",
+    storageBucket: "your-project-id.appspot.com",
+    messagingSenderId: "your-messaging-sender-id",
+    appId: "your-app-id"
+};
 
-  // init
-  const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
-  const storage = getStorage(app);
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+const storage = firebase.storage();
 
-  // expose for other scripts (if you have separate files)
-  window.db = db;
-  window.storage = storage;
+// Global data object - now syncs with Firebase
+let leagueData = {
+    teams: {
+        first: [],
+        second: [],
+        female: [],
+        'third-jj': [],
+        'third-ej': []
+    },
+    fixtures: [],
+    results: [],
+    logos: {
+        courtside: null,
+        teams: {},
+        cover: null
+    }
+};
 
-  // ---------- TEAMS: ADD + LIVE LIST ----------
-  async function addTeam() {
-    const divisionEl = document.getElementById('team-division');
-    const nameEl     = document.getElementById('team-name');
-    const logoEl     = document.getElementById('team-logo');
+// Firebase Data Management Functions
 
-    const division = divisionEl?.value || "first";
-    const name = (nameEl?.value || "").trim();
-    const logoFile = logoEl?.files?.[0];
+// Load all data from Firebase on page load
+async function loadAllDataFromFirebase() {
+    try {
+        showLoadingIndicator();
+        
+        // Load teams
+        await loadTeamsFromFirebase();
+        
+        // Load fixtures  
+        await loadFixturesFromFirebase();
+        
+        // Load results
+        await loadResultsFromFirebase();
+        
+        // Load logos
+        await loadLogosFromFirebase();
+        
+        hideLoadingIndicator();
+        console.log('All data loaded from Firebase successfully');
+        
+        // Refresh UI
+        updateTeamsList();
+        renderFixtures();
+        renderResults();
+        
+    } catch (error) {
+        console.error('Error loading data from Firebase:', error);
+        hideLoadingIndicator();
+        showNotification('Failed to load data. Using local data.', 'error');
+    }
+}
 
+// Teams Management
+async function loadTeamsFromFirebase() {
+    try {
+        const teamsSnapshot = await db.collection('teams').get();
+        
+        // Reset teams object
+        leagueData.teams = {
+            first: [],
+            second: [],
+            female: [],
+            'third-jj': [],
+            'third-ej': []
+        };
+        
+        teamsSnapshot.forEach(doc => {
+            const team = doc.data();
+            const division = team.division;
+            if (leagueData.teams[division]) {
+                leagueData.teams[division].push({
+                    id: doc.id,
+                    name: team.name,
+                    ...team
+                });
+            }
+        });
+        
+    } catch (error) {
+        console.error('Error loading teams:', error);
+    }
+}
+
+async function saveTeamToFirebase(division, teamName, logoUrl = null) {
+    try {
+        const teamData = {
+            name: teamName,
+            division: division,
+            logoUrl: logoUrl,
+            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+            wins: 0,
+            losses: 0,
+            forfeits: 0
+        };
+        
+        const docRef = await db.collection('teams').add(teamData);
+        console.log('Team added with ID: ', docRef.id);
+        
+        // Add to local data
+        leagueData.teams[division].push({
+            id: docRef.id,
+            ...teamData
+        });
+        
+        showNotification(`Team "${teamName}" added successfully!`, 'success');
+        
+    } catch (error) {
+        console.error('Error adding team:', error);
+        showNotification('Failed to add team', 'error');
+    }
+}
+
+async function deleteTeamFromFirebase(teamId, division, teamName) {
+    try {
+        // Delete team document
+        await db.collection('teams').doc(teamId).delete();
+        
+        // Remove from local data
+        leagueData.teams[division] = leagueData.teams[division].filter(team => 
+            team.id !== teamId
+        );
+        
+        // Delete associated fixtures and results
+        await deleteTeamDataFromFirebase(teamName);
+        
+        showNotification(`Team "${teamName}" deleted successfully`, 'success');
+        
+    } catch (error) {
+        console.error('Error deleting team:', error);
+        showNotification('Failed to delete team', 'error');
+    }
+}
+
+// Fixtures Management
+async function loadFixturesFromFirebase() {
+    try {
+        const fixturesSnapshot = await db.collection('fixtures')
+            .orderBy('date', 'asc')
+            .get();
+        
+        leagueData.fixtures = [];
+        fixturesSnapshot.forEach(doc => {
+            leagueData.fixtures.push({
+                id: doc.id,
+                ...doc.data()
+            });
+        });
+        
+    } catch (error) {
+        console.error('Error loading fixtures:', error);
+    }
+}
+
+async function saveFixtureToFirebase(fixtureData) {
+    try {
+        const docRef = await db.collection('fixtures').add({
+            ...fixtureData,
+            createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+        
+        // Add to local data
+        leagueData.fixtures.push({
+            id: docRef.id,
+            ...fixtureData
+        });
+        
+        showNotification('Fixture scheduled successfully!', 'success');
+        renderFixtures();
+        renderAdminFixtures();
+        
+    } catch (error) {
+        console.error('Error saving fixture:', error);
+        showNotification('Failed to schedule fixture', 'error');
+    }
+}
+
+async function deleteFixtureFromFirebase(fixtureId) {
+    try {
+        await db.collection('fixtures').doc(fixtureId).delete();
+        
+        // Remove from local data
+        leagueData.fixtures = leagueData.fixtures.filter(f => f.id !== fixtureId);
+        
+        renderFixtures();
+        renderAdminFixtures();
+        showNotification('Fixture removed successfully', 'success');
+        
+    } catch (error) {
+        console.error('Error deleting fixture:', error);
+        showNotification('Failed to remove fixture', 'error');
+    }
+}
+
+// Results Management
+async function loadResultsFromFirebase() {
+    try {
+        const resultsSnapshot = await db.collection('results')
+            .orderBy('date', 'desc')
+            .get();
+        
+        leagueData.results = [];
+        resultsSnapshot.forEach(doc => {
+            leagueData.results.push({
+                id: doc.id,
+                ...doc.data()
+            });
+        });
+        
+    } catch (error) {
+        console.error('Error loading results:', error);
+    }
+}
+
+async function saveResultToFirebase(resultData) {
+    try {
+        const docRef = await db.collection('results').add({
+            ...resultData,
+            createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+        
+        // Add to local data
+        leagueData.results.unshift({
+            id: docRef.id,
+            ...resultData
+        });
+        
+        // Update team statistics
+        await updateTeamStats(resultData);
+        
+        showNotification('Match result added successfully!', 'success');
+        renderResults();
+        
+    } catch (error) {
+        console.error('Error saving result:', error);
+        showNotification('Failed to add match result', 'error');
+    }
+}
+
+// Update team statistics after match result
+async function updateTeamStats(result) {
+    try {
+        // Find home and away teams
+        const homeTeamQuery = await db.collection('teams')
+            .where('name', '==', result.homeTeam)
+            .where('division', '==', result.division)
+            .get();
+            
+        const awayTeamQuery = await db.collection('teams')
+            .where('name', '==', result.awayTeam)
+            .where('division', '==', result.division)
+            .get();
+        
+        if (!homeTeamQuery.empty && !awayTeamQuery.empty) {
+            const homeTeamDoc = homeTeamQuery.docs[0];
+            const awayTeamDoc = awayTeamQuery.docs[0];
+            
+            let homeStats = { wins: 0, losses: 0, forfeits: 0 };
+            let awayStats = { wins: 0, losses: 0, forfeits: 0 };
+            
+            if (result.forfeit) {
+                if (result.forfeitTeam === 'home') {
+                    homeStats.forfeits = firebase.firestore.FieldValue.increment(1);
+                    awayStats.wins = firebase.firestore.FieldValue.increment(1);
+                } else {
+                    awayStats.forfeits = firebase.firestore.FieldValue.increment(1);
+                    homeStats.wins = firebase.firestore.FieldValue.increment(1);
+                }
+            } else {
+                if (result.homeScore > result.awayScore) {
+                    homeStats.wins = firebase.firestore.FieldValue.increment(1);
+                    awayStats.losses = firebase.firestore.FieldValue.increment(1);
+                } else {
+                    homeStats.losses = firebase.firestore.FieldValue.increment(1);
+                    awayStats.wins = firebase.firestore.FieldValue.increment(1);
+                }
+            }
+            
+            // Update both teams
+            await homeTeamDoc.ref.update(homeStats);
+            await awayTeamDoc.ref.update(awayStats);
+        }
+        
+    } catch (error) {
+        console.error('Error updating team stats:', error);
+    }
+}
+
+// Logo Management with Firebase Storage
+async function uploadLogoToFirebase(file, path) {
+    try {
+        const storageRef = storage.ref().child(`logos/${path}`);
+        const snapshot = await storageRef.put(file);
+        const downloadURL = await snapshot.ref.getDownloadURL();
+        return downloadURL;
+        
+    } catch (error) {
+        console.error('Error uploading logo:', error);
+        throw error;
+    }
+}
+
+async function saveLogoData(logoType, logoPath, logoUrl) {
+    try {
+        await db.collection('logos').doc(logoType).set({
+            path: logoPath,
+            url: logoUrl,
+            updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+        
+    } catch (error) {
+        console.error('Error saving logo data:', error);
+    }
+}
+
+async function loadLogosFromFirebase() {
+    try {
+        const logosSnapshot = await db.collection('logos').get();
+        
+        logosSnapshot.forEach(doc => {
+            const logoData = doc.data();
+            if (doc.id === 'courtside') {
+                leagueData.logos.courtside = logoData.url;
+                const logoElement = document.getElementById('main-logo');
+                if (logoElement && logoData.url) {
+                    logoElement.innerHTML = `<img src="${logoData.url}" alt="Courtside Liberia">`;
+                }
+            } else if (doc.id === 'cover') {
+                leagueData.logos.cover = logoData.url;
+                if (logoData.url) {
+                    displayCoverPhoto(logoData.url);
+                }
+            }
+        });
+        
+    } catch (error) {
+        console.error('Error loading logos:', error);
+    }
+}
+
+// Modified existing functions to work with Firebase
+
+// Enhanced addTeam function with Firebase
+async function addTeam() {
+    const division = document.getElementById('team-division').value;
+    const name = document.getElementById('team-name').value.trim();
+    const logoFile = document.getElementById('team-logo').files[0];
+    
     if (!name) {
-      alert("Enter team name");
-      return;
+        showNotification('Please enter a team name', 'error');
+        return;
     }
-
-    let logoURL = null;
+    
+    // Check for duplicate names in local data
+    const existingTeam = leagueData.teams[division].find(team => team.name === name);
+    if (existingTeam) {
+        showNotification('Team name already exists in this division', 'error');
+        return;
+    }
+    
+    let logoUrl = null;
+    
+    // Upload logo if provided
     if (logoFile) {
-      const fileRef = ref(storage, `team-logos/${division}-${Date.now()}-${logoFile.name}`);
-      await uploadBytes(fileRef, logoFile);
-      logoURL = await getDownloadURL(fileRef);
+        if (logoFile.size > 1 * 1024 * 1024) {
+            showNotification('Team logo file size too large. Please choose an image under 1MB.', 'error');
+            return;
+        }
+        
+        try {
+            const logoPath = `teams/${division}-${name}-${Date.now()}`;
+            logoUrl = await uploadLogoToFirebase(logoFile, logoPath);
+        } catch (error) {
+            showNotification('Failed to upload logo', 'error');
+            return;
+        }
+    }
+    
+    // Save team to Firebase
+    await saveTeamToFirebase(division, name, logoUrl);
+    
+    // Clear form
+    document.getElementById('team-name').value = '';
+    document.getElementById('team-logo').value = '';
+    
+    updateTeamsList();
+    updateFixtureTeams();
+    updateMatchTeams();
+}
+
+// Enhanced removeTeam function with Firebase
+async function removeTeam(division, teamId, teamName) {
+    if (!confirm(`Are you sure you want to remove "${teamName}"? This will also remove all associated fixtures and results.`)) {
+        return;
+    }
+    
+    await deleteTeamFromFirebase(teamId, division, teamName);
+    
+    updateTeamsList();
+    updateFixtureTeams();
+    updateMatchTeams();
+    renderAdminFixtures();
+    renderFixtures();
+    renderResults();
+}
+
+// Enhanced addFixture function with Firebase
+async function addFixture() {
+    const division = document.getElementById('fixture-division').value;
+    const homeTeam = document.getElementById('fixture-home-team').value;
+    const awayTeam = document.getElementById('fixture-away-team').value;
+    const date = document.getElementById('fixture-date').value;
+    const time = document.getElementById('fixture-time').value;
+
+    if (!homeTeam || !awayTeam) {
+        showNotification('Please select both home and away teams', 'error');
+        return;
     }
 
-    await addDoc(collection(db, "teams"), { division, name, logo: logoURL });
-    if (nameEl) nameEl.value = "";
-    if (logoEl) logoEl.value = "";
-    alert("✅ Team saved to Firebase");
-  }
+    if (homeTeam === awayTeam) {
+        showNotification('Home and Away teams cannot be the same!', 'error');
+        return;
+    }
 
-  // live list (updates instantly everywhere)
-  function listenForTeams() {
-    const list = document.getElementById('teams-live');
-    onSnapshot(collection(db, "teams"), (snap) => {
-      if (!list) return;
-      list.innerHTML = "";
-      snap.forEach((docSnap) => {
-        const t = docSnap.data(); // {division, name, logo}
-        const li = document.createElement('li');
-        li.style.display = "flex";
-        li.style.gap = "8px";
-        li.style.alignItems = "center";
-        li.innerHTML = `
-          ${t.logo ? `<img src="${t.logo}" alt="" style="width:28px;height:28px;border-radius:50%;object-fit:cover">` : ""}
-          <strong>${t.name}</strong> <span style="opacity:.7">(${t.division})</span>
-        `;
-        list.appendChild(li);
-      });
-    });
-  }
+    if (!date || !time) {
+        showNotification('Please select a date and time for the fixture!', 'error');
+        return;
+    }
+
+    const fixtureData = {
+        division,
+        homeTeam,
+        awayTeam,
+        date,
+        time,
+        played: false
+    };
+
+    await saveFixtureToFirebase(fixtureData);
+
+    // Clear form
+    document.getElementById('fixture-home-team').selectedIndex = 0;
+    document.getElementById('fixture-away-team').selectedIndex = 0;
+    document.getElementById('fixture-date').value = '';
+    document.getElementById('fixture-time').value = '';
+}
+
+// Enhanced addMatchResult function with Firebase
+async function addMatchResult() {
+    const division = document.getElementById('match-division').value;
+    const homeTeam = document.getElementById('match-home-team').value;
+    const awayTeam = document.getElementById('match-away-team').value;
+    const date = document.getElementById('match-date').value;
+    const resultType = document.getElementById('match-result-type').value;
+
+    if (!homeTeam || !awayTeam || !date) {
+        showNotification('Please fill in all required fields', 'error');
+        return;
+    }
+
+    if (homeTeam === awayTeam) {
+        showNotification('Home and Away teams cannot be the same!', 'error');
+        return;
+    }
+
+    const matchResult = {
+        division,
+        homeTeam,
+        awayTeam,
+        date,
+        played: true
+    };
+
+    if (resultType === 'forfeit') {
+        const forfeitTeam = document.getElementById('match-forfeit-team').value;
+        matchResult.forfeit = true;
+        matchResult.forfeitTeam = forfeitTeam;
+        matchResult.homeScore = forfeitTeam === 'home' ? 0 : 20;
+        matchResult.awayScore = forfeitTeam === 'away' ? 0 : 20;
+    } else {
+        const homeScore = parseInt(document.getElementById('match-home-score').value);
+        const awayScore = parseInt(document.getElementById('match-away-score').value);
+
+        if (isNaN(homeScore) || isNaN(awayScore)) {
+            showNotification('Please enter valid scores', 'error');
+            return;
+        }
+
+        matchResult.forfeit = false;
+        matchResult.homeScore = homeScore;
+        matchResult.awayScore = awayScore;
+    }
+
+    await saveResultToFirebase(matchResult);
+
+    // Clear form
+    document.getElementById('match-home-team').selectedIndex = 0;
+    document.getElementById('match-away-team').selectedIndex = 0;
+    document.getElementById('match-date').value = '';
+    document.getElementById('match-home-score').value = '';
+    document.getElementById('match-away-score').value = '';
+    document.getElementById('match-result-type').value = 'normal';
+    toggleMatchInputs();
+}
+
+// Enhanced logo upload functions with Firebase
+async function uploadCoverPhotoAdmin(event) {
+    const file = event.target.files[0];
+    if (file) {
+        if (file.size > 5 * 1024 * 1024) {
+            showNotification('File size too large. Please choose an image under 5MB.', 'error');
+            return;
+        }
+        
+        try {
+            const coverPath = `cover/cover-${Date.now()}`;
+            const logoUrl = await uploadLogoToFirebase(file, coverPath);
+            
+            await saveLogoData('cover', coverPath, logoUrl);
+            
+            leagueData.logos.cover = logoUrl;
+            displayCoverPhoto(logoUrl);
+            showNotification('Cover photo updated successfully!', 'success');
+            
+        } catch (error) {
+            showNotification('Failed to upload cover photo', 'error');
+        }
+    }
+}
+
+async function uploadCourtsideLogo(event) {
+    const file = event.target.files[0];
+    if (file) {
+        if (file.size > 2 * 1024 * 1024) {
+            showNotification('Logo file size too large. Please choose an image under 2MB.', 'error');
+            return;
+        }
+        
+        try {
+            const logoPath = `courtside/logo-${Date.now()}`;
+            const logoUrl = await uploadLogoToFirebase(file, logoPath);
+            
+            await saveLogoData('courtside', logoPath, logoUrl);
+            
+            leagueData.logos.courtside = logoUrl;
+            const logoElement = document.getElementById('main-logo');
+            logoElement.innerHTML = `<img src="${logoUrl}" alt="Courtside Liberia">`;
+            showNotification('Courtside logo updated successfully!', 'success');
+            
+        } catch (error) {
+            showNotification('Failed to upload logo', 'error');
+        }
+    }
+}
+
+// Helper functions for UI feedback
+function showLoadingIndicator() {
+    // Add loading spinner to page
+    const loadingDiv = document.createElement('div');
+    loadingDiv.id = 'firebase-loading';
+    loadingDiv.innerHTML = `
+        <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 10000; display: flex; align-items: center; justify-content: center;">
+            <div style="background: white; padding: 2rem; border-radius: 10px; text-align: center;">
+                <div class="loading" style="margin-bottom: 1rem;"></div>
+                <p style="color: #333;">Loading data from Firebase...</p>
+            </div>
+        </div>
+    `;
+    document.body.appendChild(loadingDiv);
+}
+
+function hideLoadingIndicator() {
+    const loadingDiv = document.getElementById('firebase-loading');
+    if (loadingDiv) {
+        loadingDiv.remove();
+    }
+}
+
+// Initialize Firebase data on page load
+document.addEventListener('DOMContentLoaded', function() {
+    // Your existing DOMContentLoaded code...
+    
+    // Load data from Firebase
+    loadAllDataFromFirebase();
+});
+
+// Utility function to delete team-related data
+async function deleteTeamDataFromFirebase(teamName) {
+    try {
+        // Delete fixtures
+        const fixturesQuery = await db.collection('fixtures')
+            .where('homeTeam', '==', teamName)
+            .get();
+        
+        const awayFixturesQuery = await db.collection('fixtures')
+            .where('awayTeam', '==', teamName)
+            .get();
+        
+        // Delete results
+        const resultsQuery = await db.collection('results')
+            .where('homeTeam', '==', teamName)
+            .get();
+            
+        const awayResultsQuery = await db.collection('results')
+            .where('awayTeam', '==', teamName)
+            .get();
+        
+        // Batch delete
+        const batch = db.batch();
+        
+        fixturesQuery.forEach(doc => batch.delete(doc.ref));
+        awayFixturesQuery.forEach(doc => batch.delete(doc.ref));
+        resultsQuery.forEach(doc => batch.delete(doc.ref));
+        awayResultsQuery.forEach(doc => batch.delete(doc.ref));
+        
+        await batch.commit();
+        
+        // Update local data
+        leagueData.fixtures = leagueData.fixtures.filter(fixture => 
+            fixture.homeTeam !== teamName && fixture.awayTeam !== teamName
+        );
+        leagueData.results = leagueData.results.filter(result => 
+            result.homeTeam !== teamName && result.awayTeam !== teamName
+        );
+        
+    } catch (error) {
+        console.error('Error deleting team data:', error);
+    }
+}
 
   window.addTeam = addTeam;
   window.addEventListener('DOMContentLoaded', listenForTeams);
 </script>
-
-<!-- Quick test block: remove later if you already have your own UI -->
-<section style="margin:1rem 0;padding:1rem;border:1px solid #ddd;border-radius:12px;">
-  <h3>Add Team (Firebase test)</h3>
-  <div style="display:grid;gap:.5rem;grid-template-columns:1fr 1fr 1fr 1fr;align-items:center;">
-    <select id="team-division">
-      <option value="first">first</option>
-      <option value="second">second</option>
-      <option value="female">female</option>
-      <option value="third-jj">third-jj</option>
-      <option value="third-ej">third-ej</option>
-    </select>
-    <input id="team-name" placeholder="Team name" />
-    <input id="team-logo" type="file" accept="image/*" />
-    <button onclick="addTeam()">Add Team</button>
-  </div>
-
-  <h4 style="margin-top:1rem;">Live Teams</h4>
-  <ul id="teams-live" style="list-style:none;padding-left:0;display:flex;flex-direction:column;gap:.5rem;"></ul>
-</section>
-
-<!-- Firebase Test UI -->
-<section style="margin:1rem 0;padding:1rem;border:1px solid #ddd;border-radius:12px;">
-  <h3>Add Team (Firebase test)</h3>
-  <div style="display:grid;gap:.5rem;grid-template-columns:1fr 1fr 1fr 1fr;align-items:center;">
-    <select id="fb-team-division">
-      <option value="first">first</option>
-      <option value="second">second</option>
-      <option value="female">female</option>
-      <option value="third-jj">third-jj</option>
-      <option value="third-ej">third-ej</option>
-    </select>
-    <input id="fb-team-name" placeholder="Team name" />
-    <input id="fb-team-logo" type="file" accept="image/*" />
-    <button onclick="addTeam()">Add Team</button>
-  </div>
-
-  <h4 style="margin-top:1rem;">Live Teams</h4>
-  <ul id="teams-live" style="list-style:none;padding-left:0;display:flex;flex-direction:column;gap:.5rem;"></ul>
-</section>
-
 </body>
 </html>
