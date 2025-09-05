@@ -2031,5 +2031,25 @@
   <ul id="teams-live" style="list-style:none;padding-left:0;display:flex;flex-direction:column;gap:.5rem;"></ul>
 </section>
 
+<!-- Firebase Test UI -->
+<section style="margin:1rem 0;padding:1rem;border:1px solid #ddd;border-radius:12px;">
+  <h3>Add Team (Firebase test)</h3>
+  <div style="display:grid;gap:.5rem;grid-template-columns:1fr 1fr 1fr 1fr;align-items:center;">
+    <select id="fb-team-division">
+      <option value="first">first</option>
+      <option value="second">second</option>
+      <option value="female">female</option>
+      <option value="third-jj">third-jj</option>
+      <option value="third-ej">third-ej</option>
+    </select>
+    <input id="fb-team-name" placeholder="Team name" />
+    <input id="fb-team-logo" type="file" accept="image/*" />
+    <button onclick="addTeam()">Add Team</button>
+  </div>
+
+  <h4 style="margin-top:1rem;">Live Teams</h4>
+  <ul id="teams-live" style="list-style:none;padding-left:0;display:flex;flex-direction:column;gap:.5rem;"></ul>
+</section>
+
 </body>
 </html>
