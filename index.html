@@ -1928,5 +1928,108 @@
             }
         });
     </script>
+
+    <script type="module">
+  // Firebase SDKs
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+  import {
+    getFirestore, collection, addDoc, onSnapshot
+  } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+  import {
+    getStorage, ref, uploadBytes, getDownloadURL
+  } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-storage.js";
+
+  // ↓↓↓ replace with YOUR config from Firebase Console
+  const firebaseConfig = {
+    apiKey: "YOUR_API_KEY",
+    authDomain: "YOUR_PROJECT.firebaseapp.com",
+    projectId: "YOUR_PROJECT",
+    storageBucket: "YOUR_PROJECT.appspot.com",
+    messagingSenderId: "XXXXXXXXXXXX",
+    appId: "1:XXXXXXXXXXXX:web:XXXXXXXXXXXX"
+  };
+
+  // init
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+  const storage = getStorage(app);
+
+  // expose for other scripts (if you have separate files)
+  window.db = db;
+  window.storage = storage;
+
+  // ---------- TEAMS: ADD + LIVE LIST ----------
+  async function addTeam() {
+    const divisionEl = document.getElementById('team-division');
+    const nameEl     = document.getElementById('team-name');
+    const logoEl     = document.getElementById('team-logo');
+
+    const division = divisionEl?.value || "first";
+    const name = (nameEl?.value || "").trim();
+    const logoFile = logoEl?.files?.[0];
+
+    if (!name) {
+      alert("Enter team name");
+      return;
+    }
+
+    let logoURL = null;
+    if (logoFile) {
+      const fileRef = ref(storage, `team-logos/${division}-${Date.now()}-${logoFile.name}`);
+      await uploadBytes(fileRef, logoFile);
+      logoURL = await getDownloadURL(fileRef);
+    }
+
+    await addDoc(collection(db, "teams"), { division, name, logo: logoURL });
+    if (nameEl) nameEl.value = "";
+    if (logoEl) logoEl.value = "";
+    alert("✅ Team saved to Firebase");
+  }
+
+  // live list (updates instantly everywhere)
+  function listenForTeams() {
+    const list = document.getElementById('teams-live');
+    onSnapshot(collection(db, "teams"), (snap) => {
+      if (!list) return;
+      list.innerHTML = "";
+      snap.forEach((docSnap) => {
+        const t = docSnap.data(); // {division, name, logo}
+        const li = document.createElement('li');
+        li.style.display = "flex";
+        li.style.gap = "8px";
+        li.style.alignItems = "center";
+        li.innerHTML = `
+          ${t.logo ? `<img src="${t.logo}" alt="" style="width:28px;height:28px;border-radius:50%;object-fit:cover">` : ""}
+          <strong>${t.name}</strong> <span style="opacity:.7">(${t.division})</span>
+        `;
+        list.appendChild(li);
+      });
+    });
+  }
+
+  window.addTeam = addTeam;
+  window.addEventListener('DOMContentLoaded', listenForTeams);
+</script>
+
+<!-- Quick test block: remove later if you already have your own UI -->
+<section style="margin:1rem 0;padding:1rem;border:1px solid #ddd;border-radius:12px;">
+  <h3>Add Team (Firebase test)</h3>
+  <div style="display:grid;gap:.5rem;grid-template-columns:1fr 1fr 1fr 1fr;align-items:center;">
+    <select id="team-division">
+      <option value="first">first</option>
+      <option value="second">second</option>
+      <option value="female">female</option>
+      <option value="third-jj">third-jj</option>
+      <option value="third-ej">third-ej</option>
+    </select>
+    <input id="team-name" placeholder="Team name" />
+    <input id="team-logo" type="file" accept="image/*" />
+    <button onclick="addTeam()">Add Team</button>
+  </div>
+
+  <h4 style="margin-top:1rem;">Live Teams</h4>
+  <ul id="teams-live" style="list-style:none;padding-left:0;display:flex;flex-direction:column;gap:.5rem;"></ul>
+</section>
+
 </body>
 </html>
