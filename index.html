@@ -494,6 +494,126 @@
             display: none !important;
         }
 
+        /* Standings table responsive styles */
+.standings-table-container {
+    width: 100%;
+}
+
+.desktop-table {
+    display: block;
+}
+
+.mobile-table {
+    display: none;
+}
+
+.standings-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.standing-card {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+    border-radius: 15px;
+    padding: 1.5rem;
+    border: 2px solid var(--glass-border);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.standing-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 102, 204, 0.3);
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding-bottom: 0.8rem;
+    border-bottom: 1px solid var(--glass-border);
+}
+
+.position {
+    background: var(--primary-blue);
+    color: white;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+.team-name {
+    font-weight: bold;
+    flex-grow: 1;
+    margin: 0 1rem;
+}
+
+.points {
+    color: #0066cc;
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+.card-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.8rem;
+}
+
+.stat-row {
+    display: flex;
+    justify-content: space-between;
+}
+
+.stat-label {
+    font-weight: 600;
+    color: var(--text-muted);
+}
+
+.stat-value {
+    font-weight: bold;
+}
+
+/* Responsive adjustments for standings */
+@media (max-width: 968px) {
+    .desktop-table {
+        display: none;
+    }
+    
+    .mobile-table {
+        display: block;
+    }
+    
+    .standings-table table {
+        font-size: 0.85rem;
+    }
+    
+    .standings-table th, 
+    .standings-table td {
+        padding: 0.8rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .card-stats {
+        grid-template-columns: 1fr;
+    }
+    
+    .standing-card {
+        padding: 1rem;
+    }
+    
+    .team-name {
+        font-size: 0.9rem;
+    }
+}
+
         @media (max-width: 768px) {
             .nav {
                 flex-direction: column;
@@ -526,6 +646,217 @@
                 gap: 1rem;
             }
         }
+
+/* Standings table responsive styles */
+.standings-table-container {
+    width: 100%;
+}
+
+.desktop-table {
+    display: block;
+}
+
+.mobile-table {
+    display: none;
+}
+
+.standings-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.standing-card {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+    border-radius: 15px;
+    padding: 1.5rem;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.standing-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 102, 204, 0.3);
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding-bottom: 0.8rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.position {
+    background: var(--primary-blue);
+    color: white;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 0.95rem;
+}
+
+.team-name {
+    font-weight: bold;
+    flex-grow: 1;
+    margin: 0 1rem;
+    font-size: 1.1rem;
+}
+
+.points {
+    color: #0066cc;
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+.card-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.8rem;
+}
+
+.stat-row {
+    display: flex;
+    justify-content: space-between;
+}
+
+.stat-label {
+    font-weight: 600;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+.stat-value {
+    font-weight: bold;
+    font-size: 0.95rem;
+}
+
+/* Responsive adjustments for standings */
+@media (max-width: 968px) {
+    .desktop-table {
+        display: none;
+    }
+    .mobile-table {
+        display: block;
+    }
+    .standings-table table {
+        font-size: 0.85rem;
+    }
+    .standings-table th, 
+    .standings-table td {
+        padding: 0.8rem;
+    }
+}
+
+/* Optimized Standings Table */
+.standings-table-container {
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.standings-table {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+    backdrop-filter: blur(20px);
+    border-radius: 25px;
+    overflow: hidden;
+    margin-top: 1.5rem;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+    border: 2px solid var(--glass-border);
+}
+
+.standings-table table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+}
+
+.standings-table th,
+.standings-table td {
+    padding: 0.8rem;
+    text-align: left;
+    border-bottom: 1px solid var(--glass-border);
+}
+
+.standings-table th {
+    background: linear-gradient(45deg, var(--primary-blue), var(--dark-blue));
+    color: white;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+}
+
+.standings-table tr:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+/* Responsive Tablet & Phone */
+@media (max-width: 768px) {
+    .desktop-table {
+        display: none;
+    }
+    .mobile-landscape {
+        display: block;
+    }
+
+    .standings-table table {
+        font-size: 0.85rem;
+    }
+
+    .standings-table th,
+    .standings-table td {
+        padding: 0.7rem;
+    }
+}
+
+/* Landscape Mode Toggle */
+.table-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.btn-sm {
+    font-size: 0.85rem;
+    padding: 0.5rem 1rem;
+}
+
+/* Landscape Mode Toggle Button */
+.landscape-mode {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .landscape-mode {
+        display: block;
+    }
+}
+
+/* Hide landscape mode when not active */
+.hidden {
+    display: none !important;
+}
+
+/* Fix for small screens */
+@media (max-width: 480px) {
+    .standings-table-container {
+        max-width: 100%;
+        overflow-x: auto;
+    }
+    .standings-table {
+        border-radius: 15px;
+    }
+}
+
+
+
     </style>
     <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
@@ -1825,118 +2156,187 @@
         }
 
         // Standings function
-        async function showDivisionStandings(division) {
-            // Get all results for this division
-            const resultsSnapshot = await db.collection("fixtures")
-                .where("division", "==", division)
-                .where("played", "==", true)
-                .get();
-            
-            const teams = leagueData.teams[division];
-            const standings = teams.map(team => {
-                const teamResults = resultsSnapshot.docs
-                    .filter(doc => {
-                        const result = doc.data();
-                        return result.homeTeam === team || result.awayTeam === team;
-                    })
-                    .map(doc => doc.data());
-                    
-                let wins = 0, losses = 0, forfeits = 0, pointsFor = 0, pointsAgainst = 0;
-                
-                teamResults.forEach(result => {
-                    const isHome = result.homeTeam === team;
-                    const teamScore = isHome ? result.homeScore : result.awayScore;
-                    const opponentScore = isHome ? result.awayScore : result.homeScore;
-                    pointsFor += teamScore;
-                    pointsAgainst += opponentScore;
-                    
-                    if (result.forfeit) {
-                        if ((isHome && result.forfeitTeam === 'home') || (!isHome && result.forfeitTeam === 'away')) {
-                            forfeits++;
-                        } else {
-                            wins++;
-                        }
-                    } else {
-                        if (teamScore > opponentScore) {
-                            wins++;
-                        } else {
-                            losses++;
-                        }
-                    }
-                });
-                
-                const totalPoints = (wins * 2) + (losses * 1) + (forfeits * 0);
-                return {
-                    team,
-                    played: teamResults.length,
-                    wins,
-                    losses,
-                    forfeits,
-                    pointsFor,
-                    pointsAgainst,
-                    pointsDiff: pointsFor - pointsAgainst,
-                    points: totalPoints
-                };
-            });
-            
-            standings.sort((a, b) => {
-                if (b.points !== a.points) return b.points - a.points;
-                if (b.pointsDiff !== a.pointsDiff) return b.pointsDiff - a.pointsDiff;
-                return b.pointsFor - a.pointsFor;
-            });
-            
-            const modal = document.getElementById('team-modal');
-            const detailsContainer = document.getElementById('team-details');
-            
-            let html = `
-                <h2><i class="fas fa-chart-line"></i> ${getDivisionName(division)} - Standings</h2>
-                <div class="standings-table">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Pos</th>
-                                <th>Team</th>
-                                <th>P</th>
-                                <th>W</th>
-                                <th>L</th>
-                                <th>F</th>
-                                <th>PF</th>
-                                <th>PA</th>
-                                <th>PD</th>
-                                <th>Pts</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-            `;
-            
-            standings.forEach((team, index) => {
-                html += `
-                    <tr onclick="showTeamDetails('${division}', '${team.team}')" style="cursor: pointer;">
-                        <td><strong>${index + 1}</strong></td>
-                        <td><strong>${team.team}</strong></td>
-                        <td>${team.played}</td>
-                        <td style="color: #27ae60;">${team.wins}</td>
-                        <td style="color: #f39c12;">${team.losses}</td>
-                        <td style="color: #e74c3c;">${team.forfeit}</td>
-                        <td>${team.pointsFor}</td>
-                        <td>${team.pointsAgainst}</td>
-                        <td style="color: ${team.pointsDiff >= 0 ? '#27ae60' : '#e74c3c'};">${team.pointsDiff >= 0 ? '+' : ''}${team.pointsDiff}</td>
-                        <td style="color: #0066cc; font-weight: bold; font-size: 1.2rem;">${team.points}</td>
-                    </tr>
-                `;
-            });
-            
-            html += `
-                        </tbody>
-                    </table>
-                </div>
-                <p style="margin-top: 1rem; font-size: 0.9rem;"><em>P=Played, W=Won, L=Lost, F=Forfeited, PF=Points For, PA=Points Against, PD=Point Difference, Pts=League Points</em></p>
-            `;
-            
-            detailsContainer.innerHTML = html;
-            modal.style.display = 'block';
-        }
+async function showDivisionStandings(division) {
+    const resultsSnapshot = await db.collection("fixtures")
+        .where("division", "==", division)
+        .where("played", "==", true)
+        .get();
 
+    const teams = leagueData.teams[division];
+    const standings = [];
+
+    // Initialize standings
+    teams.forEach(team => {
+        standings.push({
+            team: team,
+            played: 0,
+            wins: 0,
+            losses: 0,
+            forfeits: 0,
+            pointsFor: 0,
+            pointsAgainst: 0,
+            pointsDiff: 0,
+            points: 0
+        });
+    });
+
+    // Process results
+    resultsSnapshot.forEach(doc => {
+        const result = doc.data();
+        const homeTeamIndex = standings.findIndex(s => s.team === result.homeTeam);
+        const awayTeamIndex = standings.findIndex(s => s.team === result.awayTeam);
+
+        if (homeTeamIndex !== -1 && awayTeamIndex !== -1) {
+            standings[homeTeamIndex].played++;
+            standings[awayTeamIndex].played++;
+
+            standings[homeTeamIndex].pointsFor += result.homeScore;
+            standings[homeTeamIndex].pointsAgainst += result.awayScore;
+            standings[awayTeamIndex].pointsFor += result.awayScore;
+            standings[awayTeamIndex].pointsAgainst += result.homeScore;
+
+            standings[homeTeamIndex].pointsDiff = standings[homeTeamIndex].pointsFor - standings[homeTeamIndex].pointsAgainst;
+            standings[awayTeamIndex].pointsDiff = standings[awayTeamIndex].pointsFor - standings[awayTeamIndex].pointsAgainst;
+
+            if (result.forfeit) {
+                standings[homeTeamIndex].forfeits++;
+                standings[awayTeamIndex].forfeits++;
+                if (result.forfeitTeam === 'home') {
+                    standings[awayTeamIndex].wins++;
+                    standings[awayTeamIndex].points += 2;
+                    standings[homeTeamIndex].losses++;
+                } else {
+                    standings[homeTeamIndex].wins++;
+                    standings[homeTeamIndex].points += 2;
+                    standings[awayTeamIndex].losses++;
+                }
+            } else {
+                if (result.homeScore > result.awayScore) {
+                    standings[homeTeamIndex].wins++;
+                    standings[homeTeamIndex].points += 2;
+                    standings[awayTeamIndex].losses++;
+                } else if (result.homeScore < result.awayScore) {
+                    standings[awayTeamIndex].wins++;
+                    standings[awayTeamIndex].points += 2;
+                    standings[homeTeamIndex].losses++;
+                } else {
+                    standings[homeTeamIndex].points += 1;
+                    standings[awayTeamIndex].points += 1;
+                }
+            }
+        }
+    });
+
+    // Sort by points, PD, PF
+    standings.sort((a, b) => {
+        if (b.points !== a.points) return b.points - a.points;
+        if (b.pointsDiff !== a.pointsDiff) return b.pointsDiff - a.pointsDiff;
+        return b.pointsFor - a.pointsFor;
+    });
+
+    const modal = document.getElementById('team-modal');
+    const detailsContainer = document.getElementById('team-details');
+
+    let html = `
+        <div class="standings-table-container">
+            <div class="table-header">
+                <h3 style="margin: 0; font-size: 1.4rem;">
+                    <i class="fas fa-chart-line"></i> ${getDivisionName(division)} - Standings
+                </h3>
+                <button class="btn btn-sm" onclick="toggleLandscapeMode()" style="padding: 0.5rem 1rem; margin-top: 0.5rem;">Toggle Landscape</button>
+            </div>
+
+            <!-- Compact Desktop Table -->
+            <div class="standings-table desktop-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>POS</th>
+                            <th>TEAM</th>
+                            <th>P</th>
+                            <th>W</th>
+                            <th>L</th>
+                            <th>F</th>
+                            <th>PF</th>
+                            <th>PA</th>
+                            <th>PD</th>
+                            <th>PTS</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+    `;
+
+    standings.forEach((team, index) => {
+        const pdColor = team.pointsDiff >= 0 ? '#27ae60' : '#e74c3c';
+        html += `
+            <tr onclick="showTeamDetails('${division}', '${team.team}')" style="cursor: pointer;">
+                <td><strong>${index + 1}</strong></td>
+                <td><strong>${team.team}</strong></td>
+                <td>${team.played}</td>
+                <td style="color: #27ae60;">${team.wins}</td>
+                <td style="color: #f39c12;">${team.losses}</td>
+                <td style="color: #e74c3c;">${team.forfeits}</td>
+                <td>${team.pointsFor}</td>
+                <td>${team.pointsAgainst}</td>
+                <td style="color: ${pdColor};">${team.pointsDiff >= 0 ? '+' : ''}${team.pointsDiff}</td>
+                <td style="color: #0066cc; font-weight: bold;">${team.points}</td>
+            </tr>
+        `;
+    });
+
+    html += `
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Mobile Landscape Table -->
+            <div class="standings-table mobile-landscape hidden">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>POS</th>
+                            <th>TEAM</th>
+                            <th>P</th>
+                            <th>W/L/F</th>
+                            <th>PF/PA</th>
+                            <th>PD</th>
+                            <th>PTS</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+    `;
+
+    standings.forEach((team, index) => {
+        const pdColor = team.pointsDiff >= 0 ? '#27ae60' : '#e74c3c';
+        const wlf = `${team.wins}/${team.losses}/${team.forfeits}`;
+        const pfpa = `${team.pointsFor}/${team.pointsAgainst}`;
+        html += `
+            <tr onclick="showTeamDetails('${division}', '${team.team}')" style="cursor: pointer;">
+                <td><strong>${index + 1}</strong></td>
+                <td><strong>${team.team}</strong></td>
+                <td>${team.played}</td>
+                <td style="color: #27ae60;">${wlf}</td>
+                <td>${pfpa}</td>
+                <td style="color: ${pdColor};">${team.pointsDiff >= 0 ? '+' : ''}${team.pointsDiff}</td>
+                <td style="color: #0066cc; font-weight: bold;">${team.points}</td>
+            </tr>
+        `;
+    });
+
+    html += `
+                    </tbody>
+                </table>
+            </div>
+
+            <p style="margin-top: 1rem; font-size: 0.85rem; text-align: center; opacity: 0.8;">
+                <em>P=Played, W/Won, L=Lost, F=Forfeited, PF=Points For, PA=Points Against, PD=Point Diff, PTS=Points</em>
+            </p>
+        </div>
+    `;
+
+    detailsContainer.innerHTML = html;
+    modal.style.display = 'block';
+}
         // Team details function
         async function showTeamDetails(division, teamName) {
             const modal = document.getElementById('team-modal');
@@ -2100,6 +2500,19 @@
                 }
             }
         });
+
+        function toggleLandscapeMode() {
+    const desktopTable = document.querySelector('.desktop-table');
+    const landscapeTable = document.querySelector('.mobile-landscape');
+
+    if (!desktopTable || !landscapeTable) {
+        console.error("Desktop or Landscape table not found!");
+        return;
+    }
+
+    desktopTable.classList.toggle('hidden');
+    landscapeTable.classList.toggle('hidden');
+}
     </script>
 </body>
 </html>
