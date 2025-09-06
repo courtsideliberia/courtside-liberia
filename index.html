@@ -551,11 +551,11 @@
                     <h2>Courtside Liberia</h2>
                 </div>
                 <ul class="nav-menu">
-                    <li><a href="#" class="nav-link active" data-section="home"><i class="fas fa-home"></i> Home</a></li>
-                    <li><a href="#" class="nav-link" data-section="divisions"><i class="fas fa-trophy"></i> Divisions</a></li>
-                    <li><a href="#" class="nav-link" data-section="fixtures"><i class="fas fa-calendar-alt"></i> Fixtures</a></li>
-                    <li><a href="#" class="nav-link" data-section="results"><i class="fas fa-clipboard-check"></i> Results</a></li>
-                </ul>
+    <li><a href="#" class="nav-link active" data-section="home"><i class="fas fa-home"></i> Home</a></li>
+    <li><a href="#" class="nav-link" data-section="divisions-list"><i class="fas fa-trophy"></i> Divisions</a></li>
+    <li><a href="#" class="nav-link" data-section="fixtures"><i class="fas fa-calendar-alt"></i> Fixtures</a></li>
+    <li><a href="#" class="nav-link" data-section="results"><i class="fas fa-clipboard-check"></i> Results</a></li>
+</ul>
                 <button class="admin-btn" onclick="toggleAdmin()"><i class="fas fa-cog"></i> Admin Panel</button>
             </nav>
         </div>
@@ -583,44 +583,48 @@
                 </div>
             </div>
         </section>
-        <!-- Divisions Section -->
-        <section id="divisions" class="section">
-            <div class="container">
-                <h2><i class="fas fa-trophy"></i> League Divisions</h2>
-                <div class="divisions">
-                    <div class="division-card">
-                        <h3><i class="fas fa-medal"></i> First Division</h3>
-                        <p>Premier teams competing at the highest level</p>
-                        <div id="first-teams" class="teams-grid"></div>
-                        <button class="btn btn-primary" onclick="showDivisionStandings('first')" style="margin-top: 1rem;"><i class="fas fa-chart-line"></i> View Standings</button>
-                    </div>
-                    <div class="division-card">
-                        <h3><i class="fas fa-medal"></i> Second Division</h3>
-                        <p>Rising teams seeking promotion</p>
-                        <div id="second-teams" class="teams-grid"></div>
-                        <button class="btn btn-primary" onclick="showDivisionStandings('second')" style="margin-top: 1rem;"><i class="fas fa-chart-line"></i> View Standings</button>
-                    </div>
-                    <div class="division-card">
-                        <h3><i class="fas fa-female"></i> Female Division</h3>
-                        <p>Women's professional basketball league</p>
-                        <div id="female-teams" class="teams-grid"></div>
-                        <button class="btn btn-primary" onclick="showDivisionStandings('female')" style="margin-top: 1rem;"><i class="fas fa-chart-line"></i> View Standings</button>
-                    </div>
-                    <div class="division-card">
-                        <h3><i class="fas fa-medal"></i> Third Division - JJ Roberts</h3>
-                        <p>Development league - JJ Roberts Conference</p>
-                        <div id="third-jj-teams" class="teams-grid"></div>
-                        <button class="btn btn-primary" onclick="showDivisionStandings('third-jj')" style="margin-top: 1rem;"><i class="fas fa-chart-line"></i> View Standings</button>
-                    </div>
-                    <div class="division-card">
-                        <h3><i class="fas fa-medal"></i> Third Division - EJ Roye</h3>
-                        <p>Development league - EJ Roye Conference</p>
-                        <div id="third-ej-teams" class="teams-grid"></div>
-                        <button class="btn btn-primary" onclick="showDivisionStandings('third-ej')" style="margin-top: 1rem;"><i class="fas fa-chart-line"></i> View Standings</button>
-                    </div>
-                </div>
+       <!-- Divisions List Section -->
+<section id="divisions-list" class="section">
+    <div class="container">
+        <h2><i class="fas fa-trophy"></i> League Divisions</h2>
+        <div class="divisions">
+            <div class="division-card" onclick="showDivisionDetails('first')">
+                <h3><i class="fas fa-medal"></i> First Division</h3>
+                <p>Premier teams competing at the highest level</p>
             </div>
-        </section>
+            <div class="division-card" onclick="showDivisionDetails('second')">
+                <h3><i class="fas fa-medal"></i> Second Division</h3>
+                <p>Rising teams seeking promotion</p>
+            </div>
+            <div class="division-card" onclick="showDivisionDetails('female')">
+                <h3><i class="fas fa-female"></i> Female Division</h3>
+                <p>Women's professional basketball league</p>
+            </div>
+            <div class="division-card" onclick="showDivisionDetails('third-jj')">
+                <h3><i class="fas fa-medal"></i> Third Division - JJ Roberts</h3>
+                <p>Development league - JJ Roberts Conference</p>
+            </div>
+            <div class="division-card" onclick="showDivisionDetails('third-ej')">
+                <h3><i class="fas fa-medal"></i> Third Division - EJ Roye</h3>
+                <p>Development league - EJ Roye Conference</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Division Details Section (Initially Hidden) -->
+<section id="division-details" class="section hidden">
+    <div class="container">
+        <button class="btn btn-primary" onclick="showSection('divisions-list')" style="margin-bottom: 1rem;">
+            ← Back to Divisions
+        </button>
+        <h2 id="division-title"><i class="fas fa-trophy"></i> Loading Division...</h2>
+        <div id="division-teams" class="teams-grid"></div>
+        <button class="btn btn-primary" id="standings-btn" style="margin-top: 1rem;">
+            <i class="fas fa-chart-line"></i> View Standings
+        </button>
+    </div>
+</section>
         <!-- Fixtures Section -->
         <section id="fixtures" class="section hidden">
             <div class="container">
@@ -976,20 +980,25 @@ function initializeAppData() {
     }
 }
         // Navigation
-        function showSection(sectionName) {
-            const sections = document.querySelectorAll('.section');
-            sections.forEach(section => section.classList.add('hidden'));
-            if (sectionName === 'home') {
-                document.getElementById('home').classList.remove('hidden');
-                document.getElementById('divisions').classList.remove('hidden');
-            } else {
-                document.getElementById(sectionName).classList.remove('hidden');
-            }
-            // Update nav active state
-            const navLinks = document.querySelectorAll('.nav-link');
-            navLinks.forEach(link => link.classList.remove('active'));
-            document.querySelector(`[data-section="${sectionName}"]`).classList.add('active');
-        }
+        // Navigation
+function showSection(sectionName) {
+    const sections = document.querySelectorAll('.section');
+    sections.forEach(section => section.classList.add('hidden'));
+    
+    if (sectionName === 'home') {
+        document.getElementById('home').classList.remove('hidden');
+        document.getElementById('divisions-list').classList.remove('hidden');
+    } else if (sectionName === 'divisions-list') {
+        document.getElementById('divisions-list').classList.remove('hidden');
+    } else {
+        document.getElementById(sectionName).classList.remove('hidden');
+    }
+    
+    // Update nav active state
+    const navLinks = document.querySelectorAll('.nav-link');
+    navLinks.forEach(link => link.classList.remove('active'));
+    document.querySelector(`[data-section="${sectionName}"]`).classList.add('active');
+}
         document.addEventListener('DOMContentLoaded', function() {
     const navLinks = document.querySelectorAll('.nav-link');
     navLinks.forEach(link => {
@@ -1000,6 +1009,55 @@ function initializeAppData() {
     });
     initializeAppData(); // Changed from initializeSampleData()
 });
+
+// Division navigation functions
+function showDivisionDetails(division) {
+    // Hide all sections
+    document.getElementById('home').classList.add('hidden');
+    document.getElementById('divisions-list').classList.add('hidden');
+    document.getElementById('division-details').classList.remove('hidden');
+    document.getElementById('fixtures').classList.add('hidden');
+    document.getElementById('results').classList.add('hidden');
+    
+    // Update division title
+    document.getElementById('division-title').innerHTML = `<i class="fas fa-trophy"></i> ${getDivisionName(division)}`;
+    
+    // Render teams for this division
+    renderDivisionTeams(division);
+    
+    // Update standings button
+    const standingsBtn = document.getElementById('standings-btn');
+    standingsBtn.onclick = function() { showDivisionStandings(division); };
+    
+    // Update nav active state
+    const navLinks = document.querySelectorAll('.nav-link');
+    navLinks.forEach(link => link.classList.remove('active'));
+}
+
+function renderDivisionTeams(division) {
+    const container = document.getElementById('division-teams');
+    const teams = leagueData.teams[division] || [];
+    
+    let html = '';
+    if (teams.length === 0) {
+        html = '<p style="text-align: center; grid-column: 1 / -1; opacity: 0.7;">No teams in this division yet.</p>';
+    } else {
+        teams.forEach(team => {
+            const logoKey = `${division}-${team}`;
+            const logoSrc = leagueData.logos.teams[logoKey];
+            html += `
+                <div class="team-card" onclick="showTeamDetails('${division}', '${team}')">
+                    <div class="team-logo">
+                        ${logoSrc ? `<img src="${logoSrc}" alt="${team}">` : team.charAt(0)}
+                    </div>
+                    <h4>${team}</h4>
+                </div>
+            `;
+        });
+    }
+    
+    container.innerHTML = html;
+}
         // Admin Panel Functions
         function toggleAdmin() {
             const panel = document.getElementById('admin-panel');
@@ -1157,25 +1215,10 @@ async function deleteTeamFixturesAndResults(teamName) {
     teamsList.innerHTML = html;
 }
         function renderAllTeams() {
-            Object.keys(leagueData.teams).forEach(division => {
-                const container = document.getElementById(`${division}-teams`);
-                let html = '';
-                leagueData.teams[division].forEach(team => {
-                    const logoKey = `${division}-${team}`;
-                    const logoSrc = leagueData.logos.teams[logoKey];
-                    html += `
-                        <div class="team-card" onclick="showTeamDetails('${division}', '${team}')">
-                            <div class="team-logo">
-                                ${logoSrc ? `<img src="${logoSrc}" alt="${team}">` : team.charAt(0)}
-                            </div>
-                            <h4>${team}</h4>
-                        </div>
-                    `;
-                });
-                container.innerHTML = html;
-            });
-            updateTeamsList();
-        }
+    // This function is no longer needed for the new UI
+    // Teams are now rendered in the division details view
+    updateTeamsList();
+}
         // Team logo helper function
         function getTeamLogo(division, teamName) {
             const logoKey = `${division}-${teamName}`;
@@ -1698,6 +1741,8 @@ async function showTeamDetails(division, teamName) {
                 }
             });
         }
+
+        
     </script>
 </body>
 </html>
