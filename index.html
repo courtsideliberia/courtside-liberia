@@ -855,7 +855,160 @@
     }
 }
 
+/* Standings Table Responsive */
+.standings-table-container {
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+}
 
+.standings-table {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+    backdrop-filter: blur(20px);
+    border-radius: 25px;
+    overflow: hidden;
+    margin-top: 1.5rem;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+    border: 2px solid var(--glass-border);
+}
+
+.standings-table table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+}
+
+.standings-table th,
+.standings-table td {
+    padding: 0.8rem;
+    text-align: left;
+    border-bottom: 1px solid var(--glass-border);
+}
+
+.standings-table th {
+    background: linear-gradient(45deg, var(--primary-blue), var(--dark-blue));
+    color: white;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+}
+
+.standings-table tr:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+/* Mobile Cards (Portrait Mode) */
+.standings-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.standing-card {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+    border-radius: 15px;
+    padding: 1.5rem;
+    border: 2px solid var(--glass-border);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.standing-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 102, 204, 0.3);
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding-bottom: 0.8rem;
+    border-bottom: 1px solid var(--glass-border);
+}
+
+.position {
+    background: var(--primary-blue);
+    color: white;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+
+.team-name {
+    font-weight: bold;
+    flex-grow: 1;
+    margin: 0 1rem;
+    font-size: 1.1rem;
+}
+
+.points {
+    color: #0066cc;
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+.card-stats {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.8rem;
+}
+
+.stat-row {
+    display: flex;
+    justify-content: space-between;
+}
+
+.stat-label {
+    font-weight: 600;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+.stat-value {
+    font-weight: bold;
+    font-size: 0.95rem;
+}
+
+/* Responsive: Hide Desktop Table on Mobile */
+@media (max-width: 768px) {
+    .desktop-table {
+        display: none;
+    }
+    .mobile-table {
+        display: block;
+    }
+    .standings-table table {
+        font-size: 0.85rem;
+    }
+    .standings-table th,
+    .standings-table td {
+        padding: 0.7rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .standing-card {
+        padding: 1rem;
+    }
+    .team-name {
+        font-size: 1rem;
+    }
+    .position {
+        width: 28px;
+        height: 28px;
+        font-size: 0.85rem;
+    }
+    .points {
+        font-size: 1rem;
+    }
+}
 
     </style>
     <!-- Firebase SDK -->
@@ -2027,69 +2180,85 @@
         }
 
         async function addMatchResultToFirestore() {
-            const division = document.getElementById('match-division').value;
-            const homeTeam = document.getElementById('match-home-team').value;
-            const awayTeam = document.getElementById('match-away-team').value;
-            const date = document.getElementById('match-date').value;
-            const resultType = document.getElementById('match-result-type').value;
+    const division = document.getElementById('match-division').value;
+    const homeTeam = document.getElementById('match-home-team').value;
+    const awayTeam = document.getElementById('match-away-team').value;
+    const date = document.getElementById('match-date').value;
+    const resultType = document.getElementById('match-result-type').value;
 
-            if (!homeTeam || !awayTeam || !date) {
-                alert('Please fill in all required fields');
-                return;
-            }
+    if (!homeTeam || !awayTeam || !date) {
+        alert('Please fill in all required fields');
+        return;
+    }
+    if (homeTeam === awayTeam) {
+        alert('Home and Away teams cannot be the same!');
+        return;
+    }
 
-            if (homeTeam === awayTeam) {
-                alert('Home and Away teams cannot be the same!');
-                return;
-            }
+    let matchData = {
+        division,
+        homeTeam,
+        awayTeam,
+        date,
+        played: true,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp()
+    };
 
-            let matchData = {
-                division,
-                homeTeam,
-                awayTeam,
-                date,
-                played: true,
-                timestamp: firebase.firestore.FieldValue.serverTimestamp()
-            };
-
-            if (resultType === 'forfeit') {
-                const forfeitTeam = document.getElementById('match-forfeit-team').value;
-                matchData.forfeit = true;
-                matchData.forfeitTeam = forfeitTeam;
-                matchData.homeScore = forfeitTeam === 'home' ? 0 : 20;
-                matchData.awayScore = forfeitTeam === 'away' ? 0 : 20;
-            } else {
-                const homeScore = parseInt(document.getElementById('match-home-score').value);
-                const awayScore = parseInt(document.getElementById('match-away-score').value);
-
-                if (isNaN(homeScore) || isNaN(awayScore)) {
-                    alert('Please enter valid scores');
-                    return;
-                }
-
-                matchData.forfeit = false;
-                matchData.homeScore = homeScore;
-                matchData.awayScore = awayScore;
-            }
-
-            try {
-                await db.collection("fixtures").add(matchData);
-                
-                // Clear form
-                document.getElementById('match-home-team').selectedIndex = 0;
-                document.getElementById('match-away-team').selectedIndex = 0;
-                document.getElementById('match-date').value = '';
-                document.getElementById('match-home-score').value = '';
-                document.getElementById('match-away-score').value = '';
-                document.getElementById('match-result-type').value = 'normal';
-                toggleMatchInputs();
-                
-                alert("Match result recorded successfully!");
-            } catch (error) {
-                console.error("Error recording match result:", error);
-                alert("Error recording match result. Please try again.");
-            }
+    if (resultType === 'forfeit') {
+        const forfeitTeam = document.getElementById('match-forfeit-team').value;
+        matchData.forfeit = true;
+        matchData.forfeitTeam = forfeitTeam;
+        matchData.homeScore = forfeitTeam === 'home' ? 0 : 20;
+        matchData.awayScore = forfeitTeam === 'away' ? 0 : 20;
+    } else {
+        const homeScore = parseInt(document.getElementById('match-home-score').value);
+        const awayScore = parseInt(document.getElementById('match-away-score').value);
+        if (isNaN(homeScore) || isNaN(awayScore)) {
+            alert('Please enter valid scores');
+            return;
         }
+        matchData.forfeit = false;
+        matchData.homeScore = homeScore;
+        matchData.awayScore = awayScore;
+    }
+
+    try {
+        await db.collection("fixtures").add(matchData);
+
+        // ✅ Reset form
+        document.getElementById('match-home-team').selectedIndex = 0;
+        document.getElementById('match-away-team').selectedIndex = 0;
+        document.getElementById('match-date').value = '';
+        document.getElementById('match-home-score').value = '';
+        document.getElementById('match-away-score').value = '';
+        document.getElementById('match-result-type').value = 'normal';
+        toggleMatchInputs();
+
+        // ✅ Show success
+        alert("Match result recorded successfully!");
+
+        // ✅ Force refresh of results UI
+        // Since the snapshot listener should auto-update leagueData.results,
+        // we can manually trigger render if needed, or just trust the listener.
+        // But to be safe, let's re-fetch once:
+        const snapshot = await db.collection("fixtures")
+            .where("played", "==", true)
+            .orderBy("date", "desc")
+            .limit(10)
+            .get();
+
+        leagueData.results = [];
+        snapshot.forEach((doc) => {
+            leagueData.results.push({ id: doc.id, ...doc.data() });
+        });
+
+        renderResults(); // ✅ Force immediate UI update
+
+    } catch (error) {
+        console.error("Error recording match result:", error);
+        alert("Error recording match result. Please try again.");
+    }
+}
 
         function renderResults() {
             const container = document.getElementById('results-list');
@@ -2239,14 +2408,11 @@ async function showDivisionStandings(division) {
 
     let html = `
         <div class="standings-table-container">
-            <div class="table-header">
-                <h3 style="margin: 0; font-size: 1.4rem;">
-                    <i class="fas fa-chart-line"></i> ${getDivisionName(division)} - Standings
-                </h3>
-                <button class="btn btn-sm" onclick="toggleLandscapeMode()" style="padding: 0.5rem 1rem; margin-top: 0.5rem;">Toggle Landscape</button>
-            </div>
+            <h3 style="margin-bottom: 1.5rem; text-align: center;">
+                <i class="fas fa-chart-line"></i> ${getDivisionName(division)} - Standings
+            </h3>
 
-            <!-- Compact Desktop Table -->
+            <!-- Desktop Table -->
             <div class="standings-table desktop-table">
                 <table>
                     <thead>
@@ -2289,47 +2455,60 @@ async function showDivisionStandings(division) {
                 </table>
             </div>
 
-            <!-- Mobile Landscape Table -->
-            <div class="standings-table mobile-landscape hidden">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>POS</th>
-                            <th>TEAM</th>
-                            <th>P</th>
-                            <th>W/L/F</th>
-                            <th>PF/PA</th>
-                            <th>PD</th>
-                            <th>PTS</th>
-                        </tr>
-                    </thead>
-                    <tbody>
+            <!-- Mobile Cards (Portrait Mode) -->
+            <div class="standings-cards mobile-table">
     `;
 
     standings.forEach((team, index) => {
         const pdColor = team.pointsDiff >= 0 ? '#27ae60' : '#e74c3c';
-        const wlf = `${team.wins}/${team.losses}/${team.forfeits}`;
-        const pfpa = `${team.pointsFor}/${team.pointsAgainst}`;
         html += `
-            <tr onclick="showTeamDetails('${division}', '${team.team}')" style="cursor: pointer;">
-                <td><strong>${index + 1}</strong></td>
-                <td><strong>${team.team}</strong></td>
-                <td>${team.played}</td>
-                <td style="color: #27ae60;">${wlf}</td>
-                <td>${pfpa}</td>
-                <td style="color: ${pdColor};">${team.pointsDiff >= 0 ? '+' : ''}${team.pointsDiff}</td>
-                <td style="color: #0066cc; font-weight: bold;">${team.points}</td>
-            </tr>
+                <div class="standing-card" onclick="showTeamDetails('${division}', '${team.team}')">
+                    <div class="card-header">
+                        <span class="position">${index + 1}</span>
+                        <span class="team-name">${team.team}</span>
+                        <span class="points">${team.points} Pts</span>
+                    </div>
+                    <div class="card-stats">
+                        <div class="stat-row">
+                            <span class="stat-label">P:</span>
+                            <span class="stat-value">${team.played}</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-label">W:</span>
+                            <span class="stat-value" style="color: #27ae60;">${team.wins}</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-label">L:</span>
+                            <span class="stat-value" style="color: #f39c12;">${team.losses}</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-label">F:</span>
+                            <span class="stat-value" style="color: #e74c3c;">${team.forfeits}</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-label">PF:</span>
+                            <span class="stat-value">${team.pointsFor}</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-label">PA:</span>
+                            <span class="stat-value">${team.pointsAgainst}</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-label">PD:</span>
+                            <span class="stat-value" style="color: ${pdColor};">
+                                ${team.pointsDiff >= 0 ? '+' : ''}${team.pointsDiff}
+                            </span>
+                        </div>
+                    </div>
+                </div>
         `;
     });
 
     html += `
-                    </tbody>
-                </table>
             </div>
 
             <p style="margin-top: 1rem; font-size: 0.85rem; text-align: center; opacity: 0.8;">
-                <em>P=Played, W/Won, L=Lost, F=Forfeited, PF=Points For, PA=Points Against, PD=Point Diff, PTS=Points</em>
+                <em>P=Played, W=Won, L=Lost, F=Forfeited, PF=Points For, PA=Points Against, PD=Point Diff, PTS=Points</em>
             </p>
         </div>
     `;
