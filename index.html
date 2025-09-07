@@ -22,14 +22,14 @@
             min-height: 100vh;
         }
         .header {
-            background: rgba(0, 102, 204, 0.95);
+            background: linear-gradient(45deg, #37357a, #260686);
             backdrop-filter: blur(10px);
             padding: 1rem 0;
             position: sticky;
             top: 0;
             z-index: 100;
             border-bottom: 2px solid #ffffff;
-            box-shadow: 0 2px 20px rgba(0, 102, 204, 0.3);
+            box-shadow: 0 2px 20px rgba(244, 240, 240, 0.986);
         }
         .container {
             max-width: 1200px;
@@ -56,7 +56,7 @@
             justify-content: center;
             font-weight: bold;
             font-size: 1.4rem;
-            color: #0066cc;
+            color: #0d0995;
             border: 3px solid #ffffff;
             overflow: hidden;
             box-shadow: 0 4px 15px rgba(255, 255, 255, 0.2);
@@ -89,76 +89,46 @@
             box-shadow: 0 4px 15px rgba(255, 255, 255, 0.1);
         }
         .admin-btn {
-            background: linear-gradient(45deg, #0066cc, #ffffff);
-            color: #0066cc;
+            background: linear-gradient(45deg, #18067f, #ffffff);
+            color: #fffdfd;
             border: none;
             padding: 0.8rem 2rem;
             border-radius: 25px;
             cursor: pointer;
             transition: all 0.3s ease;
             font-weight: bold;
-            display: none; /* Hidden from public view */
+            display: none;
         }
         .admin-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 102, 204, 0.3);
+            box-shadow: 0 5px 15px rgba(252, 252, 252, 0.126);
         }
-        /* Show admin button only when admin mode is activated */
         body.admin-mode .admin-btn {
             display: block;
         }
         .hero {
-            text-align: center;
-            padding: 6rem 0;
-            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), 
-                        url('image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"><rect fill="%23001122" width="1200" height="800"/><circle cx="600" cy="400" r="150" fill="none" stroke="%23ffffff" stroke-width="2" opacity="0.1"/><circle cx="600" cy="400" r="100" fill="none" stroke="%230066cc" stroke-width="3" opacity="0.3"/><line x1="0" y1="400" x2="1200" y2="400" stroke="%230066cc" stroke-width="2" opacity="0.2"/><circle cx="200" cy="200" r="5" fill="%23ffffff" opacity="0.4"/><circle cx="1000" cy="150" r="4" fill="%23ffffff" opacity="0.3"/><circle cx="300" cy="600" r="6" fill="%23ffffff" opacity="0.5"/><circle cx="900" cy="650" r="4" fill="%23ffffff" opacity="0.4"/></svg>');
-            background-size: cover;
-            background-position: center;
-            position: relative;
-        }
-        .hero::before {
-            content: '🏀';
-            position: absolute;
-            top: 20%;
-            left: 10%;
-            font-size: 3rem;
-            opacity: 0.1;
-            animation: bounce 3s infinite;
-        }
-        .hero::after {
-            content: '⛹️‍♂️';
-            position: absolute;
-            top: 30%;
-            right: 15%;
-            font-size: 2.5rem;
-            opacity: 0.1;
-            animation: bounce 3s infinite 0.5s;
-        }
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% {
-                transform: translateY(0);
-            }
-            40% {
-                transform: translateY(-10px);
-            }
-            60% {
-                transform: translateY(-5px);
-            }
-        }
+    text-align: center;
+    padding: 6rem 0;
+    background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), 
+                url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 800'%3E%3Crect fill='%23001122' width='1200' height='800'/%3E%3Ccircle cx='600' cy='400' r='150' fill='none' stroke='%23ffffff' stroke-width='2' opacity='0.1'/%3E%3Ccircle cx='600' cy='400' r='100' fill='none' stroke='%23dc2626' stroke-width='3' opacity='0.3'/%3E%3Cline x1='0' y1='400' x2='1200' y2='400' stroke='%23dc2626' stroke-width='2' opacity='0.2'/%3E%3Ccircle cx='200' cy='200' r='5' fill='%23ffffff' opacity='0.4'/%3E%3Ccircle cx='1000' cy='150' r='4' fill='%23ffffff' opacity='0.3'/%3E%3Ccircle cx='300' cy='600' r='6' fill='%23ffffff' opacity='0.5'/%3E%3Ccircle cx='900' cy='650' r='4' fill='%23ffffff' opacity='0.4'/%3E%3C/svg%3E");
+    background-size: cover;
+    background-position: center;
+    position: relative;
+}
         .cover-photo {
             width: 100%;
             max-width: 800px;
             height: 300px;
             margin: 2rem auto;
             border-radius: 20px;
-            background: linear-gradient(45deg, #0066cc, #ffffff);
+            background: linear-gradient(45deg, #2b07a1, #ffffff);
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 1.2rem;
-            color: #0066cc;
+            color: #2b0682e1;
             border: 3px solid #ffffff;
-            box-shadow: 0 10px 30px rgba(0, 102, 204, 0.3);
+            box-shadow: 0 10px 30px rgba(220, 38, 38, 0.3);
             cursor: pointer;
             position: relative;
             overflow: hidden;
@@ -169,17 +139,10 @@
             object-fit: cover;
             border-radius: 17px;
         }
-        .cover-photo input[type="file"] {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            opacity: 0;
-            cursor: pointer;
-        }
         .hero h1 {
             font-size: 4rem;
             margin-bottom: 1rem;
-            background: linear-gradient(45deg, #ffffff, #0066cc, #ffffff);
+            background: linear-gradient(45deg, #ffffff, #0f048e, #ffffff);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -189,28 +152,6 @@
             font-size: 1.3rem;
             margin-bottom: 2rem;
             opacity: 0.95;
-        }
-        .basketball-icons {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            overflow: hidden;
-        }
-        .basketball-icon {
-            position: absolute;
-            font-size: 2rem;
-            opacity: 0.1;
-            animation: float 6s ease-in-out infinite;
-        }
-        .basketball-icon:nth-child(1) { top: 10%; left: 5%; animation-delay: 0s; }
-        .basketball-icon:nth-child(2) { top: 20%; right: 10%; animation-delay: 1s; }
-        .basketball-icon:nth-child(3) { bottom: 30%; left: 15%; animation-delay: 2s; }
-        .basketball-icon:nth-child(4) { bottom: 20%; right: 5%; animation-delay: 3s; }
-        .basketball-icon:nth-child(5) { top: 50%; left: 3%; animation-delay: 4s; }
-        @keyframes float {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-20px) rotate(180deg); }
         }
         .section {
             padding: 4rem 0;
@@ -230,7 +171,7 @@
             transform: translateX(-50%);
             width: 100px;
             height: 4px;
-            background: linear-gradient(45deg, #0066cc, #ffffff);
+            background: linear-gradient(45deg, #2b06b4, #ffffff);
             border-radius: 2px;
         }
         .divisions {
@@ -250,18 +191,9 @@
             position: relative;
             overflow: hidden;
         }
-        .division-card::before {
-            content: '🏀';
-            position: absolute;
-            top: -20px;
-            right: -20px;
-            font-size: 4rem;
-            opacity: 0.1;
-            transform: rotate(-15deg);
-        }
         .division-card:hover {
             transform: translateY(-15px) scale(1.02);
-            box-shadow: 0 25px 50px rgba(0, 102, 204, 0.3);
+            box-shadow: 0 25px 50px rgba(255, 255, 255, 0.3);
             border-color: rgba(255, 255, 255, 0.4);
         }
         .division-card h3 {
@@ -285,7 +217,7 @@
             border: 1px solid rgba(255, 255, 255, 0.2);
         }
         .team-card:hover {
-            background: rgba(0, 102, 204, 0.2);
+            background: rgba(255, 254, 254, 0.2);
             transform: scale(1.05);
             border-color: rgba(255, 255, 255, 0.4);
         }
@@ -293,16 +225,16 @@
             width: 70px;
             height: 70px;
             background: #ffffff;
-            border: 3px solid #0066cc;
+            border: 3px solid #1807af;
             border-radius: 50%;
             margin: 0 auto 1rem;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: bold;
-            color: #0066cc;
+            color: #1f0dc2;
             overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0, 102, 204, 0.2);
+            box-shadow: 0 4px 15px rgba(255, 255, 255, 0.2);
         }
         .team-logo img {
             width: 100%;
@@ -314,13 +246,13 @@
             width: 40px;
             height: 40px;
             background: #ffffff;
-            border: 2px solid #0066cc;
+            border: 2px solid #3009b0;
             border-radius: 50%;
             display: inline-flex;
             align-items: center;
             justify-content: center;
             font-weight: bold;
-            color: #0066cc;
+            color: #3508bd;
             overflow: hidden;
             margin-right: 10px;
             font-size: 0.8rem;
@@ -334,23 +266,31 @@
         .standings-table {
             background: rgba(255, 255, 255, 0.1);
             border-radius: 20px;
-            overflow: hidden;
+            overflow-x: auto;
             margin-top: 2rem;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
         }
         .standings-table table {
             width: 100%;
             border-collapse: collapse;
+            font-size: 0.9rem;
         }
         .standings-table th,
         .standings-table td {
-            padding: 1.2rem;
-            text-align: left;
+            padding: 0.8rem 0.5rem;
+            text-align: center;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
         .standings-table th {
-            background: rgba(0, 102, 204, 0.8);
+            background: linear-gradient(45deg, #ffffff, #ffffff);
+            color: #000;
             font-weight: bold;
+            font-size: 0.8rem;
+        }
+        .standings-table td:first-child,
+        .standings-table th:first-child {
+            text-align: left;
+            padding-left: 1rem;
         }
         .modal {
             display: none;
@@ -372,11 +312,11 @@
             padding: 2.5rem;
             border-radius: 25px;
             width: 90%;
-            max-width: 700px;
+            max-width: 900px;
             max-height: 85vh;
             overflow-y: auto;
-            border: 3px solid #0066cc;
-            box-shadow: 0 20px 60px rgba(0, 102, 204, 0.3);
+            border: 3px solid #fdfcfc;
+            box-shadow: 0 20px 60px rgba(255, 255, 255, 0.3);
         }
         .close {
             position: absolute;
@@ -384,7 +324,7 @@
             right: 1.5rem;
             font-size: 2.5rem;
             cursor: pointer;
-            color: #0066cc;
+            color: #f9f9f9;
             transition: color 0.3s ease;
         }
         .close:hover {
@@ -413,11 +353,8 @@
         .form-group input:focus,
         .form-group select:focus {
             outline: none;
-            border-color: #0066cc;
-            box-shadow: 0 0 15px rgba(0, 102, 204, 0.3);
-        }
-        .form-group input::placeholder {
-            color: rgba(255, 255, 255, 0.6);
+            border-color: #f9f7f7;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
         }
         .btn {
             padding: 1rem 2.5rem;
@@ -430,9 +367,9 @@
             font-size: 1rem;
         }
         .btn-primary {
-            background: linear-gradient(45deg, #0066cc, #ffffff);
-            color: #0066cc;
-            border: 2px solid #0066cc;
+            background: linear-gradient(45deg, #f7f7f9, #11079a);
+            color: #0b08aa;
+            border: 2px solid #f5f4f8;
         }
         .btn-success {
             background: linear-gradient(45deg, #27ae60, #2ecc71);
@@ -440,9 +377,9 @@
             border: 2px solid #27ae60;
         }
         .btn-danger {
-            background: linear-gradient(45deg, #e74c3c, #c0392b);
+            background: linear-gradient(45deg, #2708b2, #f7f7f9);
             color: white;
-            border: 2px solid #e74c3c;
+            border: 2px solid #f9f8f8;
         }
         .btn:hover {
             transform: translateY(-3px);
@@ -456,7 +393,7 @@
             border-radius: 25px;
             padding: 2.5rem;
             margin: 2rem 0;
-            border: 2px solid #0066cc;
+            border: 2px solid #f5f2f2;
         }
         .admin-tabs {
             display: flex;
@@ -469,22 +406,22 @@
             border: 2px solid rgba(255, 255, 255, 0.2);
             border-radius: 15px;
             background: rgba(255, 255, 255, 0.1);
-            color: white;
+            color: rgb(255, 255, 255);
             cursor: pointer;
             transition: all 0.3s ease;
             font-weight: 500;
         }
         .admin-tabs button.active {
-            background: linear-gradient(45deg, #0066cc, #ffffff);
-            color: #0066cc;
-            border-color: #0066cc;
+            background: linear-gradient(45deg, #300ac8, #2b06ce);
+            color: #f8f3f3;
+            border-color: #e9e4e4;
         }
         .fixture-item, .result-item {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgb(20, 22, 65);
             border-radius: 15px;
             padding: 1.5rem;
             margin-bottom: 1rem;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            border: 1px solid rgb(241, 241, 241);
         }
         .team-vs {
             display: flex;
@@ -499,10 +436,16 @@
         }
         .vs-text {
             font-weight: bold;
-            color: #0066cc;
+            color: #fefeff;
             font-size: 1.2rem;
         }
-        /* Admin access - double click logo 5 times */
+        .division-selector {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
         .admin-access {
             position: fixed;
             top: 50%;
@@ -511,7 +454,7 @@
             background: rgba(0, 0, 0, 0.95);
             padding: 2rem;
             border-radius: 15px;
-            border: 2px solid #0066cc;
+            border: 2px solid #130282;
             display: none;
             z-index: 10000;
         }
@@ -537,6 +480,25 @@
                 flex-direction: column;
                 text-align: center;
             }
+            .standings-table {
+                font-size: 0.8rem;
+            }
+            .standings-table th,
+            .standings-table td {
+                padding: 0.5rem 0.3rem;
+                font-size: 0.7rem;
+            }
+            .modal-content {
+                padding: 1.5rem;
+                width: 95%;
+            }
+        }
+        @media (max-width: 480px) {
+            .standings-table th,
+            .standings-table td {
+                padding: 0.3rem 0.2rem;
+                font-size: 0.65rem;
+            }
         }
     </style>
 </head>
@@ -551,24 +513,17 @@
                     <h2>Courtside Liberia</h2>
                 </div>
                 <ul class="nav-menu">
-    <li><a href="#" class="nav-link active" data-section="home"><i class="fas fa-home"></i> Home</a></li>
-    <li><a href="#" class="nav-link" data-section="divisions-list"><i class="fas fa-trophy"></i> Divisions</a></li>
-    <li><a href="#" class="nav-link" data-section="fixtures"><i class="fas fa-calendar-alt"></i> Fixtures</a></li>
-    <li><a href="#" class="nav-link" data-section="results"><i class="fas fa-clipboard-check"></i> Results</a></li>
-</ul>
+                    <li><a href="#" class="nav-link active" data-section="home"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="#" class="nav-link" data-section="divisions-list"><i class="fas fa-trophy"></i> Divisions</a></li>
+                    <li><a href="#" class="nav-link" data-section="fixtures"><i class="fas fa-calendar-alt"></i> Fixtures</a></li>
+                    <li><a href="#" class="nav-link" data-section="results"><i class="fas fa-clipboard-check"></i> Results</a></li>
+                </ul>
                 <button class="admin-btn" onclick="toggleAdmin()"><i class="fas fa-cog"></i> Admin Panel</button>
             </nav>
         </div>
     </header>
+
     <main>
-        <!-- Basketball Icons -->
-        <div class="basketball-icons">
-            <div class="basketball-icon">🏀</div>
-            <div class="basketball-icon">⛹️</div>
-            <div class="basketball-icon">🏆</div>
-            <div class="basketball-icon">🥅</div>
-            <div class="basketball-icon">👟</div>
-        </div>
         <!-- Home Section -->
         <section id="home" class="section">
             <div class="hero">
@@ -576,69 +531,137 @@
                     <h1>Courtside Liberia</h1>
                     <p>Promoting Excellence in Liberian Basketball</p>
                     <p>Dedicated to developing talent and bringing professional basketball to communities across Liberia</p>
-                    <!-- Cover Photo Display -->
                     <div id="cover-display" class="cover-photo" style="display: none;">
                         <img id="cover-image" src="" alt="Courtside Liberia Cover">
                     </div>
                 </div>
             </div>
+            
+            <div class="container">
+                <div class="content-section">
+                    <h2 class="content-header text-center">Welcome to Courtside Liberia</h2>
+                    <p class="lead text-center mb-5">We are dedicated to the promotion and development of basketball at all levels in Liberia. Our mission is to create opportunities for athletes, coaches, and fans to engage with the sport they love.</p>
+                    
+                    <div class="divisions" style="grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));">
+                        <div class="division-card" onclick="showSection('divisions-list')" style="cursor: pointer;">
+                            <h3><i class="fas fa-trophy"></i> Explore Divisions</h3>
+                            <p>Discover all our basketball divisions and teams</p>
+                            <div style="margin-top: 2rem; color: #ffffff;">
+                                <i class="fas fa-arrow-right" style="font-size: 2rem;"></i>
+                            </div>
+                        </div>
+                        
+                        <div class="division-card" onclick="showSection('fixtures')" style="cursor: pointer;">
+                            <h3><i class="fas fa-calendar-alt"></i> Upcoming Fixtures</h3>
+                            <p>Check out the upcoming matches and events</p>
+                            <div style="margin-top: 2rem; color: #ffffff;">
+                                <i class="fas fa-arrow-right" style="font-size: 2rem;"></i>
+                            </div>
+                        </div>
+                        
+                        <div class="division-card" onclick="showSection('results')" style="cursor: pointer;">
+                            <h3><i class="fas fa-clipboard-check"></i> Recent Results</h3>
+                            <p>See the latest match results and standings</p>
+                            <div style="margin-top: 2rem; color: #ffffff;">
+                                <i class="fas fa-arrow-right" style="font-size: 2rem;"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </section>
-       <!-- Divisions List Section -->
-<section id="divisions-list" class="section">
-    <div class="container">
-        <h2><i class="fas fa-trophy"></i> League Divisions</h2>
-        <div class="divisions">
-            <div class="division-card" onclick="showDivisionDetails('first')">
-                <h3><i class="fas fa-medal"></i> First Division</h3>
-                <p>Premier teams competing at the highest level</p>
-            </div>
-            <div class="division-card" onclick="showDivisionDetails('second')">
-                <h3><i class="fas fa-medal"></i> Second Division</h3>
-                <p>Rising teams seeking promotion</p>
-            </div>
-            <div class="division-card" onclick="showDivisionDetails('female')">
-                <h3><i class="fas fa-female"></i> Female Division</h3>
-                <p>Women's professional basketball league</p>
-            </div>
-            <div class="division-card" onclick="showDivisionDetails('third-jj')">
-                <h3><i class="fas fa-medal"></i> Third Division - JJ Roberts</h3>
-                <p>Development league - JJ Roberts Conference</p>
-            </div>
-            <div class="division-card" onclick="showDivisionDetails('third-ej')">
-                <h3><i class="fas fa-medal"></i> Third Division - EJ Roye</h3>
-                <p>Development league - EJ Roye Conference</p>
-            </div>
-        </div>
-    </div>
-</section>
 
-<!-- Division Details Section (Initially Hidden) -->
-<section id="division-details" class="section hidden">
-    <div class="container">
-        <button class="btn btn-primary" onclick="showSection('divisions-list')" style="margin-bottom: 1rem;">
-            ← Back to Divisions
-        </button>
-        <h2 id="division-title"><i class="fas fa-trophy"></i> Loading Division...</h2>
-        <div id="division-teams" class="teams-grid"></div>
-        <button class="btn btn-primary" id="standings-btn" style="margin-top: 1rem;">
-            <i class="fas fa-chart-line"></i> View Standings
-        </button>
-    </div>
-</section>
+        <!-- Divisions List Section -->
+        <section id="divisions-list" class="section">
+            <div class="container">
+                <h2><i class="fas fa-trophy"></i> League Divisions</h2>
+                <div class="divisions">
+                    <div class="division-card" onclick="showDivisionDetails('first')">
+                        <h3><i class="fas fa-medal"></i> First Division</h3>
+                        <p>Premier teams competing at the highest level</p>
+                    </div>
+                    <div class="division-card" onclick="showDivisionDetails('second')">
+                        <h3><i class="fas fa-medal"></i> Second Division</h3>
+                        <p>Rising teams seeking promotion</p>
+                    </div>
+                    <div class="division-card" onclick="showDivisionDetails('female')">
+                        <h3><i class="fas fa-female"></i> Female Division</h3>
+                        <p>Women's professional basketball league</p>
+                    </div>
+                    <div class="division-card" onclick="showDivisionDetails('third-jj')">
+                        <h3><i class="fas fa-medal"></i> Third Division - JJ Roberts</h3>
+                        <p>Development league - JJ Roberts Conference</p>
+                    </div>
+                    <div class="division-card" onclick="showDivisionDetails('third-ej')">
+                        <h3><i class="fas fa-medal"></i> Third Division - EJ Roye</h3>
+                        <p>Development league - EJ Roye Conference</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Division Details Section -->
+        <section id="division-details" class="section hidden">
+            <div class="container">
+                <button class="btn btn-primary" onclick="showSection('divisions-list')" style="margin-bottom: 1rem;">
+                    ← Back to Divisions
+                </button>
+                <h2 id="division-title"><i class="fas fa-trophy"></i> Loading Division...</h2>
+                <div id="division-teams" class="teams-grid"></div>
+                <button class="btn btn-primary" id="standings-btn" style="margin-top: 1rem;">
+                    <i class="fas fa-chart-line"></i> View Standings
+                </button>
+            </div>
+        </section>
+
         <!-- Fixtures Section -->
         <section id="fixtures" class="section hidden">
             <div class="container">
-                <h2><i class="fas fa-calendar-alt"></i> Upcoming Fixtures</h2>
+                <h2><i class="fas fa-calendar-alt"></i> Fixtures</h2>
+                
+                <!-- Division Selector for Fixtures -->
+                <div class="division-selector">
+                    <h3><i class="fas fa-filter"></i> Select Division</h3>
+                    <div class="form-group">
+                        <select id="fixtures-division-filter" onchange="filterFixtures()">
+                            <option value="all">All Divisions</option>
+                            <option value="first">First Division</option>
+                            <option value="second">Second Division</option>
+                            <option value="female">Female Division</option>
+                            <option value="third-jj">Third Division - JJ Roberts</option>
+                            <option value="third-ej">Third Division - EJ Roye</option>
+                        </select>
+                    </div>
+                </div>
+                
                 <div id="fixtures-list"></div>
             </div>
         </section>
+
         <!-- Results Section -->
         <section id="results" class="section hidden">
             <div class="container">
-                <h2><i class="fas fa-clipboard-check"></i> Recent Results</h2>
+                <h2><i class="fas fa-clipboard-check"></i> Results</h2>
+                
+                <!-- Division Selector for Results -->
+                <div class="division-selector">
+                    <h3><i class="fas fa-filter"></i> Select Division</h3>
+                    <div class="form-group">
+                        <select id="results-division-filter" onchange="filterResults()">
+                            <option value="all">All Divisions</option>
+                            <option value="first">First Division</option>
+                            <option value="second">Second Division</option>
+                            <option value="female">Female Division</option>
+                            <option value="third-jj">Third Division - JJ Roberts</option>
+                            <option value="third-ej">Third Division - EJ Roye</option>
+                        </select>
+                    </div>
+                </div>
+                
                 <div id="results-list"></div>
             </div>
         </section>
+
         <!-- Admin Panel -->
         <div id="admin-panel" class="admin-panel hidden">
             <div class="container">
@@ -647,10 +670,11 @@
                     <button class="tab-btn active" onclick="showAdminTab('teams')"><i class="fas fa-users"></i> Manage Teams</button>
                     <button class="tab-btn" onclick="showAdminTab('fixtures')"><i class="fas fa-calendar-plus"></i> Add Fixtures</button>
                     <button class="tab-btn" onclick="showAdminTab('matches')"><i class="fas fa-trophy"></i> Add Match Results</button>
+                    <button class="tab-btn" onclick="showAdminTab('results')"><i class="fas fa-trash"></i> Manage Results</button>
                 </div>
+
                 <!-- Teams Management -->
                 <div id="admin-teams" class="admin-content">
-                    <!-- Courtside Logo Upload -->
                     <div style="background: rgba(255,255,255,0.1); padding: 1.5rem; border-radius: 15px; margin-bottom: 2rem;">
                         <h4><i class="fas fa-image"></i> Courtside Liberia Logo</h4>
                         <div class="form-group">
@@ -666,11 +690,11 @@
                     <div class="form-group">
                         <label>Division:</label>
                         <select id="team-division">
-                            <option value="first"><i class="fas fa-medal"></i> First Division</option>
-                            <option value="second"><i class="fas fa-medal"></i> Second Division</option>
-                            <option value="female"><i class="fas fa-female"></i> Female Division</option>
-                            <option value="third-jj"><i class="fas fa-medal"></i> Third Division - JJ Roberts</option>
-                            <option value="third-ej"><i class="fas fa-medal"></i> Third Division - EJ Roye</option>
+                            <option value="first">First Division</option>
+                            <option value="second">Second Division</option>
+                            <option value="female">Female Division</option>
+                            <option value="third-jj">Third Division - JJ Roberts</option>
+                            <option value="third-ej">Third Division - EJ Roye</option>
                         </select>
                     </div>
                     <div class="form-group">
@@ -684,17 +708,18 @@
                     <button class="btn btn-success" onclick="addTeam()"><i class="fas fa-plus"></i> Add Team</button>
                     <div id="teams-list"></div>
                 </div>
+
                 <!-- Fixtures Management -->
                 <div id="admin-fixtures" class="admin-content hidden">
                     <h3><i class="fas fa-calendar-plus"></i> Add Fixture</h3>
                     <div class="form-group">
                         <label>Division:</label>
                         <select id="fixture-division" onchange="updateFixtureTeams()">
-                            <option value="first"><i class="fas fa-medal"></i> First Division</option>
-                            <option value="second"><i class="fas fa-medal"></i> Second Division</option>
-                            <option value="female"><i class="fas fa-female"></i> Female Division</option>
-                            <option value="third-jj"><i class="fas fa-medal"></i> Third Division - JJ Roberts</option>
-                            <option value="third-ej"><i class="fas fa-medal"></i> Third Division - EJ Roye</option>
+                            <option value="first">First Division</option>
+                            <option value="second">Second Division</option>
+                            <option value="female">Female Division</option>
+                            <option value="third-jj">Third Division - JJ Roberts</option>
+                            <option value="third-ej">Third Division - EJ Roye</option>
                         </select>
                     </div>
                     <div class="form-group">
@@ -716,17 +741,18 @@
                     <button class="btn btn-success" onclick="addFixture()"><i class="fas fa-plus"></i> Add Fixture</button>
                     <div id="fixtures-list-admin"></div>
                 </div>
+
                 <!-- Match Results Management -->
                 <div id="admin-matches" class="admin-content hidden">
                     <h3><i class="fas fa-trophy"></i> Add Match Result</h3>
                     <div class="form-group">
                         <label>Division:</label>
                         <select id="match-division" onchange="updateMatchTeams()">
-                            <option value="first"><i class="fas fa-medal"></i> First Division</option>
-                            <option value="second"><i class="fas fa-medal"></i> Second Division</option>
-                            <option value="female"><i class="fas fa-female"></i> Female Division</option>
-                            <option value="third-jj"><i class="fas fa-medal"></i> Third Division - JJ Roberts</option>
-                            <option value="third-ej"><i class="fas fa-medal"></i> Third Division - EJ Roye</option>
+                            <option value="first">First Division</option>
+                            <option value="second">Second Division</option>
+                            <option value="female">Female Division</option>
+                            <option value="third-jj">Third Division - JJ Roberts</option>
+                            <option value="third-ej">Third Division - EJ Roye</option>
                         </select>
                     </div>
                     <div class="form-group">
@@ -744,8 +770,8 @@
                     <div class="form-group">
                         <label>Result Type:</label>
                         <select id="match-result-type" onchange="toggleMatchInputs()">
-                            <option value="normal"><i class="fas fa-futbol"></i> Normal Game</option>
-                            <option value="forfeit"><i class="fas fa-exclamation-triangle"></i> Forfeit</option>
+                            <option value="normal">Normal Game</option>
+                            <option value="forfeit">Forfeit</option>
                         </select>
                     </div>
                     <div id="match-normal-inputs">
@@ -769,9 +795,27 @@
                     </div>
                     <button class="btn btn-success" onclick="addMatchResult()"><i class="fas fa-plus"></i> Add Match Result</button>
                 </div>
+
+                <!-- Results Management -->
+                <div id="admin-results" class="admin-content hidden">
+                    <h3><i class="fas fa-trash"></i> Manage Results</h3>
+                    <div class="form-group">
+                        <label>Filter by Division:</label>
+                        <select id="admin-results-filter" onchange="loadAdminResults()">
+                            <option value="all">All Divisions</option>
+                            <option value="first">First Division</option>
+                            <option value="second">Second Division</option>
+                            <option value="female">Female Division</option>
+                            <option value="third-jj">Third Division - JJ Roberts</option>
+                            <option value="third-ej">Third Division - EJ Roye</option>
+                        </select>
+                    </div>
+                    <div id="admin-results-list"></div>
+                </div>
             </div>
         </div>
     </main>
+
     <!-- Team Details Modal -->
     <div id="team-modal" class="modal">
         <div class="modal-content">
@@ -779,119 +823,150 @@
             <div id="team-details"></div>
         </div>
     </div>
+
     <!-- Admin Access Modal -->
     <div id="admin-access" class="admin-access">
         <h3><i class="fas fa-lock"></i> Admin Access</h3>
         <p>Double-click the logo 5 times to access admin panel</p>
         <p id="click-counter">Clicks: 0/5</p>
     </div>
+
     <script>
         // Firebase configuration
-const firebaseConfig = {
-    apiKey: "AIzaSyAlwLvdfEVwDatmIcmdjdAu-0t0ALY6XIc",
-    authDomain: "courtside-liberia-52aa8.firebaseapp.com",
-    databaseURL: "https://courtside-liberia-52aa8-default-rtdb.firebaseio.com",
-    projectId: "courtside-liberia-52aa8",
-    storageBucket: "courtside-liberia-52aa8.firebasestorage.app",
-    messagingSenderId: "154829379760",
-    appId: "1:154829379760:web:000df31f9245329d990375",
-    measurementId: "G-QPJHY0QLE8"
-};
+        const firebaseConfig = {
+            apiKey: "AIzaSyAlwLvdfEVwDatmIcmdjdAu-0t0ALY6XIc",
+            authDomain: "courtside-liberia-52aa8.firebaseapp.com",
+            databaseURL: "https://courtside-liberia-52aa8-default-rtdb.firebaseio.com",
+            projectId: "courtside-liberia-52aa8",
+            storageBucket: "courtside-liberia-52aa8.firebasestorage.app",
+            messagingSenderId: "154829379760",
+            appId: "1:154829379760:web:000df31f9245329d990375",
+            measurementId: "G-QPJHY0QLE8"
+        };
 
-// Initialize Firebase
-firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
-const storage = firebase.storage();
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+        const storage = firebase.storage();
 
-// Global data storage
-let leagueData = {
-    teams: {
-        first: [],
-        second: [],
-        female: [],
-        'third-jj': [],
-        'third-ej': []
-    },
-    fixtures: [],
-    results: [],
-    logos: {
-        courtside: null,
-        teams: {},
-        cover: null
-    }
-};
-        // Admin access counter
-        let adminClickCount = 0;
-        // Initialize data from Firestore
-function initializeData() {
-    // Load teams
-db.collection("teams").onSnapshot((snapshot) => {
-    // Reset teams
-    leagueData.teams = {
-        first: [],
-        second: [],
-        female: [],
-        'third-jj': [],
-        'third-ej': []
-    };
-    
-    snapshot.forEach((doc) => {
-        const team = doc.data();
-        if (leagueData.teams[team.division]) {
-            leagueData.teams[team.division].push(team.name);
-            if (team.logo) {
-                leagueData.logos.teams[`${team.division}-${team.name}`] = team.logo;
+        // Global data storage
+        let leagueData = {
+            teams: {
+                first: [],
+                second: [],
+                female: [],
+                'third-jj': [],
+                'third-ej': []
+            },
+            fixtures: [],
+            results: [],
+            logos: {
+                courtside: null,
+                teams: {},
+                cover: null
             }
-        }
-    });
-    
-    renderAllTeams(); // Add this line
-    updateTeamsList();
-    updateFixtureTeams();
-    updateMatchTeams();
-});
+        };
 
-    // Load fixtures
-    db.collection("fixtures").where("played", "==", false).onSnapshot((snapshot) => {
-        leagueData.fixtures = [];
-        snapshot.forEach((doc) => {
-            leagueData.fixtures.push({ id: doc.id, ...doc.data() });
-        });
-        renderFixtures();
-        renderAdminFixtures();
-    });
+        let adminClickCount = 0;
 
-    // Load results
-    db.collection("fixtures").where("played", "==", true).limit(10).onSnapshot((snapshot) => {
+        // Initialize data from Firestore
+        function initializeData() {
+            // Load teams
+            db.collection("teams").onSnapshot((snapshot) => {
+                leagueData.teams = {
+                    first: [],
+                    second: [],
+                    female: [],
+                    'third-jj': [],
+                    'third-ej': []
+                };
+                
+                snapshot.forEach((doc) => {
+                    const team = doc.data();
+                    if (leagueData.teams[team.division]) {
+                        leagueData.teams[team.division].push(team.name);
+                        if (team.logo) {
+                            leagueData.logos.teams[`${team.division}-${team.name}`] = team.logo;
+                        }
+                    }
+                });
+                
+                renderAllTeams();
+                updateTeamsList();
+                updateFixtureTeams();
+                updateMatchTeams();
+            });
+
+            // Load fixtures
+            db.collection("fixtures").where("played", "==", false).onSnapshot((snapshot) => {
+                leagueData.fixtures = [];
+                snapshot.forEach((doc) => {
+                    leagueData.fixtures.push({ id: doc.id, ...doc.data() });
+                });
+                renderFixtures();
+                renderAdminFixtures();
+            });
+
+            // Load results - Get ALL results, not limited
+db.collection("fixtures")
+    .where("played", "==", true)
+    .orderBy("timestamp", "desc")
+    .onSnapshot((snapshot) => {
         leagueData.results = [];
         snapshot.forEach((doc) => {
             leagueData.results.push({ id: doc.id, ...doc.data() });
         });
         renderResults();
-    });
-
-    // Load cover photo
-    db.collection("settings").doc("coverPhoto").get().then((doc) => {
-        if (doc.exists && doc.data().url) {
-            leagueData.logos.cover = doc.data().url;
-            displayCoverPhoto(doc.data().url);
+        loadAdminResults();
+    }, (error) => {
+        // Handle the index error gracefully
+        if (error.code === 'failed-precondition') {
+            console.warn("Index not ready yet. Loading results without ordering...");
+            // Fallback query without ordering
+            db.collection("fixtures")
+                .where("played", "==", true)
+                .onSnapshot((snapshot) => {
+                    leagueData.results = [];
+                    snapshot.forEach((doc) => {
+                        leagueData.results.push({ id: doc.id, ...doc.data() });
+                    });
+                    // Sort manually on the client side
+                    leagueData.results.sort((a, b) => {
+                        if (a.timestamp && b.timestamp) {
+                            return b.timestamp.toDate() - a.timestamp.toDate();
+                        }
+                        return 0;
+                    });
+                    renderResults();
+                    loadAdminResults();
+                });
+        } else {
+            console.error("Error loading results:", error);
         }
     });
 
-    // Load main logo
-    db.collection("settings").doc("mainLogo").get().then((doc) => {
-        if (doc.exists && doc.data().url) {
-            leagueData.logos.courtside = doc.data().url;
-            const logoElement = document.getElementById('main-logo');
-            logoElement.innerHTML = `<img src="${doc.data().url}" alt="Courtside Liberia">`;
-        }
-    });
-}
+            // Load cover photo
+            db.collection("settings").doc("coverPhoto").get().then((doc) => {
+                if (doc.exists && doc.data().url) {
+                    leagueData.logos.cover = doc.data().url;
+                    displayCoverPhoto(doc.data().url);
+                }
+            });
 
-// Initialize with data from Firebase
-function initializeAppData() {
-    initializeData();
-}
+            // Load main logo
+            db.collection("settings").doc("mainLogo").get().then((doc) => {
+                if (doc.exists && doc.data().url) {
+                    leagueData.logos.courtside = doc.data().url;
+                    const logoElement = document.getElementById('main-logo');
+                    logoElement.innerHTML = `<img src="${doc.data().url}" alt="Courtside Liberia">`;
+                }
+            });
+        }
+
+        function initializeAppData() {
+            initializeData();
+        }
+
         // Admin access function
         function adminAccess() {
             adminClickCount++;
@@ -900,326 +975,280 @@ function initializeAppData() {
             if (adminClickCount >= 5) {
                 document.body.classList.add('admin-mode');
                 document.getElementById('admin-access').style.display = 'none';
-                document.getElementById('cover-photo').style.display = 'block';
                 alert('🔓 Admin mode activated!');
                 adminClickCount = 0;
             }
-            // Hide admin access modal after 2 seconds
             setTimeout(() => {
                 document.getElementById('admin-access').style.display = 'none';
             }, 2000);
         }
+
         // Cover photo functions
-        function uploadCoverPhoto(event) {
+        function uploadCoverPhotoAdmin(event) {
             const file = event.target.files[0];
             if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    leagueData.logos.cover = e.target.result;
-                    displayCoverPhoto(e.target.result);
-                };
-                reader.readAsDataURL(file);
+                const storageRef = storage.ref();
+                const coverRef = storageRef.child(`cover-photos/${Date.now()}-${file.name}`);
+                
+                coverRef.put(file).then((snapshot) => {
+                    return snapshot.ref.getDownloadURL();
+                }).then((downloadURL) => {
+                    leagueData.logos.cover = downloadURL;
+                    displayCoverPhoto(downloadURL);
+                    
+                    return db.collection("settings").doc("coverPhoto").set({
+                        url: downloadURL,
+                        timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                    });
+                }).then(() => {
+                    alert("Cover photo uploaded successfully!");
+                }).catch((error) => {
+                    console.error("Error uploading cover photo:", error);
+                    alert("Error uploading cover photo. Please try again.");
+                });
             }
         }
-        function uploadCoverPhotoAdmin(event) {
-    const file = event.target.files[0];
-    if (file) {
-        const storageRef = storage.ref();
-        const coverRef = storageRef.child(`cover-photos/${Date.now()}-${file.name}`);
-        
-        coverRef.put(file).then((snapshot) => {
-            return snapshot.ref.getDownloadURL();
-        }).then((downloadURL) => {
-            leagueData.logos.cover = downloadURL;
-            displayCoverPhoto(downloadURL);
-            
-            // Save to Firestore
-            return db.collection("settings").doc("coverPhoto").set({
-                url: downloadURL,
-                timestamp: firebase.firestore.FieldValue.serverTimestamp()
-            });
-        }).then(() => {
-            alert("Cover photo uploaded successfully!");
-        }).catch((error) => {
-            console.error("Error uploading cover photo:", error);
-            alert("Error uploading cover photo. Please try again.");
-        });
-    }
-}
+
         function displayCoverPhoto(src) {
             const coverDisplay = document.getElementById('cover-display');
             const coverImage = document.getElementById('cover-image');
             coverImage.src = src;
             coverDisplay.style.display = 'block';
         }
-        // Logo upload functions
+
         function uploadCourtsideLogo(event) {
-    const file = event.target.files[0];
-    if (file) {
-        const storageRef = storage.ref();
-        const logoRef = storageRef.child(`logos/${Date.now()}-${file.name}`);
-        
-        logoRef.put(file).then((snapshot) => {
-            return snapshot.ref.getDownloadURL();
-        }).then((downloadURL) => {
-            leagueData.logos.courtside = downloadURL;
-            const logoElement = document.getElementById('main-logo');
-            logoElement.innerHTML = `<img src="${downloadURL}" alt="Courtside Liberia">`;
+            const file = event.target.files[0];
+            if (file) {
+                const storageRef = storage.ref();
+                const logoRef = storageRef.child(`logos/${Date.now()}-${file.name}`);
+                
+                logoRef.put(file).then((snapshot) => {
+                    return snapshot.ref.getDownloadURL();
+                }).then((downloadURL) => {
+                    leagueData.logos.courtside = downloadURL;
+                    const logoElement = document.getElementById('main-logo');
+                    logoElement.innerHTML = `<img src="${downloadURL}" alt="Courtside Liberia">`;
+                    
+                    return db.collection("settings").doc("mainLogo").set({
+                        url: downloadURL,
+                        timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                    });
+                }).then(() => {
+                    alert("Logo uploaded successfully!");
+                }).catch((error) => {
+                    console.error("Error uploading logo:", error);
+                    alert("Error uploading logo. Please try again.");
+                });
+            }
+        }
+
+        // Navigation
+        function showSection(sectionName) {
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => section.classList.add('hidden'));
             
-            // Save to Firestore
-            return db.collection("settings").doc("mainLogo").set({
-                url: downloadURL,
-                timestamp: firebase.firestore.FieldValue.serverTimestamp()
-            });
-        }).then(() => {
-            alert("Logo uploaded successfully!");
-        }).catch((error) => {
-            console.error("Error uploading logo:", error);
-            alert("Error uploading logo. Please try again.");
-        });
-    }
-}
-        // Navigation
-        // Navigation
-function showSection(sectionName) {
-    const sections = document.querySelectorAll('.section');
-    sections.forEach(section => section.classList.add('hidden'));
-    
-    if (sectionName === 'home') {
-        document.getElementById('home').classList.remove('hidden');
-        document.getElementById('divisions-list').classList.remove('hidden');
-    } else if (sectionName === 'divisions-list') {
-        document.getElementById('divisions-list').classList.remove('hidden');
-    } else {
-        document.getElementById(sectionName).classList.remove('hidden');
-    }
-    
-    // Update nav active state
-    const navLinks = document.querySelectorAll('.nav-link');
-    navLinks.forEach(link => link.classList.remove('active'));
-    document.querySelector(`[data-section="${sectionName}"]`).classList.add('active');
-}
+            document.getElementById(sectionName).classList.remove('hidden');
+            
+            const navLinks = document.querySelectorAll('.nav-link');
+            navLinks.forEach(link => link.classList.remove('active'));
+            const targetLink = document.querySelector(`[data-section="${sectionName}"]`);
+            if (targetLink) targetLink.classList.add('active');
+        }
+
         document.addEventListener('DOMContentLoaded', function() {
-    const navLinks = document.querySelectorAll('.nav-link');
-    navLinks.forEach(link => {
-        link.addEventListener('click', function(e) {
-            e.preventDefault();
-            showSection(this.dataset.section);
+            const navLinks = document.querySelectorAll('.nav-link');
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    showSection(this.dataset.section);
+                });
+            });
+            initializeAppData();
         });
-    });
-    initializeAppData(); // Changed from initializeSampleData()
-});
 
-// Division navigation functions
-function showDivisionDetails(division) {
-    // Hide all sections
-    document.getElementById('home').classList.add('hidden');
-    document.getElementById('divisions-list').classList.add('hidden');
-    document.getElementById('division-details').classList.remove('hidden');
-    document.getElementById('fixtures').classList.add('hidden');
-    document.getElementById('results').classList.add('hidden');
-    
-    // Update division title
-    document.getElementById('division-title').innerHTML = `<i class="fas fa-trophy"></i> ${getDivisionName(division)}`;
-    
-    // Render teams for this division
-    renderDivisionTeams(division);
-    
-    // Update standings button
-    const standingsBtn = document.getElementById('standings-btn');
-    standingsBtn.onclick = function() { showDivisionStandings(division); };
-    
-    // Update nav active state
-    const navLinks = document.querySelectorAll('.nav-link');
-    navLinks.forEach(link => link.classList.remove('active'));
-}
+        // Division navigation functions
+        function showDivisionDetails(division) {
+            document.getElementById('home').classList.add('hidden');
+            document.getElementById('divisions-list').classList.add('hidden');
+            document.getElementById('division-details').classList.remove('hidden');
+            document.getElementById('fixtures').classList.add('hidden');
+            document.getElementById('results').classList.add('hidden');
+            
+            document.getElementById('division-title').innerHTML = `<i class="fas fa-trophy"></i> ${getDivisionName(division)}`;
+            
+            renderDivisionTeams(division);
+            
+            const standingsBtn = document.getElementById('standings-btn');
+            standingsBtn.onclick = function() { showDivisionStandings(division); };
+            
+            const navLinks = document.querySelectorAll('.nav-link');
+            navLinks.forEach(link => link.classList.remove('active'));
+        }
 
-function renderDivisionTeams(division) {
-    const container = document.getElementById('division-teams');
-    const teams = leagueData.teams[division] || [];
-    
-    let html = '';
-    if (teams.length === 0) {
-        html = '<p style="text-align: center; grid-column: 1 / -1; opacity: 0.7;">No teams in this division yet.</p>';
-    } else {
-        teams.forEach(team => {
-            const logoKey = `${division}-${team}`;
-            const logoSrc = leagueData.logos.teams[logoKey];
-            html += `
-                <div class="team-card" onclick="showTeamDetails('${division}', '${team}')">
-                    <div class="team-logo">
-                        ${logoSrc ? `<img src="${logoSrc}" alt="${team}">` : team.charAt(0)}
-                    </div>
-                    <h4>${team}</h4>
-                </div>
-            `;
-        });
-    }
-    
-    container.innerHTML = html;
-}
+        function renderDivisionTeams(division) {
+            const container = document.getElementById('division-teams');
+            const teams = leagueData.teams[division] || [];
+            
+            let html = '';
+            if (teams.length === 0) {
+                html = '<p style="text-align: center; grid-column: 1 / -1; opacity: 0.7;">No teams in this division yet.</p>';
+            } else {
+                teams.forEach(team => {
+                    const logoKey = `${division}-${team}`;
+                    const logoSrc = leagueData.logos.teams[logoKey];
+                    html += `
+                        <div class="team-card" onclick="showTeamDetails('${division}', '${team}')">
+                            <div class="team-logo">
+                                ${logoSrc ? `<img src="${logoSrc}" alt="${team}">` : team.charAt(0)}
+                            </div>
+                            <h4>${team}</h4>
+                        </div>
+                    `;
+                });
+            }
+            
+            container.innerHTML = html;
+        }
+
         // Admin Panel Functions
         function toggleAdmin() {
             const panel = document.getElementById('admin-panel');
             panel.classList.toggle('hidden');
         }
+
         function showAdminTab(tabName) {
             const contents = document.querySelectorAll('.admin-content');
             contents.forEach(content => content.classList.add('hidden'));
             document.getElementById(`admin-${tabName}`).classList.remove('hidden');
+            
             const tabs = document.querySelectorAll('.tab-btn');
             tabs.forEach(tab => tab.classList.remove('active'));
             event.target.classList.add('active');
+            
             if (tabName === 'fixtures') {
                 updateFixtureTeams();
                 renderAdminFixtures();
             } else if (tabName === 'matches') {
                 updateMatchTeams();
+            } else if (tabName === 'results') {
+                loadAdminResults();
             }
         }
+
         // Team Management
         async function addTeam() {
-    const division = document.getElementById('team-division').value;
-    const name = document.getElementById('team-name').value.trim();
-    const logoFile = document.getElementById('team-logo').files[0];
-    
-    if (!name) {
-        alert('Please enter a team name');
-        return;
-    }
-    
-    // Check if team already exists in this division
-    if (leagueData.teams[division].includes(name)) {
-        alert('Team name already exists in this division');
-        return;
-    }
-    
-    let logoURL = null;
-    
-    // Upload logo if provided
-    if (logoFile) {
-        const storageRef = storage.ref();
-        const logoRef = storageRef.child(`team-logos/${division}-${Date.now()}-${logoFile.name}`);
-        
-        try {
-            const snapshot = await logoRef.put(logoFile);
-            logoURL = await snapshot.ref.getDownloadURL();
-            leagueData.logos.teams[`${division}-${name}`] = logoURL;
-        } catch (error) {
-            console.error("Error uploading team logo:", error);
-            alert("Error uploading team logo. Please try again.");
-            return;
-        }
-    }
-    
-    // Add team to Firestore
-    try {
-        await db.collection("teams").add({
-            division: division,
-            name: name,
-            logo: logoURL,
-            timestamp: firebase.firestore.FieldValue.serverTimestamp()
-        });
-        
-        document.getElementById('team-name').value = '';
-        document.getElementById('team-logo').value = '';
-        
-        alert("Team added successfully!");
-    } catch (error) {
-        console.error("Error adding team:", error);
-        alert("Error adding team. Please try again.");
-    }
-}
-        async function removeTeam(division, teamName) {
-    if (!confirm(`Are you sure you want to remove "${teamName}"?`)) {
-        return;
-    }
-    
-    try {
-        // Find the team document in Firestore
-        const querySnapshot = await db.collection("teams")
-            .where("division", "==", division)
-            .where("name", "==", teamName)
-            .get();
-        
-        if (!querySnapshot.empty) {
-            // Delete the team document
-            await db.collection("teams").doc(querySnapshot.docs[0].id).delete();
+            const division = document.getElementById('team-division').value;
+            const name = document.getElementById('team-name').value.trim();
+            const logoFile = document.getElementById('team-logo').files[0];
             
-            // Delete related fixtures and results
-            await deleteTeamFixturesAndResults(teamName);
+            if (!name) {
+                alert('Please enter a team name');
+                return;
+            }
             
-            alert("Team removed successfully!");
+            if (leagueData.teams[division].includes(name)) {
+                alert('Team name already exists in this division');
+                return;
+            }
+            
+            let logoURL = null;
+            
+            if (logoFile) {
+                const storageRef = storage.ref();
+                const logoRef = storageRef.child(`team-logos/${division}-${Date.now()}-${logoFile.name}`);
+                
+                try {
+                    const snapshot = await logoRef.put(logoFile);
+                    logoURL = await snapshot.ref.getDownloadURL();
+                    leagueData.logos.teams[`${division}-${name}`] = logoURL;
+                } catch (error) {
+                    console.error("Error uploading team logo:", error);
+                    alert("Error uploading team logo. Please try again.");
+                    return;
+                }
+            }
+            
+            try {
+                await db.collection("teams").add({
+                    division: division,
+                    name: name,
+                    logo: logoURL,
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                });
+                
+                document.getElementById('team-name').value = '';
+                document.getElementById('team-logo').value = '';
+                
+                alert("Team added successfully!");
+            } catch (error) {
+                console.error("Error adding team:", error);
+                alert("Error adding team. Please try again.");
+            }
         }
-    } catch (error) {
-        console.error("Error removing team:", error);
-        alert("Error removing team. Please try again.");
-    }
-}
 
-async function deleteTeamFixturesAndResults(teamName) {
-    // Delete fixtures where this team is involved
-    const fixturesQuery = await db.collection("fixtures")
-        .where("played", "==", false)
-        .where("homeTeam", "==", teamName)
-        .get();
-    
-    for (const doc of fixturesQuery.docs) {
-        await doc.ref.delete();
-    }
-    
-    const fixturesQuery2 = await db.collection("fixtures")
-        .where("played", "==", false)
-        .where("awayTeam", "==", teamName)
-        .get();
-    
-    for (const doc of fixturesQuery2.docs) {
-        await doc.ref.delete();
-    }
-    
-    // Delete results where this team is involved
-    const resultsQuery = await db.collection("fixtures")
-        .where("played", "==", true)
-        .where("homeTeam", "==", teamName)
-        .get();
-    
-    for (const doc of resultsQuery.docs) {
-        await doc.ref.delete();
-    }
-    
-    const resultsQuery2 = await db.collection("fixtures")
-        .where("played", "==", true)
-        .where("awayTeam", "==", teamName)
-        .get();
-    
-    for (const doc of resultsQuery2.docs) {
-        await doc.ref.delete();
-    }
-}
-        function updateTeamsList() {
-    const teamsList = document.getElementById('teams-list');
-    let html = '<h4><i class="fas fa-list"></i> Current Teams:</h4>';
-    Object.keys(leagueData.teams).forEach(division => {
-        if (leagueData.teams[division].length > 0) {
-            html += `<h5>${getDivisionName(division)}:</h5>`;
-            leagueData.teams[division].forEach((team) => {
-                html += `
-                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.8rem; background: rgba(255,255,255,0.1); margin: 0.3rem 0; border-radius: 10px;">
-                        <span><i class="fas fa-basketball-ball"></i> ${team}</span>
-                        <button class="btn btn-danger" style="padding: 0.5rem 1rem; font-size: 0.8rem;" onclick="removeTeam('${division}', '${team}')"><i class="fas fa-trash"></i> Remove</button>
-                    </div>
-                `;
-            });
+        async function removeTeam(division, teamName) {
+            if (!confirm(`Are you sure you want to remove "${teamName}"?`)) {
+                return;
+            }
+            
+            try {
+                const querySnapshot = await db.collection("teams")
+                    .where("division", "==", division)
+                    .where("name", "==", teamName)
+                    .get();
+                
+                if (!querySnapshot.empty) {
+                    await db.collection("teams").doc(querySnapshot.docs[0].id).delete();
+                    await deleteTeamFixturesAndResults(teamName);
+                    alert("Team removed successfully!");
+                }
+            } catch (error) {
+                console.error("Error removing team:", error);
+                alert("Error removing team. Please try again.");
+            }
         }
-    });
-    teamsList.innerHTML = html;
-}
+
+        async function deleteTeamFixturesAndResults(teamName) {
+            const fixturesQuery = await db.collection("fixtures")
+                .where("homeTeam", "==", teamName)
+                .get();
+            
+            for (const doc of fixturesQuery.docs) {
+                await doc.ref.delete();
+            }
+            
+            const fixturesQuery2 = await db.collection("fixtures")
+                .where("awayTeam", "==", teamName)
+                .get();
+            
+            for (const doc of fixturesQuery2.docs) {
+                await doc.ref.delete();
+            }
+        }
+
+        function updateTeamsList() {
+            const teamsList = document.getElementById('teams-list');
+            let html = '<h4><i class="fas fa-list"></i> Current Teams:</h4>';
+            Object.keys(leagueData.teams).forEach(division => {
+                if (leagueData.teams[division].length > 0) {
+                    html += `<h5>${getDivisionName(division)}:</h5>`;
+                    leagueData.teams[division].forEach((team) => {
+                        html += `
+                            <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.8rem; background: rgba(255,255,255,0.1); margin: 0.3rem 0; border-radius: 10px;">
+                                <span><i class="fas fa-basketball-ball"></i> ${team}</span>
+                                <button class="btn btn-danger" style="padding: 0.5rem 1rem; font-size: 0.8rem;" onclick="removeTeam('${division}', '${team}')"><i class="fas fa-trash"></i> Remove</button>
+                            </div>
+                        `;
+                    });
+                }
+            });
+            teamsList.innerHTML = html;
+        }
+
         function renderAllTeams() {
-    // This function is no longer needed for the new UI
-    // Teams are now rendered in the division details view
-    updateTeamsList();
-}
-        // Team logo helper function
+            updateTeamsList();
+        }
+
         function getTeamLogo(division, teamName) {
             const logoKey = `${division}-${teamName}`;
             const logoSrc = leagueData.logos.teams[logoKey];
@@ -1229,6 +1258,7 @@ async function deleteTeamFixturesAndResults(teamName) {
                 return `<div class="team-logo-small">${teamName.charAt(0)}</div>`;
             }
         }
+
         // Fixture Management
         function updateFixtureTeams() {
             const division = document.getElementById('fixture-division').value;
@@ -1241,60 +1271,74 @@ async function deleteTeamFixturesAndResults(teamName) {
                 awaySelect.innerHTML += `<option value="${team}">${team}</option>`;
             });
         }
+
         async function addFixture() {
-    const division = document.getElementById('fixture-division').value;
-    const homeTeam = document.getElementById('fixture-home-team').value;
-    const awayTeam = document.getElementById('fixture-away-team').value;
-    const date = document.getElementById('fixture-date').value;
-    const time = document.getElementById('fixture-time').value;
+            const division = document.getElementById('fixture-division').value;
+            const homeTeam = document.getElementById('fixture-home-team').value;
+            const awayTeam = document.getElementById('fixture-away-team').value;
+            const date = document.getElementById('fixture-date').value;
+            const time = document.getElementById('fixture-time').value;
 
-    if (!homeTeam || !awayTeam || !date || !time) {
-        alert('Please fill in all fields');
-        return;
-    }
+            if (!homeTeam || !awayTeam || !date || !time) {
+                alert('Please fill in all fields');
+                return;
+            }
 
-    if (homeTeam === awayTeam) {
-        alert('Home and Away teams cannot be the same!');
-        return;
-    }
+            if (homeTeam === awayTeam) {
+                alert('Home and Away teams cannot be the same!');
+                return;
+            }
 
-    try {
-        await db.collection("fixtures").add({
-            division,
-            homeTeam,
-            awayTeam,
-            date,
-            time,
-            played: false,
-            timestamp: firebase.firestore.FieldValue.serverTimestamp()
-        });
+            try {
+                await db.collection("fixtures").add({
+                    division,
+                    homeTeam,
+                    awayTeam,
+                    date,
+                    time,
+                    played: false,
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                });
 
-        // Clear form
-        document.getElementById('fixture-home-team').selectedIndex = 0;
-        document.getElementById('fixture-away-team').selectedIndex = 0;
-        document.getElementById('fixture-date').value = '';
-        document.getElementById('fixture-time').value = '';
-        
-        alert("Fixture added successfully!");
-    } catch (error) {
-        console.error("Error adding fixture:", error);
-        alert("Error adding fixture. Please try again.");
-    }
-}
-        function renderFixtures() {
+                document.getElementById('fixture-home-team').selectedIndex = 0;
+                document.getElementById('fixture-away-team').selectedIndex = 0;
+                document.getElementById('fixture-date').value = '';
+                document.getElementById('fixture-time').value = '';
+                
+                alert("Fixture added successfully!");
+            } catch (error) {
+                console.error("Error adding fixture:", error);
+                alert("Error adding fixture. Please try again.");
+            }
+        }
+
+        // NEW: Filter fixtures by division
+        function filterFixtures() {
+            const selectedDivision = document.getElementById('fixtures-division-filter').value;
+            renderFixtures(selectedDivision);
+        }
+
+        function renderFixtures(filterDivision = 'all') {
             const container = document.getElementById('fixtures-list');
-            const upcomingFixtures = leagueData.fixtures.filter(f => !f.played).sort((a, b) => new Date(a.date) - new Date(b.date));
+            let fixtures = leagueData.fixtures.filter(f => !f.played);
+            
+            if (filterDivision !== 'all') {
+                fixtures = fixtures.filter(f => f.division === filterDivision);
+            }
+            
+            fixtures = fixtures.sort((a, b) => new Date(a.date) - new Date(b.date));
+            
             let html = '';
-            if (upcomingFixtures.length === 0) {
-                html = '<p>📭 No upcoming fixtures scheduled.</p>';
+            if (fixtures.length === 0) {
+                html = '<p>📭 No fixtures scheduled for this division.</p>';
             } else {
-                upcomingFixtures.forEach(fixture => {
+                fixtures.forEach(fixture => {
                     html += `
                         <div class="fixture-item">
-                            <div style="background: rgba(0, 102, 204, 0.8); padding: 1rem; border-radius: 10px 10px 0 0;">
-                                <strong><i class="fas fa-medal"></i> ${getDivisionName(fixture.division)}</strong>
-                                <span style="float: right;"><i class="fas fa-calendar-alt"></i> ${fixture.date}</span>
-                            </div>
+                            <div style="background: white; color: #000; padding: 1rem; border-radius: 10px 10px 0 0; border-bottom: 1px solid #e0e0e0;">
+    <strong><i class="fas fa-medal" style="color: #0066cc;"></i> ${getDivisionName(fixture.division)}</strong>
+    <span style="float: right; color: #555;"><i class="fas fa-calendar-alt"></i> ${fixture.date}</span>
+</div>
                             <div class="team-vs">
                                 <div class="team-info">
                                     ${getTeamLogo(fixture.division, fixture.homeTeam)}
@@ -1315,47 +1359,50 @@ async function deleteTeamFixturesAndResults(teamName) {
             }
             container.innerHTML = html;
         }
-        function renderAdminFixtures() {
-    const container = document.getElementById('fixtures-list-admin');
-    const upcomingFixtures = leagueData.fixtures.filter(f => !f.played).sort((a, b) => new Date(a.date) - new Date(b.date));
-    let html = '';
-    if (upcomingFixtures.length === 0) {
-        html = '<p style="color: #ccc; text-align: center;">📭 No upcoming fixtures scheduled.</p>';
-    } else {
-        html = '<h4><i class="fas fa-calendar-alt"></i> Upcoming Fixtures:</h4>';
-        upcomingFixtures.forEach((fixture) => {
-            html += `
-                <div style="background: rgba(255,255,255,0.1); padding: 1rem; border-radius: 10px; margin: 0.5rem 0;">
-                    <div style="display: flex; justify-content: space-between; align-items: center;">
-                        <div>
-                            <strong><i class="fas fa-medal"></i> ${getDivisionName(fixture.division)}</strong><br>
-                            <span>${fixture.homeTeam} vs ${fixture.awayTeam}</span>
-                        </div>
-                        <div style="text-align: right;">
-                            <span><i class="fas fa-calendar-alt"></i> ${fixture.date}</span><br>
-                            <span><i class="fas fa-clock"></i> ${fixture.time}</span>
-                        </div>
-                    </div>
-                    <button class="btn btn-danger" style="margin-top: 0.5rem; padding: 0.3rem 0.8rem; font-size: 0.8rem;" onclick="removeFixture('${fixture.id}')"><i class="fas fa-trash"></i> Remove</button>
-                </div>
-            `;
-        });
-    }
-    container.innerHTML = html;
-}
-        async function removeFixture(fixtureId) {
-    if (!confirm('Are you sure you want to remove this fixture?')) {
-        return;
-    }
 
-    try {
-        await db.collection("fixtures").doc(fixtureId).delete();
-        alert("Fixture removed successfully!");
-    } catch (error) {
-        console.error("Error removing fixture:", error);
-        alert("Error removing fixture. Please try again.");
-    }
-}
+        function renderAdminFixtures() {
+            const container = document.getElementById('fixtures-list-admin');
+            const upcomingFixtures = leagueData.fixtures.filter(f => !f.played).sort((a, b) => new Date(a.date) - new Date(b.date));
+            let html = '';
+            if (upcomingFixtures.length === 0) {
+                html = '<p style="color: #ccc; text-align: center;">📭 No upcoming fixtures scheduled.</p>';
+            } else {
+                html = '<h4><i class="fas fa-calendar-alt"></i> Upcoming Fixtures:</h4>';
+                upcomingFixtures.forEach((fixture) => {
+                    html += `
+                        <div style="background: rgba(255,255,255,0.1); padding: 1rem; border-radius: 10px; margin: 0.5rem 0;">
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <div>
+                                    <strong><i class="fas fa-medal"></i> ${getDivisionName(fixture.division)}</strong><br>
+                                    <span>${fixture.homeTeam} vs ${fixture.awayTeam}</span>
+                                </div>
+                                <div style="text-align: right;">
+                                    <span><i class="fas fa-calendar-alt"></i> ${fixture.date}</span><br>
+                                    <span><i class="fas fa-clock"></i> ${fixture.time}</span>
+                                </div>
+                            </div>
+                            <button class="btn btn-danger" style="margin-top: 0.5rem; padding: 0.3rem 0.8rem; font-size: 0.8rem;" onclick="removeFixture('${fixture.id}')"><i class="fas fa-trash"></i> Remove</button>
+                        </div>
+                    `;
+                });
+            }
+            container.innerHTML = html;
+        }
+
+        async function removeFixture(fixtureId) {
+            if (!confirm('Are you sure you want to remove this fixture?')) {
+                return;
+            }
+
+            try {
+                await db.collection("fixtures").doc(fixtureId).delete();
+                alert("Fixture removed successfully!");
+            } catch (error) {
+                console.error("Error removing fixture:", error);
+                alert("Error removing fixture. Please try again.");
+            }
+        }
+
         // Match Management
         function updateMatchTeams() {
             const division = document.getElementById('match-division').value;
@@ -1368,6 +1415,7 @@ async function deleteTeamFixturesAndResults(teamName) {
                 awaySelect.innerHTML += `<option value="${team}">${team}</option>`;
             });
         }
+
         function toggleMatchInputs() {
             const resultType = document.getElementById('match-result-type').value;
             const normalInputs = document.getElementById('match-normal-inputs');
@@ -1380,144 +1428,226 @@ async function deleteTeamFixturesAndResults(teamName) {
                 forfeitInputs.classList.add('hidden');
             }
         }
+
         async function addMatchResult() {
-    const division = document.getElementById('match-division').value;
-    const homeTeam = document.getElementById('match-home-team').value;
-    const awayTeam = document.getElementById('match-away-team').value;
-    const date = document.getElementById('match-date').value;
-    const resultType = document.getElementById('match-result-type').value;
+            const division = document.getElementById('match-division').value;
+            const homeTeam = document.getElementById('match-home-team').value;
+            const awayTeam = document.getElementById('match-away-team').value;
+            const date = document.getElementById('match-date').value;
+            const resultType = document.getElementById('match-result-type').value;
 
-    let resultData = {
-        division,
-        homeTeam,
-        awayTeam,
-        date,
-        played: true,
-        timestamp: firebase.firestore.FieldValue.serverTimestamp()
-    };
+            let resultData = {
+                division,
+                homeTeam,
+                awayTeam,
+                date,
+                played: true,
+                timestamp: firebase.firestore.FieldValue.serverTimestamp()
+            };
 
-    if (resultType === 'normal') {
-        const homeScore = parseInt(document.getElementById('match-home-score').value, 10);
-        const awayScore = parseInt(document.getElementById('match-away-score').value, 10);
+            if (resultType === 'normal') {
+                const homeScore = parseInt(document.getElementById('match-home-score').value, 10);
+                const awayScore = parseInt(document.getElementById('match-away-score').value, 10);
 
-        if (isNaN(homeScore) || isNaN(awayScore)) {
-            alert("Please enter both scores");
-            return;
-        }
-
-        resultData.homeScore = homeScore;
-        resultData.awayScore = awayScore;
-
-    } else if (resultType === 'forfeit') {
-        const forfeitTeam = document.getElementById('match-forfeit-team').value;
-        resultData.forfeit = forfeitTeam;
-        resultData.homeScore = forfeitTeam === "home" ? 0 : 20;
-        resultData.awayScore = forfeitTeam === "away" ? 0 : 20;
-    }
-
-    try {
-        // Find the fixture for this match
-        const querySnapshot = await db.collection("fixtures")
-            .where("division", "==", division)
-            .where("homeTeam", "==", homeTeam)
-            .where("awayTeam", "==", awayTeam)
-            .where("date", "==", date)
-            .limit(1)
-            .get();
-
-        if (!querySnapshot.empty) {
-            // Update the existing fixture
-            await db.collection("fixtures").doc(querySnapshot.docs[0].id).update(resultData);
-        } else {
-            // If fixture not found, just add directly as result
-            await db.collection("fixtures").add(resultData);
-        }
-
-        alert("Match result recorded successfully!");
-
-        // Reset form
-        document.getElementById('match-home-score').value = '';
-        document.getElementById('match-away-score').value = '';
-        document.getElementById('match-date').value = '';
-
-    } catch (error) {
-        console.error("Error recording match result:", error);
-        alert("Error in recording match result. Please try again.");
-    }
-}
-        function renderResults() {
-            const container = document.getElementById('results-list');
-            const recentResults = leagueData.results.slice(-15).reverse();
-            let html = '';
-            recentResults.forEach(result => {
-                let resultText, winnerText;
-                if (result.forfeit) {
-                    const forfeitingTeam = result.forfeitTeam === 'home' ? result.homeTeam : result.awayTeam;
-                    const winningTeam = result.forfeitTeam === 'home' ? result.awayTeam : result.homeTeam;
-                    winnerText = `<i class="fas fa-exclamation-triangle"></i> ${forfeitingTeam} forfeited - <i class="fas fa-trophy"></i> Winner: ${winningTeam}`;
-                } else {
-                    const winner = result.homeScore > result.awayScore ? result.homeTeam : 
-                                  result.homeScore < result.awayScore ? result.awayTeam : null;
-                    winnerText = winner ? `<i class="fas fa-trophy"></i> Winner: ${winner}` : '<i class="fas fa-handshake"></i> Match ended in a tie';
+                if (isNaN(homeScore) || isNaN(awayScore)) {
+                    alert("Please enter both scores");
+                    return;
                 }
-                html += `
-                    <div class="result-item">
-                        <div style="background: rgba(0, 102, 204, 0.8); padding: 1rem; border-radius: 10px 10px 0 0;">
-                            <strong><i class="fas fa-medal"></i> ${getDivisionName(result.division)}</strong>
-                            <span style="float: right;"><i class="fas fa-calendar-alt"></i> ${result.date}</span>
-                        </div>
-                        <div class="team-vs">
-                            <div class="team-info">
-                                ${getTeamLogo(result.division, result.homeTeam)}
-                                <strong>${result.homeTeam}</strong>
-                            </div>
-                            <div class="vs-text">
-                                ${result.forfeit ? 'vs' : `${result.homeScore} - ${result.awayScore}`}
-                            </div>
-                            <div class="team-info">
-                                ${getTeamLogo(result.division, result.awayTeam)}
-                                <strong>${result.awayTeam}</strong>
-                            </div>
-                        </div>
-                        <div style="text-align: center; font-size: 0.9rem; opacity: 0.9;">
-                            ${winnerText}
-                        </div>
-                    </div>
-                `;
-            });
-            container.innerHTML = html || '<p>📭 No results available yet.</p>';
+
+                resultData.homeScore = homeScore;
+                resultData.awayScore = awayScore;
+
+            } else if (resultType === 'forfeit') {
+                const forfeitTeam = document.getElementById('match-forfeit-team').value;
+                resultData.forfeit = true;
+                resultData.forfeitTeam = forfeitTeam;
+                resultData.homeScore = forfeitTeam === "home" ? 0 : 20;
+                resultData.awayScore = forfeitTeam === "away" ? 0 : 20;
+            }
+
+            try {
+                const querySnapshot = await db.collection("fixtures")
+                    .where("division", "==", division)
+                    .where("homeTeam", "==", homeTeam)
+                    .where("awayTeam", "==", awayTeam)
+                    .where("date", "==", date)
+                    .limit(1)
+                    .get();
+
+                if (!querySnapshot.empty) {
+                    await db.collection("fixtures").doc(querySnapshot.docs[0].id).update(resultData);
+                } else {
+                    await db.collection("fixtures").add(resultData);
+                }
+
+                alert("Match result recorded successfully!");
+
+                document.getElementById('match-home-score').value = '';
+                document.getElementById('match-away-score').value = '';
+                document.getElementById('match-date').value = '';
+
+            } catch (error) {
+                console.error("Error recording match result:", error);
+                alert("Error in recording match result. Please try again.");
+            }
         }
-        // Standings function
+
+        // NEW: Filter results by division
+        function filterResults() {
+            const selectedDivision = document.getElementById('results-division-filter').value;
+            renderResults(selectedDivision);
+        }
+
+        function renderResults(filterDivision = 'all') {
+            const container = document.getElementById('results-list');
+            let results = leagueData.results.filter(r => r.played);
+            
+            if (filterDivision !== 'all') {
+                results = results.filter(r => r.division === filterDivision);
+            }
+            
+            results = results.sort((a, b) => new Date(b.date) - new Date(a.date));
+            
+            let html = '';
+            if (results.length === 0) {
+                html = '<p>📭 No results available for this division.</p>';
+            } else {
+                results.forEach(result => {
+                    let resultText, winnerText;
+                    if (result.forfeit) {
+                        const forfeitingTeam = result.forfeitTeam === 'home' ? result.homeTeam : result.awayTeam;
+                        const winningTeam = result.forfeitTeam === 'home' ? result.awayTeam : result.homeTeam;
+                        winnerText = `<i class="fas fa-exclamation-triangle"></i> ${forfeitingTeam} forfeited - <i class="fas fa-trophy"></i> Winner: ${winningTeam}`;
+                    } else {
+                        const winner = result.homeScore > result.awayScore ? result.homeTeam : 
+                                      result.homeScore < result.awayScore ? result.awayTeam : null;
+                        winnerText = winner ? `<i class="fas fa-trophy"></i> Winner: ${winner}` : '<i class="fas fa-handshake"></i> Match ended in a tie';
+                    }
+                    html += `
+                        <div class="result-item">
+                           <div style="background: white; color: #000; padding: 1rem; border-radius: 10px 10px 0 0; border-bottom: 1px solid #e0e0e0;">
+                                <strong><i class="fas fa-medal"></i> ${getDivisionName(result.division)}</strong>
+                                <span style="float: right;"><i class="fas fa-calendar-alt"></i> ${result.date}</span>
+                            </div>
+                            <div class="team-vs">
+                                <div class="team-info">
+                                    ${getTeamLogo(result.division, result.homeTeam)}
+                                    <strong>${result.homeTeam}</strong>
+                                </div>
+                                <div class="vs-text">
+                                    ${result.forfeit ? 'vs' : `${result.homeScore} - ${result.awayScore}`}
+                                </div>
+                                <div class="team-info">
+                                    ${getTeamLogo(result.division, result.awayTeam)}
+                                    <strong>${result.awayTeam}</strong>
+                                </div>
+                            </div>
+                            <div style="text-align: center; font-size: 0.9rem; opacity: 0.9;">
+                                ${winnerText}
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+            container.innerHTML = html;
+        }
+
+        // NEW: Admin results management
+        function loadAdminResults() {
+            const selectedDivision = document.getElementById('admin-results-filter').value;
+            const container = document.getElementById('admin-results-list');
+            
+            let results = leagueData.results.filter(r => r.played);
+            
+            if (selectedDivision !== 'all') {
+                results = results.filter(r => r.division === selectedDivision);
+            }
+            
+            results = results.sort((a, b) => new Date(b.date) - new Date(a.date));
+            
+            let html = '';
+            if (results.length === 0) {
+                html = '<p style="color: #ccc; text-align: center;">📭 No results available for this division.</p>';
+            } else {
+                html = '<h4><i class="fas fa-clipboard-check"></i> Match Results:</h4>';
+                results.forEach((result) => {
+                    let resultText = result.forfeit ? 'FORFEIT' : `${result.homeScore} - ${result.awayScore}`;
+                    html += `
+                        <div style="background: rgba(255,255,255,0.1); padding: 1rem; border-radius: 10px; margin: 0.5rem 0;">
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <div>
+                                    <strong><i class="fas fa-medal"></i> ${getDivisionName(result.division)}</strong><br>
+                                    <span>${result.homeTeam} vs ${result.awayTeam} - ${resultText}</span>
+                                </div>
+                                <div style="text-align: right;">
+                                    <span><i class="fas fa-calendar-alt"></i> ${result.date}</span><br>
+                                    <button class="btn btn-danger" style="padding: 0.3rem 0.8rem; font-size: 0.8rem;" onclick="removeResult('${result.id}')"><i class="fas fa-trash"></i> Remove</button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+            container.innerHTML = html;
+        }
+
+        // NEW: Remove result function
+        async function removeResult(resultId) {
+            if (!confirm('Are you sure you want to remove this result?')) {
+                return;
+            }
+
+            try {
+                await db.collection("fixtures").doc(resultId).delete();
+                alert("Result removed successfully!");
+            } catch (error) {
+                console.error("Error removing result:", error);
+                alert("Error removing result. Please try again.");
+            }
+        }
+
+        // FIXED: Standings function with corrected point system
         function showDivisionStandings(division) {
             const teams = leagueData.teams[division];
-            const divisionResults = leagueData.results.filter(r => r.division === division);
+            const divisionResults = leagueData.results.filter(r => r.division === division && r.played);
+            
             const standings = teams.map(team => {
                 const teamResults = divisionResults.filter(result => 
                     result.homeTeam === team || result.awayTeam === team
                 );
+                
                 let wins = 0, losses = 0, forfeits = 0, pointsFor = 0, pointsAgainst = 0;
+                
                 teamResults.forEach(result => {
                     const isHome = result.homeTeam === team;
                     const teamScore = isHome ? result.homeScore : result.awayScore;
                     const opponentScore = isHome ? result.awayScore : result.homeScore;
+                    
                     pointsFor += teamScore;
                     pointsAgainst += opponentScore;
+                    
                     if (result.forfeit) {
+                        // Check if THIS team forfeited
                         if ((isHome && result.forfeitTeam === 'home') || (!isHome && result.forfeitTeam === 'away')) {
-                            forfeits++;
+                            forfeits++; // This team forfeited (gets 0 points)
                         } else {
-                            wins++;
+                            wins++; // Opponent forfeited, this team wins (gets 2 points)
                         }
                     } else {
+                        // Normal game
                         if (teamScore > opponentScore) {
                             wins++;
-                        } else {
+                        } else if (teamScore < opponentScore) {
                             losses++;
+                        } else {
+                            losses++; // Treat ties as losses for point calculation
                         }
                     }
                 });
-                // Liberian point system: 2 for win, 1 for loss, 0 for forfeit
+                
+                // CORRECTED: 2 points for win, 1 point for loss, 0 points for forfeit
                 const totalPoints = (wins * 2) + (losses * 1) + (forfeits * 0);
+                
                 return {
                     team,
                     played: teamResults.length,
@@ -1530,23 +1660,24 @@ async function deleteTeamFixturesAndResults(teamName) {
                     points: totalPoints
                 };
             });
-            // Sort by points, then by point difference
+
+            // Sort by points, then by point difference, then by points scored
             standings.sort((a, b) => {
                 if (b.points !== a.points) return b.points - a.points;
                 if (b.pointsDiff !== a.pointsDiff) return b.pointsDiff - a.pointsDiff;
                 return b.pointsFor - a.pointsFor;
             });
+
             // Show standings modal
             const modal = document.getElementById('team-modal');
             const detailsContainer = document.getElementById('team-details');
             let html = `
                 <h2><i class="fas fa-chart-line"></i> ${getDivisionName(division)} - Standings</h2>
-                <p style="margin-bottom: 1rem; color: #0066cc; text-align: center;"><em><strong><i class="fas fa-trophy"></i> Point System:</strong> 2 points for Win, 1 point for Loss, 0 points for Forfeit</em></p>
+                <p style="margin-bottom: 1rem; color: #dc2626; text-align: center;"><em><strong><i class="fas fa-trophy"></i> Point System:</strong> 2 points for Win, 1 point for Loss, 0 points for Forfeit</em></p>
                 <div class="standings-table">
                     <table>
                         <thead>
                             <tr>
-                                <th>Pos</th>
                                 <th>Team</th>
                                 <th>P</th>
                                 <th>W</th>
@@ -1560,14 +1691,12 @@ async function deleteTeamFixturesAndResults(teamName) {
                         </thead>
                         <tbody>
             `;
+            
             standings.forEach((team, index) => {
-                const logoKey = `${division}-${team.team}`;
-                const logoSrc = leagueData.logos.teams[logoKey];
-                const teamDisplay = team.team;
+                const teamDisplay = team.team.length > 12 ? team.team.substring(0, 12) + '...' : team.team;
                 html += `
                     <tr onclick="showTeamDetails('${division}', '${team.team}')" style="cursor: pointer;">
-                        <td><strong>${index + 1}</strong></td>
-                        <td><strong>${teamDisplay}</strong></td>
+                        <td><strong>${index + 1}. ${teamDisplay}</strong></td>
                         <td>${team.played}</td>
                         <td style="color: #27ae60;">${team.wins}</td>
                         <td style="color: #f39c12;">${team.losses}</td>
@@ -1575,149 +1704,153 @@ async function deleteTeamFixturesAndResults(teamName) {
                         <td>${team.pointsFor}</td>
                         <td>${team.pointsAgainst}</td>
                         <td style="color: ${team.pointsDiff >= 0 ? '#27ae60' : '#e74c3c'};">${team.pointsDiff >= 0 ? '+' : ''}${team.pointsDiff}</td>
-                        <td style="color: #0066cc; font-weight: bold; font-size: 1.2rem;">${team.points}</td>
+                        <td style="color: #dc2626; font-weight: bold;">${team.points}</td>
                     </tr>
                 `;
             });
+            
             html += `
                         </tbody>
                     </table>
                 </div>
-                <p style="margin-top: 1rem; font-size: 0.9rem;"><em>P=Played, W=Won, L=Lost, F=Forfeited, PF=Points For, PA=Points Against, PD=Point Difference, Pts=League Points</em></p>
-                <p style="font-size: 0.9rem;"><em>👆 Click on any team name to view detailed statistics</em></p>
+                <p style="margin-top: 1rem; font-size: 0.8rem;"><em>P=Played, W=Won, L=Lost, F=Forfeited, PF=Points For, PA=Points Against, PD=Point Difference, Pts=League Points</em></p>
+                <p style="font-size: 0.8rem;"><em>Click on any team name to view detailed statistics</em></p>
             `;
+            
             detailsContainer.innerHTML = html;
             modal.style.display = 'block';
         }
-        // Team Details
-async function showTeamDetails(division, teamName) {
-    const modal = document.getElementById('team-modal');
-    const detailsContainer = document.getElementById('team-details');
-    
-    // Get results for this specific team from Firebase
-    const resultsSnapshot = await db.collection("fixtures")
-        .where("played", "==", true)
-        .where("division", "==", division)
-        .get();
-    
-    const teamResults = resultsSnapshot.docs
-        .filter(doc => {
-            const result = doc.data();
-            return result.homeTeam === teamName || result.awayTeam === teamName;
-        })
-        .map(doc => doc.data());
-    
-    let wins = 0, losses = 0, forfeits = 0, totalPointsScored = 0, totalPointsConceded = 0;
-    
-    teamResults.forEach(result => {
-        const isHome = result.homeTeam === teamName;
-        const teamScore = isHome ? result.homeScore : result.awayScore;
-        const opponentScore = isHome ? result.awayScore : result.homeScore;
-        
-        totalPointsScored += teamScore;
-        totalPointsConceded += opponentScore;
-        
-        if (result.forfeit) {
-            if ((isHome && result.forfeitTeam === 'home') || (!isHome && result.forfeitTeam === 'away')) {
-                forfeits++;
-            } else {
-                wins++;
-            }
-        } else {
-            if (teamScore > opponentScore) {
-                wins++;
-            } else {
-                losses++;
-            }
-        }
-    });
-    
-    // ... rest of the function remains the same
-    const totalLeaguePoints = (wins * 2) + (losses * 1) + (forfeits * 0);
-    const avgPointsScored = teamResults.length > 0 ? (totalPointsScored / teamResults.length).toFixed(1) : 0;
-    const avgPointsConceded = teamResults.length > 0 ? (totalPointsConceded / teamResults.length).toFixed(1) : 0;
-    const logoKey = `${division}-${teamName}`;
-    const logoSrc = leagueData.logos.teams[logoKey];
-    const teamLogo = logoSrc ? 
-        `<div class="team-logo" style="margin: 0 auto 1rem;"><img src="${logoSrc}" alt="${teamName}"></div>` :
-        `<div class="team-logo" style="margin: 0 auto 1rem;">${teamName.charAt(0)}</div>`;
-    
-    let html = `
-        ${teamLogo}
-        <h2 style="text-align: center;"><i class="fas fa-basketball-ball"></i> ${teamName}</h2>
-        <p style="text-align: center;"><strong>Division:</strong> ${getDivisionName(division)}</p>
-        <div class="standings-table">
-            <h3><i class="fas fa-chart-line"></i> Season Statistics</h3>
-            <table>
-                <tr><td><strong><i class="fas fa-gamepad"></i> Games Played</strong></td><td>${teamResults.length}</td></tr>
-                <tr style="color: #27ae60;"><td><strong><i class="fas fa-check-circle"></i> Wins</strong></td><td>${wins}</td></tr>
-                <tr style="color: #f39c12;"><td><strong><i class="fas fa-times-circle"></i> Losses</strong></td><td>${losses}</td></tr>
-                <tr style="color: #e74c3c;"><td><strong><i class="fas fa-exclamation-triangle"></i> Forfeits</strong></td><td>${forfeits}</td></tr>
-                <tr><td><strong><i class="fas fa-bullseye"></i> Total Points Scored</strong></td><td>${totalPointsScored}</td></tr>
-                <tr><td><strong><i class="fas fa-shield-alt"></i> Total Points Conceded</strong></td><td>${totalPointsConceded}</td></tr>
-                <tr><td><strong><i class="fas fa-chart-line"></i> Average Points Scored</strong></td><td>${avgPointsScored}</td></tr>
-                <tr><td><strong><i class="fas fa-chart-line"></i> Average Points Conceded</strong></td><td>${avgPointsConceded}</td></tr>
-                <tr style="color: #0066cc;"><td><strong><i class="fas fa-trophy"></i> League Points</strong></td><td><strong>${totalLeaguePoints}</strong></td></tr>
-                <tr><td><strong><i class="fas fa-percentage"></i> Win Rate</strong></td><td>${teamResults.length > 0 ? ((wins/teamResults.length) * 100).toFixed(1) : 0}%</td></tr>
-            </table>
-        </div>
-        <h3><i class="fas fa-history"></i> Recent Results</h3>
-    `;
-    
-    if (teamResults.length > 0) {
-        teamResults.slice(-8).reverse().forEach(result => {
-            const isHome = result.homeTeam === teamName;
-            const opponent = isHome ? result.awayTeam : result.homeTeam;
-            const teamScore = isHome ? result.homeScore : result.awayScore;
-            const opponentScore = isHome ? result.awayScore : result.homeScore;
-            let outcome, outcomeColor, resultText;
+
+        // FIXED: Team Details with corrected calculations
+        async function showTeamDetails(division, teamName) {
+            const modal = document.getElementById('team-modal');
+            const detailsContainer = document.getElementById('team-details');
             
-            if (result.forfeit) {
-                if ((isHome && result.forfeitTeam === 'home') || (!isHome && result.forfeitTeam === 'away')) {
-                    outcome = '<i class="fas fa-exclamation-triangle"></i> F';
-                    outcomeColor = '#e74c3c';
-                    resultText = 'FORFEIT';
+            const resultsSnapshot = await db.collection("fixtures")
+                .where("played", "==", true)
+                .where("division", "==", division)
+                .get();
+            
+            const teamResults = resultsSnapshot.docs
+                .filter(doc => {
+                    const result = doc.data();
+                    return result.homeTeam === teamName || result.awayTeam === teamName;
+                })
+                .map(doc => doc.data());
+            
+            let wins = 0, losses = 0, forfeits = 0, totalPointsScored = 0, totalPointsConceded = 0;
+            
+            teamResults.forEach(result => {
+                const isHome = result.homeTeam === teamName;
+                const teamScore = isHome ? result.homeScore : result.awayScore;
+                const opponentScore = isHome ? result.awayScore : result.homeScore;
+                
+                totalPointsScored += teamScore;
+                totalPointsConceded += opponentScore;
+                
+                if (result.forfeit) {
+                    // Check if THIS team forfeited
+                    if ((isHome && result.forfeitTeam === 'home') || (!isHome && result.forfeitTeam === 'away')) {
+                        forfeits++; // This team forfeited
+                    } else {
+                        wins++; // Opponent forfeited, this team wins
+                    }
                 } else {
-                    outcome = '<i class="fas fa-trophy"></i> W';
-                    outcomeColor = '#27ae60';
-                    resultText = 'WIN (Opponent Forfeit)';
+                    if (teamScore > opponentScore) {
+                        wins++;
+                    } else {
+                        losses++; // Including ties as losses
+                    }
                 }
+            });
+            
+            // CORRECTED: 2 points for win, 1 point for loss, 0 points for forfeit
+            const totalLeaguePoints = (wins * 2) + (losses * 1) + (forfeits * 0);
+            const avgPointsScored = teamResults.length > 0 ? (totalPointsScored / teamResults.length).toFixed(1) : 0;
+            const avgPointsConceded = teamResults.length > 0 ? (totalPointsConceded / teamResults.length).toFixed(1) : 0;
+            const logoKey = `${division}-${teamName}`;
+            const logoSrc = leagueData.logos.teams[logoKey];
+            const teamLogo = logoSrc ? 
+                `<div class="team-logo" style="margin: 0 auto 1rem;"><img src="${logoSrc}" alt="${teamName}"></div>` :
+                `<div class="team-logo" style="margin: 0 auto 1rem;">${teamName.charAt(0)}</div>`;
+            
+            let html = `
+                ${teamLogo}
+                <h2 style="text-align: center;"><i class="fas fa-basketball-ball"></i> ${teamName}</h2>
+                <p style="text-align: center;"><strong>Division:</strong> ${getDivisionName(division)}</p>
+                <div class="standings-table">
+                    <h3><i class="fas fa-chart-line"></i> Season Statistics</h3>
+                    <table>
+                        <tr><td><strong><i class="fas fa-gamepad"></i> Games Played</strong></td><td>${teamResults.length}</td></tr>
+                        <tr style="color: #27ae60;"><td><strong><i class="fas fa-check-circle"></i> Wins</strong></td><td>${wins}</td></tr>
+                        <tr style="color: #f39c12;"><td><strong><i class="fas fa-times-circle"></i> Losses</strong></td><td>${losses}</td></tr>
+                        <tr style="color: #e74c3c;"><td><strong><i class="fas fa-exclamation-triangle"></i> Forfeits</strong></td><td>${forfeits}</td></tr>
+                        <tr><td><strong><i class="fas fa-bullseye"></i> Total Points Scored</strong></td><td>${totalPointsScored}</td></tr>
+                        <tr><td><strong><i class="fas fa-shield-alt"></i> Total Points Conceded</strong></td><td>${totalPointsConceded}</td></tr>
+                        <tr><td><strong><i class="fas fa-chart-line"></i> Average Points Scored</strong></td><td>${avgPointsScored}</td></tr>
+                        <tr><td><strong><i class="fas fa-chart-line"></i> Average Points Conceded</strong></td><td>${avgPointsConceded}</td></tr>
+                        <tr style="color: #dc2626;"><td><strong><i class="fas fa-trophy"></i> League Points</strong></td><td><strong>${totalLeaguePoints}</strong></td></tr>
+                        <tr><td><strong><i class="fas fa-percentage"></i> Win Rate</strong></td><td>${teamResults.length > 0 ? ((wins/teamResults.length) * 100).toFixed(1) : 0}%</td></tr>
+                    </table>
+                </div>
+                <h3><i class="fas fa-history"></i> Recent Results</h3>
+            `;
+            
+            if (teamResults.length > 0) {
+                teamResults.slice(-8).reverse().forEach(result => {
+                    const isHome = result.homeTeam === teamName;
+                    const opponent = isHome ? result.awayTeam : result.homeTeam;
+                    const teamScore = isHome ? result.homeScore : result.awayScore;
+                    const opponentScore = isHome ? result.awayScore : result.homeScore;
+                    let outcome, outcomeColor, resultText;
+                    
+                    if (result.forfeit) {
+                        if ((isHome && result.forfeitTeam === 'home') || (!isHome && result.forfeitTeam === 'away')) {
+                            outcome = '<i class="fas fa-exclamation-triangle"></i> F';
+                            outcomeColor = '#e74c3c';
+                            resultText = 'FORFEIT';
+                        } else {
+                            outcome = '<i class="fas fa-trophy"></i> W';
+                            outcomeColor = '#27ae60';
+                            resultText = 'WIN (Opponent Forfeit)';
+                        }
+                    } else {
+                        if (teamScore > opponentScore) {
+                            outcome = '<i class="fas fa-trophy"></i> W';
+                            outcomeColor = '#27ae60';
+                            resultText = `${teamScore} - ${opponentScore}`;
+                        } else {
+                            outcome = '<i class="fas fa-times-circle"></i> L';
+                            outcomeColor = '#e74c3c';
+                            resultText = `${teamScore} - ${opponentScore}`;
+                        }
+                    }
+                    
+                    html += `
+                        <div style="display: flex; justify-content: space-between; align-items: center; padding: 1rem; background: rgba(255,255,255,0.1); margin: 0.5rem 0; border-radius: 15px;">
+                            <span>${isHome ? '<i class="fas fa-home"></i> vs' : '<i class="fas fa-route"></i> @'} ${opponent}</span>
+                            <span><strong>${resultText}</strong></span>
+                            <span style="background: ${outcomeColor}; padding: 0.3rem 0.8rem; border-radius: 8px; font-weight: bold;">${outcome}</span>
+                        </div>
+                    `;
+                });
             } else {
-                if (teamScore > opponentScore) {
-                    outcome = '<i class="fas fa-trophy"></i> W';
-                    outcomeColor = '#27ae60';
-                    resultText = `${teamScore} - ${opponentScore}`;
-                } else {
-                    outcome = '<i class="fas fa-times-circle"></i> L';
-                    outcomeColor = '#e74c3c';
-                    resultText = `${teamScore} - ${opponentScore}`;
-                }
+                html += '<p style="text-align: center;">📭 No games played yet.</p>';
             }
             
             html += `
-                <div style="display: flex; justify-content: space-between; align-items: center; padding: 1rem; background: rgba(255,255,255,0.1); margin: 0.5rem 0; border-radius: 15px;">
-                    <span>${isHome ? '<i class="fas fa-home"></i> vs' : '<i class="fas fa-route"></i> @'} ${opponent}</span>
-                    <span><strong>${resultText}</strong></span>
-                    <span style="background: ${outcomeColor}; padding: 0.3rem 0.8rem; border-radius: 8px; font-weight: bold;">${outcome}</span>
+                <div style="margin-top: 2rem; padding: 1.5rem; background: rgba(255,255,255,0.1); border-radius: 15px; text-align: center;">
+                    <h4><i class="fas fa-trophy"></i> Point System:</h4>
+                    <p><i class="fas fa-trophy" style="color: #27ae60;"></i> <strong style="color: #27ae60;">2 Points</strong> for a Win</p>
+                    <p><i class="fas fa-medal" style="color: #f39c12;"></i> <strong style="color: #f39c12;">1 Point</strong> for a Loss</p>
+                    <p><i class="fas fa-exclamation-triangle" style="color: #e74c3c;"></i> <strong style="color: #e74c3c;">0 Points</strong> for a Forfeit</p>
                 </div>
             `;
-        });
-    } else {
-        html += '<p style="text-align: center;">📭 No games played yet.</p>';
-    }
-    
-    html += `
-        <div style="margin-top: 2rem; padding: 1.5rem; background: rgba(255,255,255,0.1); border-radius: 15px; text-align: center;">
-            <h4><i class="fas fa-trophy"></i> Point System:</h4>
-            <p><i class="fas fa-trophy" style="color: #27ae60;"></i> <strong style="color: #27ae60;">2 Points</strong> for a Win</p>
-            <p><i class="fas fa-medal" style="color: #f39c12;"></i> <strong style="color: #f39c12;">1 Point</strong> for a Loss</p>
-            <p><i class="fas fa-exclamation-triangle" style="color: #e74c3c;"></i> <strong style="color: #e74c3c;">0 Points</strong> for a Forfeit</p>
-        </div>
-    `;
-    
-    detailsContainer.innerHTML = html;
-    modal.style.display = 'block';
-}
+            
+            detailsContainer.innerHTML = html;
+            modal.style.display = 'block';
+        }
+
         // Utility functions
         function getDivisionName(division) {
             const names = {
@@ -1729,9 +1862,11 @@ async function showTeamDetails(division, teamName) {
             };
             return names[division] || division;
         }
+
         function closeModal(modalId) {
             document.getElementById(modalId).style.display = 'none';
         }
+
         // Close modal when clicking outside
         window.onclick = function(event) {
             const modals = document.querySelectorAll('.modal');
@@ -1741,8 +1876,6 @@ async function showTeamDetails(division, teamName) {
                 }
             });
         }
-
-        
     </script>
 </body>
 </html>
