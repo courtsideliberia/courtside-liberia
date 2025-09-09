@@ -921,22 +921,25 @@
         <div id="admin-panel" class="admin-panel">
             <h2 class="section-title">Admin Panel</h2>
             <div class="admin-tabs">
-                <button class="admin-tab active" onclick="showAdminTab('news')">
-                    <i class="fas fa-newspaper"></i> Manage News
-                </button>
-                <button class="admin-tab" onclick="showAdminTab('teams')">
-                    <i class="fas fa-users"></i> Manage Teams
-                </button>
-                <button class="admin-tab" onclick="showAdminTab('fixtures')">
-                    <i class="fas fa-calendar-plus"></i> Add Fixtures
-                </button>
-                <button class="admin-tab" onclick="showAdminTab('matches')">
-                    <i class="fas fa-trophy"></i> Add Results
-                </button>
-                <button class="admin-tab" onclick="showAdminTab('settings')">
-                    <i class="fas fa-cog"></i> Settings
-                </button>
-            </div>
+    <button class="admin-tab active" onclick="showAdminTab('news')">
+        <i class="fas fa-newspaper"></i> Manage News
+    </button>
+    <button class="admin-tab" onclick="showAdminTab('teams')">
+        <i class="fas fa-users"></i> Manage Teams
+    </button>
+    <button class="admin-tab" onclick="showAdminTab('fixtures')">
+        <i class="fas fa-calendar-plus"></i> Add Fixtures
+    </button>
+    <button class="admin-tab" onclick="showAdminTab('matches')">
+        <i class="fas fa-trophy"></i> Add Results
+    </button>
+    <button class="admin-tab" onclick="showAdminTab('results')">
+        <i class="fas fa-clipboard-list"></i> Manage Results
+    </button>
+    <button class="admin-tab" onclick="showAdminTab('settings')">
+        <i class="fas fa-cog"></i> Settings
+    </button>
+</div>
             <!-- News Management -->
             <div id="admin-news" class="admin-content active">
                 <h3><i class="fas fa-newspaper"></i> News Management</h3>
@@ -1097,6 +1100,24 @@
                         </button>
                     </div>
                 </div>
+            </div>
+<!-- Results Management -->
+            <div id="admin-results" class="admin-content">
+                <h3><i class="fas fa-clipboard-list"></i> Results Management</h3>
+                <div class="filter-section">
+                    <div class="form-group">
+                        <label class="form-label">Filter by Division</label>
+                        <select id="admin-results-division-filter" class="form-select" onchange="renderAdminResults()">
+                            <option value="all">All Divisions</option>
+                            <option value="first">First Division</option>
+                            <option value="second">Second Division</option>
+                            <option value="female">Female Division</option>
+                            <option value="third-jj">Third Division - JJ Roberts</option>
+                            <option value="third-ej">Third Division - EJ Roye</option>
+                        </select>
+                    </div>
+                </div>
+                <div id="admin-results-list"></div>
             </div>
             <!-- Settings Management -->
             <div id="admin-settings" class="admin-content">
@@ -1525,6 +1546,25 @@
             } catch (error) {
                 console.error("Error adding team:", error);
                 alert('Error adding team. Please try again.');
+            }
+        }
+        async function removeResult(resultId) {
+            if (!confirm('Are you sure you want to remove this match result? This will revert it to a scheduled fixture.')) {
+                return;
+            }
+            try {
+                // Update the fixture to mark it as not played and remove all score/result data
+                await db.collection("fixtures").doc(resultId).update({
+                    played: false,
+                    homeScore: firebase.firestore.FieldValue.delete(),
+                    awayScore: firebase.firestore.FieldValue.delete(),
+                    forfeit: firebase.firestore.FieldValue.delete(),
+                    forfeitTeam: firebase.firestore.FieldValue.delete()
+                });
+                alert('Match result removed successfully!');
+            } catch (error) {
+                console.error("Error removing result:", error);
+                alert('Error removing result. Please try again.');
             }
         }
         async function removeTeam(teamId) {
@@ -2200,6 +2240,7 @@
             const panel = document.getElementById('admin-panel');
             panel.classList.toggle('show');
         }
+        
         function showAdminTab(tabName) {
             // Update tab buttons
             document.querySelectorAll('.admin-tab').forEach(tab => {
@@ -2219,8 +2260,67 @@
                 updateMatchTeams();
             } else if (tabName === 'news') {
                 renderAdminNews();
+            } else if (tabName === 'results') {
+                // Add a small delay to ensure data is loaded
+                setTimeout(() => {
+                    renderAdminResults();
+                }, 500);
             }
         }
+        
+        // NEW FUNCTION: Render Admin Results
+        function renderAdminResults() {
+            const container = document.getElementById('admin-results-list');
+            const selectedDivision = document.getElementById('admin-results-division-filter').value;
+            
+            // Check if we have results data
+            if (!appData.results || appData.results.length === 0) {
+                container.innerHTML = '<p style="text-align: center; opacity: 0.7;">No results loaded yet.</p>';
+                return;
+            }
+            
+            let results = appData.results.filter(r => r.played);
+            if (selectedDivision !== 'all') {
+                results = results.filter(r => r.division === selectedDivision);
+            }
+            // Sort by date (newest first)
+            results.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+            let html = '<h4><i class="fas fa-clipboard-list"></i> Recorded Results:</h4>';
+            if (results.length === 0) {
+                html += '<p style="text-align: center; opacity: 0.7;">No results recorded for this division.</p>';
+            } else {
+                results.forEach(result => {
+                    let resultText;
+                    if (result.forfeit) {
+                        const forfeitingTeam = result.forfeitTeam === 'home' ? result.homeTeam : result.awayTeam;
+                        resultText = `FORFEIT by ${forfeitingTeam}`;
+                    } else {
+                        resultText = `${result.homeScore} - ${result.awayScore}`;
+                    }
+
+                    html += `
+                        <div class="card" style="margin-bottom: 1rem;">
+                            <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem;">
+                                <div style="flex: 1;">
+                                    <strong><i class="fas fa-medal"></i> ${getDivisionName(result.division)}</strong><br>
+                                    <span>${result.homeTeam} vs ${result.awayTeam}</span><br>
+                                    <small><i class="fas fa-calendar-alt"></i> ${result.date}</small><br>
+                                    <span><strong>Result:</strong> ${resultText}</span>
+                                </div>
+                                <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                                    <button class="btn btn-danger" style="padding: 0.5rem 1rem; font-size: 0.8rem;" onclick="removeResult('${result.id}')">
+                                        <i class="fas fa-trash"></i> Remove Result
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+            container.innerHTML = html;
+        }
+        
         // Utility Functions
         function getDivisionName(division) {
             const names = {
