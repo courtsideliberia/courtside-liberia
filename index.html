@@ -31,6 +31,89 @@
             color: var(--text-light);
             line-height: 1.6;
         }
+        /* Stage Indicators */
+        .stage-indicator {
+            display: inline-block;
+            padding: 0.3rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .stage-completed {
+            background: linear-gradient(45deg, #4CAF50, #45a049);
+            color: white;
+        }
+        .stage-ongoing {
+            background: linear-gradient(45deg, #FF9800, #F57C00);
+            color: white;
+            animation: pulse 2s infinite;
+        }
+        .stage-upcoming {
+            background: linear-gradient(45deg, #2196F3, #1976D2);
+            color: white;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        /* Progress Timeline */
+        .progress-timeline {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 2rem 0;
+            padding: 2rem;
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            position: relative;
+        }
+        .progress-timeline::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 5%;
+            right: 5%;
+            height: 4px;
+            background: linear-gradient(90deg, #4CAF50, #FF9800, #2196F3);
+            border-radius: 2px;
+            z-index: 1;
+        }
+        .timeline-stage {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--primary-gradient);
+            padding: 1rem;
+            border-radius: 50%;
+            z-index: 2;
+            position: relative;
+            min-width: 100px;
+            text-align: center;
+        }
+        .timeline-icon {
+            font-size: 1.5rem;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 0.5rem;
+        }
+        .timeline-completed .timeline-icon {
+            background: #4CAF50;
+        }
+        .timeline-active .timeline-icon {
+            background: #FF9800;
+            animation: pulse 2s infinite;
+        }
+        .timeline-upcoming .timeline-icon {
+            background: rgba(255, 255, 255, 0.2);
+        }
         /* Header & Navigation */
         .header {
             background: rgba(15, 27, 60, 0.95);
@@ -591,41 +674,12 @@
             .mobile-menu-toggle {
                 display: block;
             }
-            .hero {
-                padding: 2rem 0 4rem;
-            }
-            .section {
-                padding: 2rem 0;
-            }
-            .main-content {
-                padding: 0 1rem;
-            }
-            .team-vs {
+            .progress-timeline {
                 flex-direction: column;
-                text-align: center;
                 gap: 1rem;
             }
-            .vs-divider {
-                order: 2;
-            }
-            .table-container {
-                overflow-x: auto;
-            }
-            .table th,
-            .table td {
-                padding: 0.5rem;
-                font-size: 0.9rem;
-                white-space: nowrap;
-            }
-            .modal-content {
-                width: 95%;
-                padding: 1.5rem;
-            }
-            .admin-tabs {
-                flex-direction: column;
-            }
-            .grid {
-                gap: 1rem;
+            .progress-timeline::before {
+                display: none;
             }
         }
         /* Loading States */
@@ -648,7 +702,6 @@
         }
         /* Utility Classes */
         .text-center { text-align: center; }
-        .text-right { text-align: right; }
         .hidden { display: none !important; }
         .mb-1 { margin-bottom: 1rem; }
         .mb-2 { margin-bottom: 2rem; }
@@ -737,33 +790,49 @@
         <!-- Home Section -->
         <section id="home" class="section active">
             <div class="section-title">Welcome to Courtside Liberia! We Live For The Culture! 231</div>
-            <div class="grid grid-3">
-                <div class="card" onclick="showSection('news')">
-                    <div class="card-title">
-                        <i class="fas fa-newspaper"></i>
-                        Latest News
-                    </div>
-                    <div class="card-content">
-                        Stay updated with the latest basketball news, player transfers, and league announcements
-                    </div>
+            <!-- Progress Timeline for First Division -->
+            <div class="progress-timeline">
+                <div class="timeline-stage timeline-completed">
+                    <div class="timeline-icon"><i class="fas fa-flag-checkered"></i></div>
+                    <span class="stage-indicator stage-completed">Regular Season</span>
+                    <small>Complete</small>
                 </div>
+                <div class="timeline-stage timeline-active">
+                    <div class="timeline-icon"><i class="fas fa-trophy"></i></div>
+                    <span class="stage-indicator stage-ongoing">Big Six</span>
+                    <small>Starts Today 5:30 PM</small>
+                </div>
+                <div class="timeline-stage timeline-upcoming">
+                    <div class="timeline-icon"><i class="fas fa-crown"></i></div>
+                    <span class="stage-indicator stage-upcoming">Finals</span>
+                    <small>Coming Soon</small>
+                </div>
+            </div>
+            <!-- Division Cards with Status -->
+            <div class="grid grid-3">
                 <div class="card" onclick="showSection('divisions')">
                     <div class="card-title">
-                        <i class="fas fa-trophy"></i>
-                        League Divisions
+                        <i class="fas fa-users"></i>
+                        Second Division
                     </div>
                     <div class="card-content">
-                        Explore all divisions from First Division to Development leagues across Liberia
+                        Eighteen teams in two sub-divisions. Top teams advance to Super Six.
+                        <div class="mt-1">
+                            <span class="stage-indicator stage-ongoing">Season Ongoing</span>
+                        </div>
                     </div>
                 </div>
-                <div class="card" onclick="showSection('fixtures')">
-                    <div class="card-title">
-                        <i class="fas fa-calendar-alt"></i>
-                        Upcoming Fixtures
-                    </div>
-                    <div class="card-content">
-                        Check out upcoming matches and schedule your viewing plans
-                    </div>
+            </div>
+            <!-- Big Six Announcement -->
+            <div class="card text-center mt-2">
+                <div class="card-title">
+                    <i class="fas fa-fire"></i>
+                    First Division Big Six
+                </div>
+                <div class="card-content">
+                    <h3>Big Six Round Robin Starts Today at 5:30 PM!</h3>
+                    <p style="margin: 1rem 0;">Top 6 teams from regular season compete for Big Four playoff spots. Top 4 teams advance.</p>
+                    <span class="stage-indicator stage-ongoing">Live Today</span>
                 </div>
             </div>
             <!-- Latest News Preview -->
@@ -830,6 +899,10 @@
                     </div>
                     <div class="card-content">
                         Premier teams competing at the highest level of Liberian basketball
+                        <div class="mt-1">
+                            <span class="stage-indicator stage-completed">Regular Season Complete</span>
+                            <span class="stage-indicator stage-ongoing">Big Six Active</span>
+                        </div>
                     </div>
                 </div>
                 <div class="card" onclick="showDivisionDetails('second')">
@@ -839,6 +912,9 @@
                     </div>
                     <div class="card-content">
                         Rising teams seeking promotion to the premier division
+                        <div class="mt-1">
+                            <span class="stage-indicator stage-ongoing">Season Ongoing</span>
+                        </div>
                     </div>
                 </div>
                 <div class="card" onclick="showDivisionDetails('female')">
@@ -848,6 +924,9 @@
                     </div>
                     <div class="card-content">
                         Women's professional basketball league promoting female excellence
+                        <div class="mt-1">
+                            <span class="stage-indicator stage-ongoing">Season Ongoing</span>
+                        </div>
                     </div>
                 </div>
                 <div class="card" onclick="showDivisionDetails('third-jj')">
@@ -857,6 +936,9 @@
                     </div>
                     <div class="card-content">
                         Development league - JJ Roberts Conference for emerging talent
+                        <div class="mt-1">
+                            <span class="stage-indicator stage-ongoing">Season Ongoing</span>
+                        </div>
                     </div>
                 </div>
                 <div class="card" onclick="showDivisionDetails('third-ej')">
@@ -866,6 +948,9 @@
                     </div>
                     <div class="card-content">
                         Development league - EJ Roye Conference for emerging talent
+                        <div class="mt-1">
+                            <span class="stage-indicator stage-ongoing">Season Ongoing</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -876,6 +961,60 @@
                 <i class="fas fa-arrow-left"></i> Back to Divisions
             </button>
             <div id="division-title" class="section-title">Division Details</div>
+            <!-- Playoff Progression Container -->
+            <div id="playoff-progression" class="hidden">
+                <!-- Regular Season Final Standings -->
+                <div class="card mb-2">
+                    <div class="card-title">
+                        <i class="fas fa-chart-line"></i>
+                        Regular Season Final Standings
+                    </div>
+                    <div id="regular-season-table"></div>
+                </div>
+                <!-- Current Playoff Stage -->
+                <div class="card mb-2">
+                    <div class="card-title">
+                        <i class="fas fa-trophy"></i>
+                        <span id="current-stage-title">Big Six Round Robin</span>
+                        <span class="stage-indicator stage-ongoing">Active</span>
+                    </div>
+                    <div class="card-content">
+                        <p id="current-stage-description">Top 6 teams compete in round robin format. Top 4 advance to Big Four playoffs.</p>
+                        <div id="current-stage-table"></div>
+                    </div>
+                </div>
+                <!-- Next Playoff Stage -->
+                <div class="card mb-2">
+                    <div class="card-title">
+                        <i class="fas fa-fire"></i>
+                        <span id="next-stage-title">Big Four Playoffs</span>
+                        <span class="stage-indicator stage-upcoming">Upcoming</span>
+                    </div>
+                    <div class="card-content">
+                        <p id="next-stage-description">Best of 3 or 5 series format. Top 2 teams advance to finals.</p>
+                        <div id="next-stage-bracket">
+                            <div class="text-center">
+                                <p><em>Teams will be determined from Big Six results</em></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Finals Stage -->
+                <div class="card mb-2">
+                    <div class="card-title">
+                        <i class="fas fa-crown"></i>
+                        Championship Finals
+                        <span class="stage-indicator stage-upcoming">Upcoming</span>
+                    </div>
+                    <div class="card-content">
+                        <p>Best of 3 or 5 series to determine the division champion.</p>
+                        <div class="text-center">
+                            <p><em>Finalists will be determined from Big Four playoffs</em></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Regular Teams Display -->
             <div id="division-teams" class="grid grid-4"></div>
             <button id="standings-btn" class="btn btn-primary mt-2">
                 <i class="fas fa-chart-line"></i> View Standings
@@ -921,25 +1060,25 @@
         <div id="admin-panel" class="admin-panel">
             <h2 class="section-title">Admin Panel</h2>
             <div class="admin-tabs">
-    <button class="admin-tab active" onclick="showAdminTab('news')">
-        <i class="fas fa-newspaper"></i> Manage News
-    </button>
-    <button class="admin-tab" onclick="showAdminTab('teams')">
-        <i class="fas fa-users"></i> Manage Teams
-    </button>
-    <button class="admin-tab" onclick="showAdminTab('fixtures')">
-        <i class="fas fa-calendar-plus"></i> Add Fixtures
-    </button>
-    <button class="admin-tab" onclick="showAdminTab('matches')">
-        <i class="fas fa-trophy"></i> Add Results
-    </button>
-    <button class="admin-tab" onclick="showAdminTab('results')">
-        <i class="fas fa-clipboard-list"></i> Manage Results
-    </button>
-    <button class="admin-tab" onclick="showAdminTab('settings')">
-        <i class="fas fa-cog"></i> Settings
-    </button>
-</div>
+                <button class="admin-tab active" onclick="showAdminTab('news')">
+                    <i class="fas fa-newspaper"></i> Manage News
+                </button>
+                <button class="admin-tab" onclick="showAdminTab('teams')">
+                    <i class="fas fa-users"></i> Manage Teams
+                </button>
+                <button class="admin-tab" onclick="showAdminTab('fixtures')">
+                    <i class="fas fa-calendar-plus"></i> Add Fixtures
+                </button>
+                <button class="admin-tab" onclick="showAdminTab('matches')">
+                    <i class="fas fa-trophy"></i> Add Results
+                </button>
+                <button class="admin-tab" onclick="showAdminTab('results')">
+                    <i class="fas fa-clipboard-list"></i> Manage Results
+                </button>
+                <button class="admin-tab" onclick="showAdminTab('settings')">
+                    <i class="fas fa-cog"></i> Settings
+                </button>
+            </div>
             <!-- News Management -->
             <div id="admin-news" class="admin-content active">
                 <h3><i class="fas fa-newspaper"></i> News Management</h3>
@@ -1101,7 +1240,7 @@
                     </div>
                 </div>
             </div>
-<!-- Results Management -->
+            <!-- Results Management -->
             <div id="admin-results" class="admin-content">
                 <h3><i class="fas fa-clipboard-list"></i> Results Management</h3>
                 <div class="filter-section">
@@ -1114,7 +1253,7 @@
                             <option value="female">Female Division</option>
                             <option value="third-jj">Third Division - JJ Roberts</option>
                             <option value="third-ej">Third Division - EJ Roye</option>
-                        </select>
+                    </select>
                     </div>
                 </div>
                 <div id="admin-results-list"></div>
@@ -1271,10 +1410,201 @@
         }
         function showDivisionDetails(division) {
             document.getElementById('division-title').innerHTML = `<i class="fas fa-trophy"></i> ${getDivisionName(division)}`;
-            renderDivisionTeams(division);
+            // Show playoff progression for First Division (regular season complete)
+            if (division === 'first') {
+                showPlayoffProgression(division);
+            } else {
+                hidePlayoffProgression();
+                renderDivisionTeams(division);
+            }
             const standingsBtn = document.getElementById('standings-btn');
             standingsBtn.onclick = function() { showDivisionStandings(division); };
             showSection('division-details');
+        }
+        function showPlayoffProgression(division) {
+            document.getElementById('playoff-progression').classList.remove('hidden');
+            document.getElementById('division-teams').classList.add('hidden');
+            document.getElementById('standings-btn').classList.add('hidden');
+            // Load and display regular season final standings
+            loadRegularSeasonStandings(division);
+            // Update stage info based on division
+            updatePlayoffStageInfo(division);
+        }
+        function hidePlayoffProgression() {
+            document.getElementById('playoff-progression').classList.add('hidden');
+            document.getElementById('division-teams').classList.remove('hidden');
+            document.getElementById('standings-btn').classList.remove('hidden');
+        }
+        function updatePlayoffStageInfo(division) {
+            const currentStageTitle = document.getElementById('current-stage-title');
+            const currentStageDescription = document.getElementById('current-stage-description');
+            const nextStageTitle = document.getElementById('next-stage-title');
+            const nextStageDescription = document.getElementById('next-stage-description');
+            if (division === 'first') {
+                currentStageTitle.textContent = 'Big Six Round Robin';
+                currentStageDescription.textContent = 'Top 6 teams from regular season compete in round robin format. Top 4 teams advance to Big Four playoffs.';
+                nextStageTitle.textContent = 'Big Four Playoffs';
+                nextStageDescription.textContent = 'Best of 3 or 5 series format. Top 2 teams advance to championship finals.';
+            }
+        }
+        function loadRegularSeasonStandings(division) {
+            const teams = appData.teams[division] || [];
+            const divisionResults = appData.results.filter(r => r.division === division && r.played);
+            // Calculate final standings
+            const standings = teams.map(team => {
+                const teamName = team.name;
+                const teamResults = divisionResults.filter(result => 
+                    result.homeTeam === teamName || result.awayTeam === teamName
+                );
+                let wins = 0, losses = 0, forfeits = 0, pointsFor = 0, pointsAgainst = 0;
+                teamResults.forEach(result => {
+                    const isHome = result.homeTeam === teamName;
+                    const teamScore = isHome ? result.homeScore : result.awayScore;
+                    const opponentScore = isHome ? result.awayScore : result.homeScore;
+                    pointsFor += teamScore;
+                    pointsAgainst += opponentScore;
+                    if (result.forfeit) {
+                        if ((isHome && result.forfeitTeam === 'home') || (!isHome && result.forfeitTeam === 'away')) {
+                            forfeits++;
+                        } else {
+                            wins++;
+                        }
+                    } else {
+                        if (teamScore > opponentScore) {
+                            wins++;
+                        } else {
+                            losses++;
+                        }
+                    }
+                });
+                const totalPoints = (wins * 2) + (losses * 1) + (forfeits * 0);
+                return {
+                    team: teamName,
+                    played: teamResults.length,
+                    wins,
+                    losses,
+                    forfeits,
+                    pointsFor,
+                    pointsAgainst,
+                    pointsDiff: pointsFor - pointsAgainst,
+                    points: totalPoints
+                };
+            });
+            // Sort standings
+            standings.sort((a, b) => {
+                if (b.points !== a.points) return b.points - a.points;
+                if (b.pointsDiff !== a.pointsDiff) return b.pointsDiff - a.pointsDiff;
+                return b.pointsFor - a.pointsFor;
+            });
+            // Display regular season table
+            displayRegularSeasonTable(standings, division);
+            // Display current playoff stage teams if (division === 'first') {
+            if (division === 'first') {
+                displayBigSixTable(standings.slice(0, 6));
+            }
+        }
+        function displayRegularSeasonTable(standings, division) {
+            const container = document.getElementById('regular-season-table');
+            let html = `
+                <div class="table-container">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Pos</th>
+                                <th>Team</th>
+                                <th>P</th>
+                                <th>W</th>
+                                <th>L</th>
+                                <th>F</th>
+                                <th>PF</th>
+                                <th>PA</th>
+                                <th>PD</th>
+                                <th>Pts</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+            `;
+            standings.forEach((team, index) => {
+                let statusBadge = '';
+                if (division === 'first') {
+                    if (index < 6) {
+                        statusBadge = '<span class="stage-indicator stage-ongoing">Big Six</span>';
+                    } else {
+                        statusBadge = '<span style="opacity: 0.5;">Eliminated</span>';
+                    }
+                }
+                html += `
+                    <tr style="cursor: pointer;" onclick="showTeamDetails('${division}', '${team.team}')">
+                        <td><strong>${index + 1}</strong></td>
+                        <td>
+                            <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                ${getTeamLogo(division, team.team)}
+                                <span>${team.team}</span>
+                            </div>
+                        </td>
+                        <td>${team.played}</td>
+                        <td class="status-win">${team.wins}</td>
+                        <td class="status-loss">${team.losses}</td>
+                        <td class="status-forfeit">${team.forfeits}</td>
+                        <td>${team.pointsFor}</td>
+                        <td>${team.pointsAgainst}</td>
+                        <td class="${team.pointsDiff >= 0 ? 'status-win' : 'status-loss'}">${team.pointsDiff >= 0 ? '+' : ''}${team.pointsDiff}</td>
+                        <td style="font-weight: bold; color: var(--accent-color);">${team.points}</td>
+                        <td>${statusBadge}</td>
+                    </tr>
+                `;
+            });
+            html += `
+                        </tbody>
+                    </table>
+                </div>
+            `;
+            container.innerHTML = html;
+        }
+        function displayBigSixTable(bigSixTeams) {
+            const container = document.getElementById('current-stage-table');
+            let html = `
+                <h4 style="margin-bottom: 1rem;">Big Six Qualified Teams</h4>
+                <div class="table-container">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Seed</th>
+                                <th>Team</th>
+                                <th>Regular Season</th>
+                                <th>Big Six Record</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+            `;
+            bigSixTeams.forEach((team, index) => {
+                html += `
+                    <tr>
+                        <td><strong>${index + 1}</strong></td>
+                        <td>
+                            <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                ${getTeamLogo('first', team.team)}
+                                <span>${team.team}</span>
+                            </div>
+                        </td>
+                        <td>${team.wins}-${team.losses}-${team.forfeits}</td>
+                        <td><em>TBD</em></td>
+                        <td><span class="stage-indicator stage-ongoing">Big Six</span></td>
+                    </tr>
+                `;
+            });
+            html += `
+                        </tbody>
+                    </table>
+                </div>
+                <div class="text-center mt-1">
+                    <p><strong>Big Six Round Robin starts today at 5:30 PM</strong></p>
+                    <p><em>Top 4 teams will advance to Big Four Playoffs</em></p>
+                </div>
+            `;
+            container.innerHTML = html;
         }
         // Data Loading Functions
         function loadAllData() {
@@ -1286,7 +1616,6 @@
         }
         function loadTeams() {
             db.collection("teams").onSnapshot((snapshot) => {
-                // Reset teams data
                 Object.keys(appData.teams).forEach(division => {
                     appData.teams[division] = [];
                 });
@@ -1294,7 +1623,6 @@
                     const team = { id: doc.id, ...doc.data() };
                     if (appData.teams[team.division]) {
                         appData.teams[team.division].push(team);
-                        // Store team logo if exists
                         if (team.logo) {
                             appData.settings.teamLogos[`${team.division}-${team.name}`] = team.logo;
                         }
@@ -1324,24 +1652,10 @@
                     snapshot.forEach((doc) => {
                         appData.results.push({ id: doc.id, ...doc.data() });
                     });
-                    // Sort by date (newest first)
                     appData.results.sort((a, b) => new Date(b.date) - new Date(a.date));
                     renderResults();
+                    renderAdminResults();
                     updateQuickStats();
-                }, (error) => {
-                    console.warn("Error loading results:", error);
-                    // Fallback without ordering
-                    db.collection("fixtures")
-                        .where("played", "==", true)
-                        .onSnapshot((snapshot) => {
-                            appData.results = [];
-                            snapshot.forEach((doc) => {
-                                appData.results.push({ id: doc.id, ...doc.data() });
-                            });
-                            appData.results.sort((a, b) => new Date(b.date) - new Date(a.date));
-                            renderResults();
-                            updateQuickStats();
-                        });
                 });
         }
         function loadNews() {
@@ -1356,14 +1670,12 @@
             });
         }
         function loadSettings() {
-            // Load main logo
             db.collection("settings").doc("mainLogo").get().then((doc) => {
                 if (doc.exists && doc.data().data) {
                     appData.settings.mainLogo = doc.data().data;
                     updateMainLogo(doc.data().data);
                 }
             });
-            // Load cover photo
             db.collection("settings").doc("coverPhoto").get().then((doc) => {
                 if (doc.exists && doc.data().data) {
                     appData.settings.coverPhoto = doc.data().data;
@@ -1371,13 +1683,13 @@
                 }
             });
         }
-        // Image Handling (Base64)
+        // Image Handling
         function handleImageUpload(inputId, previewId) {
             const input = document.getElementById(inputId);
             const preview = document.getElementById(previewId);
             const file = input.files[0];
             if (file) {
-                if (file.size > 5 * 1024 * 1024) { // 5MB limit
+                if (file.size > 5 * 1024 * 1024) {
                     alert('File size must be less than 5MB');
                     input.value = '';
                     return;
@@ -1419,7 +1731,6 @@
                     timestamp: firebase.firestore.FieldValue.serverTimestamp(),
                     date: new Date().toISOString().split('T')[0]
                 });
-                // Clear form
                 document.getElementById('news-title').value = '';
                 document.getElementById('news-content').value = '';
                 document.getElementById('news-image').value = '';
@@ -1523,7 +1834,6 @@
                 alert('Please enter a team name');
                 return;
             }
-            // Check if team already exists
             const existingTeam = appData.teams[division].find(team => team.name === name);
             if (existingTeam) {
                 alert('Team name already exists in this division');
@@ -1536,7 +1846,6 @@
                     logo: logoData || null,
                     timestamp: firebase.firestore.FieldValue.serverTimestamp()
                 });
-                // Clear form
                 document.getElementById('team-name').value = '';
                 document.getElementById('team-logo').value = '';
                 document.getElementById('team-logo-preview').innerHTML = '<span>Select team logo</span>';
@@ -1548,52 +1857,16 @@
                 alert('Error adding team. Please try again.');
             }
         }
-        async function removeResult(resultId) {
-            if (!confirm('Are you sure you want to remove this match result? This will revert it to a scheduled fixture.')) {
-                return;
-            }
-            try {
-                // Update the fixture to mark it as not played and remove all score/result data
-                await db.collection("fixtures").doc(resultId).update({
-                    played: false,
-                    homeScore: firebase.firestore.FieldValue.delete(),
-                    awayScore: firebase.firestore.FieldValue.delete(),
-                    forfeit: firebase.firestore.FieldValue.delete(),
-                    forfeitTeam: firebase.firestore.FieldValue.delete()
-                });
-                alert('Match result removed successfully!');
-            } catch (error) {
-                console.error("Error removing result:", error);
-                alert('Error removing result. Please try again.');
-            }
-        }
         async function removeTeam(teamId) {
             if (!confirm('Are you sure you want to remove this team?')) {
                 return;
             }
             try {
                 await db.collection("teams").doc(teamId).delete();
-                // Also remove related fixtures and results
-                await removeTeamFixturesAndResults(teamId);
                 alert('Team removed successfully!');
             } catch (error) {
                 console.error("Error removing team:", error);
                 alert('Error removing team. Please try again.');
-            }
-        }
-        async function removeTeamFixturesAndResults(teamName) {
-            // Remove fixtures
-            const fixturesQuery = await db.collection("fixtures")
-                .where("homeTeam", "==", teamName)
-                .get();
-            for (const doc of fixturesQuery.docs) {
-                await doc.ref.delete();
-            }
-            const fixturesQuery2 = await db.collection("fixtures")
-                .where("awayTeam", "==", teamName)
-                .get();
-            for (const doc of fixturesQuery2.docs) {
-                await doc.ref.delete();
             }
         }
         function renderDivisionTeams(division) {
@@ -1651,11 +1924,7 @@
             container.innerHTML = html;
         }
         function updateTeamSelects() {
-            // Update fixture team selects
-            const fixtureDiv = document.getElementById('fixture-division').value;
             updateFixtureTeams();
-            // Update match team selects
-            const matchDiv = document.getElementById('match-division').value;
             updateMatchTeams();
         }
         function updateFixtureTeams() {
@@ -1707,7 +1976,6 @@
                     played: false,
                     timestamp: firebase.firestore.FieldValue.serverTimestamp()
                 });
-                // Clear form
                 document.getElementById('fixture-date').value = '';
                 document.getElementById('fixture-time').value = '';
                 alert("Fixture added successfully!");
@@ -1843,7 +2111,6 @@
                 resultData.awayScore = forfeitTeam === "away" ? 0 : 20;
             }
             try {
-                // Check if fixture exists and update it, otherwise create new result
                 const querySnapshot = await db.collection("fixtures")
                     .where("division", "==", division)
                     .where("homeTeam", "==", homeTeam)
@@ -1856,7 +2123,6 @@
                 } else {
                     await db.collection("fixtures").add(resultData);
                 }
-                // Clear form
                 document.getElementById('match-home-score').value = '';
                 document.getElementById('match-away-score').value = '';
                 document.getElementById('match-date').value = '';
@@ -1918,6 +2184,69 @@
                             </div>
                             <div class="match-result">
                                 <span class="${winnerClass}"><i class="fas fa-trophy"></i> ${winnerText}</span>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+            container.innerHTML = html;
+        }
+        async function removeResult(resultId) {
+            if (!confirm('Are you sure you want to remove this match result? This will revert it to a scheduled fixture.')) {
+                return;
+            }
+            try {
+                await db.collection("fixtures").doc(resultId).update({
+                    played: false,
+                    homeScore: firebase.firestore.FieldValue.delete(),
+                    awayScore: firebase.firestore.FieldValue.delete(),
+                    forfeit: firebase.firestore.FieldValue.delete(),
+                    forfeitTeam: firebase.firestore.FieldValue.delete()
+                });
+                alert('Match result removed successfully!');
+            } catch (error) {
+                console.error("Error removing result:", error);
+                alert('Error removing result. Please try again.');
+            }
+        }
+        function renderAdminResults() {
+            const container = document.getElementById('admin-results-list');
+            const selectedDivision = document.getElementById('admin-results-division-filter').value;
+            if (!appData.results || appData.results.length === 0) {
+                container.innerHTML = '<p style="text-align: center; opacity: 0.7;">No results loaded yet.</p>';
+                return;
+            }
+            let results = appData.results.filter(r => r.played);
+            if (selectedDivision !== 'all') {
+                results = results.filter(r => r.division === selectedDivision);
+            }
+            results.sort((a, b) => new Date(b.date) - new Date(a.date));
+            let html = '<h4><i class="fas fa-clipboard-list"></i> Recorded Results:</h4>';
+            if (results.length === 0) {
+                html += '<p style="text-align: center; opacity: 0.7;">No results recorded for this division.</p>';
+            } else {
+                results.forEach(result => {
+                    let resultText;
+                    if (result.forfeit) {
+                        const forfeitingTeam = result.forfeitTeam === 'home' ? result.homeTeam : result.awayTeam;
+                        resultText = `FORFEIT by ${forfeitingTeam}`;
+                    } else {
+                        resultText = `${result.homeScore} - ${result.awayScore}`;
+                    }
+                    html += `
+                        <div class="card" style="margin-bottom: 1rem;">
+                            <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem;">
+                                <div style="flex: 1;">
+                                    <strong><i class="fas fa-medal"></i> ${getDivisionName(result.division)}</strong><br>
+                                    <span>${result.homeTeam} vs ${result.awayTeam}</span><br>
+                                    <small><i class="fas fa-calendar-alt"></i> ${result.date}</small><br>
+                                    <span><strong>Result:</strong> ${resultText}</span>
+                                </div>
+                                <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                                    <button class="btn btn-danger" style="padding: 0.5rem 1rem; font-size: 0.8rem;" onclick="removeResult('${result.id}')">
+                                        <i class="fas fa-trash"></i> Remove Result
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     `;
@@ -2126,50 +2455,7 @@
                         <tr><td><strong>Win Rate</strong></td><td>${winRate}%</td></tr>
                     </table>
                 </div>
-                <h3 style="margin: 2rem 0 1rem;"><i class="fas fa-history"></i> Recent Results</h3>
             `;
-            if (teamResults.length > 0) {
-                const recentResults = teamResults.slice(-8).reverse();
-                recentResults.forEach(result => {
-                    const isHome = result.homeTeam === teamName;
-                    const opponent = isHome ? result.awayTeam : result.homeTeam;
-                    const teamScore = isHome ? result.homeScore : result.awayScore;
-                    const opponentScore = isHome ? result.awayScore : result.homeScore;
-                    let outcome, outcomeClass, resultText;
-                    if (result.forfeit) {
-                        if ((isHome && result.forfeitTeam === 'home') || (!isHome && result.forfeitTeam === 'away')) {
-                            outcome = 'F';
-                            outcomeClass = 'status-forfeit';
-                            resultText = 'FORFEIT';
-                        } else {
-                            outcome = 'W';
-                            outcomeClass = 'status-win';
-                            resultText = 'WIN (Opponent Forfeit)';
-                        }
-                    } else {
-                        if (teamScore > opponentScore) {
-                            outcome = 'W';
-                            outcomeClass = 'status-win';
-                            resultText = `${teamScore} - ${opponentScore}`;
-                        } else {
-                            outcome = 'L';
-                            outcomeClass = 'status-loss';
-                            resultText = `${teamScore} - ${opponentScore}`;
-                        }
-                    }
-                    html += `
-                        <div class="card" style="margin-bottom: 0.5rem;">
-                            <div style="display: flex; justify-content: space-between; align-items: center;">
-                                <span>${isHome ? 'vs' : '@'} ${opponent}</span>
-                                <span><strong>${resultText}</strong></span>
-                                <span class="${outcomeClass}" style="padding: 0.3rem 0.8rem; border-radius: 8px; font-weight: bold;">${outcome}</span>
-                            </div>
-                        </div>
-                    `;
-                });
-            } else {
-                html += '<div class="loading"><p>No games played yet.</p></div>';
-            }
             document.getElementById('modal-title').innerHTML = `<i class="fas fa-user"></i> Team Details`;
             document.getElementById('modal-body').innerHTML = html;
             document.getElementById('modal').style.display = 'block';
@@ -2180,12 +2466,10 @@
             renderHomeNewsPreview();
         }
         function updateQuickStats() {
-            // Count total teams
             let totalTeams = 0;
             Object.keys(appData.teams).forEach(division => {
                 totalTeams += appData.teams[division].length;
             });
-            // Count games played and upcoming fixtures
             const totalGames = appData.results.length;
             const totalFixtures = appData.fixtures.length;
             document.getElementById('total-teams').textContent = totalTeams;
@@ -2194,7 +2478,7 @@
         }
         function renderHomeNewsPreview() {
             const container = document.getElementById('home-news-grid');
-            const latestNews = appData.news.slice(0, 3); // Show latest 3 articles
+            const latestNews = appData.news.slice(0, 3);
             let html = '';
             if (latestNews.length === 0) {
                 html = '<div class="loading"><p>No news articles yet.</p></div>';
@@ -2240,19 +2524,15 @@
             const panel = document.getElementById('admin-panel');
             panel.classList.toggle('show');
         }
-        
         function showAdminTab(tabName) {
-            // Update tab buttons
             document.querySelectorAll('.admin-tab').forEach(tab => {
                 tab.classList.remove('active');
             });
             event.target.classList.add('active');
-            // Update content
             document.querySelectorAll('.admin-content').forEach(content => {
                 content.classList.remove('active');
             });
             document.getElementById(`admin-${tabName}`).classList.add('active');
-            // Load specific data for tabs
             if (tabName === 'fixtures') {
                 updateFixtureTeams();
                 renderAdminFixtures();
@@ -2261,66 +2541,11 @@
             } else if (tabName === 'news') {
                 renderAdminNews();
             } else if (tabName === 'results') {
-                // Add a small delay to ensure data is loaded
                 setTimeout(() => {
                     renderAdminResults();
                 }, 500);
             }
         }
-        
-        // NEW FUNCTION: Render Admin Results
-        function renderAdminResults() {
-            const container = document.getElementById('admin-results-list');
-            const selectedDivision = document.getElementById('admin-results-division-filter').value;
-            
-            // Check if we have results data
-            if (!appData.results || appData.results.length === 0) {
-                container.innerHTML = '<p style="text-align: center; opacity: 0.7;">No results loaded yet.</p>';
-                return;
-            }
-            
-            let results = appData.results.filter(r => r.played);
-            if (selectedDivision !== 'all') {
-                results = results.filter(r => r.division === selectedDivision);
-            }
-            // Sort by date (newest first)
-            results.sort((a, b) => new Date(b.date) - new Date(a.date));
-
-            let html = '<h4><i class="fas fa-clipboard-list"></i> Recorded Results:</h4>';
-            if (results.length === 0) {
-                html += '<p style="text-align: center; opacity: 0.7;">No results recorded for this division.</p>';
-            } else {
-                results.forEach(result => {
-                    let resultText;
-                    if (result.forfeit) {
-                        const forfeitingTeam = result.forfeitTeam === 'home' ? result.homeTeam : result.awayTeam;
-                        resultText = `FORFEIT by ${forfeitingTeam}`;
-                    } else {
-                        resultText = `${result.homeScore} - ${result.awayScore}`;
-                    }
-
-                    html += `
-                        <div class="card" style="margin-bottom: 1rem;">
-                            <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem;">
-                                <div style="flex: 1;">
-                                    <strong><i class="fas fa-medal"></i> ${getDivisionName(result.division)}</strong><br>
-                                    <span>${result.homeTeam} vs ${result.awayTeam}</span><br>
-                                    <small><i class="fas fa-calendar-alt"></i> ${result.date}</small><br>
-                                    <span><strong>Result:</strong> ${resultText}</span>
-                                </div>
-                                <div style="display: flex; flex-direction: column; gap: 0.5rem;">
-                                    <button class="btn btn-danger" style="padding: 0.5rem 1rem; font-size: 0.8rem;" onclick="removeResult('${result.id}')">
-                                        <i class="fas fa-trash"></i> Remove Result
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                });
-            }
-            container.innerHTML = html;
-        }
-        
         // Utility Functions
         function getDivisionName(division) {
             const names = {
@@ -2347,65 +2572,6 @@
         // Error Handling
         window.addEventListener('error', function(e) {
             console.error('JavaScript Error:', e.error);
-        });
-        // Service Worker for offline functionality (optional)
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', function() {
-                navigator.serviceWorker.register('/sw.js').then(function(registration) {
-                    console.log('SW registered: ', registration);
-                }).catch(function(registrationError) {
-                    console.log('SW registration failed: ', registrationError);
-                });
-            });
-        }
-        // Performance optimization - lazy loading for images
-        function lazyLoadImages() {
-            const images = document.querySelectorAll('img[data-src]');
-            const imageObserver = new IntersectionObserver((entries, observer) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        const img = entry.target;
-                        img.src = img.dataset.src;
-                        img.classList.remove('lazy');
-                        observer.unobserve(img);
-                    }
-                });
-            });
-            images.forEach(img => imageObserver.observe(img));
-        }
-        // Initialize lazy loading when DOM is ready
-        document.addEventListener('DOMContentLoaded', lazyLoadImages);
-        // Touch gestures for mobile (optional enhancement)
-        let touchStartX = 0;
-        let touchEndX = 0;
-        document.addEventListener('touchstart', e => {
-            touchStartX = e.changedTouches[0].screenX;
-        });
-        document.addEventListener('touchend', e => {
-            touchEndX = e.changedTouches[0].screenX;
-            handleSwipe();
-        });
-        function handleSwipe() {
-            if (touchEndX < touchStartX - 50) {
-                // Swiped left - could implement navigation
-            }
-            if (touchEndX > touchStartX + 50) {
-                // Swiped right - could implement navigation
-            }
-        }
-        // Auto-refresh data every 5 minutes
-        setInterval(() => {
-            if (navigator.onLine) {
-                loadAllData();
-            }
-        }, 300000); // 5 minutes
-        // Network status handling
-        window.addEventListener('online', () => {
-            console.log('Back online - refreshing data');
-            loadAllData();
-        });
-        window.addEventListener('offline', () => {
-            console.log('Gone offline - using cached data');
         });
     </script>
 </body>
