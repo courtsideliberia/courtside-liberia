@@ -896,6 +896,69 @@
             overflow-x: auto;
             padding-bottom: 1rem;
         }
+        /* Smaller table fonts for mobile */
+@media (max-width: 768px) {
+    .table th, .table td {
+        font-size: 0.85rem;
+        padding: 0.6rem 0.4rem;
+    }
+    .section-title {
+        font-size: 1.8rem;
+    }
+    .card-title {
+        font-size: 1.2rem;
+    }
+    .team-logo {
+        width: 60px;
+        height: 60px;
+    }
+    .team-logo-small {
+        width: 30px;
+        height: 30px;
+        font-size: 0.7rem;
+    }
+    .modal-content h2 {
+        font-size: 1.5rem;
+    }
+    .modal-content h3 {
+        font-size: 1.2rem;
+    }
+}
+/* Improved modal for mobile */
+.modal-content {
+    padding: 1.5rem;
+    max-height: 85vh;
+}
+
+@media (max-width: 768px) {
+    .modal-content {
+        padding: 1rem;
+        margin: 1rem;
+        max-height: 80vh;
+    }
+    .modal-header {
+        margin-bottom: 1rem;
+    }
+    .table-container {
+        font-size: 0.9rem;
+    }
+    .scrollable-container {
+        max-height: 300px;
+        overflow-y: auto;
+    }
+}/* Scrollable game results */
+.game-results-container {
+    max-height: 300px;
+    overflow-y: auto;
+    margin-top: 1rem;
+    padding-right: 5px;
+}
+
+@media (max-width: 768px) {
+    .game-results-container {
+        max-height: 250px;
+    }
+}
     </style>
 </head>
 <body>
@@ -3081,71 +3144,147 @@
             document.getElementById('modal').style.display = 'block';
         }
         async function showTeamDetails(division, teamName) {
-            const resultsSnapshot = await db.collection("fixtures")
-                .where("played", "==", true)
-                .where("division", "==", division)
-                .get();
-            const teamResults = resultsSnapshot.docs
-                .filter(doc => {
-                    const result = doc.data();
-                    return result.homeTeam === teamName || result.awayTeam === teamName;
-                })
-                .map(doc => doc.data());
-            let wins = 0, losses = 0, forfeits = 0, totalPointsScored = 0, totalPointsConceded = 0;
-            teamResults.forEach(result => {
-                const isHome = result.homeTeam === teamName;
-                const teamScore = isHome ? result.homeScore : result.awayScore;
-                const opponentScore = isHome ? result.awayScore : result.homeScore;
-                totalPointsScored += teamScore;
-                totalPointsConceded += opponentScore;
-                if (result.forfeit) {
-                    if ((isHome && result.forfeitTeam === 'home') || (!isHome && result.forfeitTeam === 'away')) {
-                        forfeits++;
-                    } else {
-                        wins++;
-                    }
-                } else {
-                    if (teamScore > opponentScore) {
-                        wins++;
-                    } else {
-                        losses++;
-                    }
-                }
-            });
-            const totalLeaguePoints = (wins * 2) + (losses * 1) + (forfeits * 0);
-            const avgPointsScored = teamResults.length > 0 ? (totalPointsScored / teamResults.length).toFixed(1) : 0;
-            const avgPointsConceded = teamResults.length > 0 ? (totalPointsConceded / teamResults.length).toFixed(1) : 0;
-            const winRate = teamResults.length > 0 ? ((wins/teamResults.length) * 100).toFixed(1) : 0;
-            const logoSrc = appData.settings.teamLogos[`${division}-${teamName}`];
-            const teamLogo = logoSrc ? 
-                `<div class="team-logo" style="margin: 0 auto 2rem;"><img src="${logoSrc}" alt="${teamName}"></div>` :
-                `<div class="team-logo" style="margin: 0 auto 2rem;">${teamName.charAt(0)}</div>`;
-            let html = `
-                <div style="text-align: center;">
-                    ${teamLogo}
-                    <h2>${teamName}</h2>
-                    <p style="opacity: 0.8; margin-bottom: 2rem;"><strong>Division:</strong> ${getDivisionName(division)}</p>
-                </div>
+    const resultsSnapshot = await db.collection("fixtures")
+        .where("played", "==", true)
+        .where("division", "==", division)
+        .get();
+    const teamResults = resultsSnapshot.docs
+        .filter(doc => {
+            const result = doc.data();
+            return result.homeTeam === teamName || result.awayTeam === teamName;
+        })
+        .map(doc => doc.data());
+    let wins = 0, losses = 0, forfeits = 0, totalPointsScored = 0, totalPointsConceded = 0;
+    teamResults.forEach(result => {
+        const isHome = result.homeTeam === teamName;
+        const teamScore = isHome ? result.homeScore : result.awayScore;
+        const opponentScore = isHome ? result.awayScore : result.homeScore;
+        totalPointsScored += teamScore;
+        totalPointsConceded += opponentScore;
+        if (result.forfeit) {
+            if ((isHome && result.forfeitTeam === 'home') || (!isHome && result.forfeitTeam === 'away')) {
+                forfeits++;
+            } else {
+                wins++;
+            }
+        } else {
+            if (teamScore > opponentScore) {
+                wins++;
+            } else {
+                losses++;
+            }
+        }
+    });
+    const totalLeaguePoints = (wins * 2) + (losses * 1) + (forfeits * 0);
+    const avgPointsScored = teamResults.length > 0 ? (totalPointsScored / teamResults.length).toFixed(1) : 0;
+    const avgPointsConceded = teamResults.length > 0 ? (totalPointsConceded / teamResults.length).toFixed(1) : 0;
+    const winRate = teamResults.length > 0 ? ((wins/teamResults.length) * 100).toFixed(1) : 0;
+    const logoSrc = appData.settings.teamLogos[`${division}-${teamName}`];
+    const teamLogo = logoSrc ? 
+        `<div class="team-logo" style="margin: 0 auto 1rem; width: 60px; height: 60px;"><img src="${logoSrc}" alt="${teamName}"></div>` :
+        `<div class="team-logo" style="margin: 0 auto 1rem; width: 60px; height: 60px;">${teamName.charAt(0)}</div>`;
+    let html = `
+        <div style="text-align: center; margin-bottom: 1.5rem;">
+            ${teamLogo}
+            <h2 style="font-size: 1.5rem; margin-bottom: 0.5rem;">${teamName}</h2>
+            <p style="opacity: 0.8; font-size: 0.9rem; margin-bottom: 1.5rem;"><strong>Division:</strong> ${getDivisionName(division)}</p>
+        </div>
+        
+        <div class="table-container">
+            <h3 style="margin-bottom: 1rem; font-size: 1.2rem;"><i class="fas fa-chart-line"></i> Season Statistics</h3>
+            <table class="table" style="font-size: 0.9rem;">
+                <tr><td><strong>Games Played</strong></td><td>${teamResults.length}</td></tr>
+                <tr><td><strong>Wins</strong></td><td class="status-win">${wins}</td></tr>
+                <tr><td><strong>Losses</strong></td><td class="status-loss">${losses}</td></tr>
+                <tr><td><strong>Forfeits</strong></td><td class="status-forfeit">${forfeits}</td></tr>
+                <tr><td><strong>Total Points Scored</strong></td><td>${totalPointsScored}</td></tr>
+                <tr><td><strong>Total Points Conceded</strong></td><td>${totalPointsConceded}</td></tr>
+                <tr><td><strong>Avg Points Scored</strong></td><td>${avgPointsScored}</td></tr>
+                <tr><td><strong>Avg Points Conceded</strong></td><td>${avgPointsConceded}</td></tr>
+                <tr><td><strong>League Points</strong></td><td style="font-weight: bold; color: var(--accent-color);">${totalLeaguePoints}</td></tr>
+                <tr><td><strong>Win Rate</strong></td><td>${winRate}%</td></tr>
+            </table>
+        </div>
+    `;
+
+    // Add Recent Games section
+    if (teamResults.length > 0) {
+        html += `
+            <h3 style="margin: 2rem 0 1rem; font-size: 1.2rem;"><i class="fas fa-history"></i> Recent Games</h3>
+            <div class="scrollable-container">
                 <div class="table-container">
-                    <h3 style="margin-bottom: 1rem;"><i class="fas fa-chart-line"></i> Season Statistics</h3>
-                    <table class="table">
-                        <tr><td><strong>Games Played</strong></td><td>${teamResults.length}</td></tr>
-                        <tr><td><strong>Wins</strong></td><td class="status-win">${wins}</td></tr>
-                        <tr><td><strong>Losses</strong></td><td class="status-loss">${losses}</td></tr>
-                        <tr><td><strong>Forfeits</strong></td><td class="status-forfeit">${forfeits}</td></tr>
-                        <tr><td><strong>Total Points Scored</strong></td><td>${totalPointsScored}</td></tr>
-                        <tr><td><strong>Total Points Conceded</strong></td><td>${totalPointsConceded}</td></tr>
-                        <tr><td><strong>Average Points Scored</strong></td><td>${avgPointsScored}</td></tr>
-                        <tr><td><strong>Average Points Conceded</strong></td><td>${avgPointsConceded}</td></tr>
-                        <tr><td><strong>League Points</strong></td><td style="font-weight: bold; color: var(--accent-color);">${totalLeaguePoints}</td></tr>
-                        <tr><td><strong>Win Rate</strong></td><td>${winRate}%</td></tr>
+                    <table class="table" style="font-size: 0.85rem;">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Opponent</th>
+                                <th>Result</th>
+                                <th>Score</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+        `;
+        
+        // Sort by most recent first
+        teamResults.sort((a, b) => new Date(b.date) - new Date(a.date));
+        
+        teamResults.forEach(result => {
+            const isHome = result.homeTeam === teamName;
+            const opponent = isHome ? result.awayTeam : result.homeTeam;
+            const teamScore = isHome ? result.homeScore : result.awayScore;
+            const opponentScore = isHome ? result.awayScore : result.homeScore;
+            let resultText, statusText, statusClass = '';
+            
+            if (result.forfeit) {
+                if ((isHome && result.forfeitTeam === 'home') || (!isHome && result.forfeitTeam === 'away')) {
+                    resultText = 'L';
+                    statusText = 'Forfeit';
+                    statusClass = 'status-forfeit';
+                } else {
+                    resultText = 'W';
+                    statusText = 'Won by Forfeit';
+                    statusClass = 'status-win';
+                }
+            } else {
+                if (teamScore > opponentScore) {
+                    resultText = 'W';
+                    statusText = 'Win';
+                    statusClass = 'status-win';
+                } else if (teamScore < opponentScore) {
+                    resultText = 'L';
+                    statusText = 'Loss';
+                    statusClass = 'status-loss';
+                } else {
+                    resultText = 'T';
+                    statusText = 'Tie';
+                    statusClass = '';
+                }
+            }
+            
+            html += `
+                <tr>
+                    <td>${result.date}</td>
+                    <td>${opponent}</td>
+                    <td class="${statusClass}">${resultText}</td>
+                    <td>${teamScore}-${opponentScore}</td>
+                    <td>${statusText}</td>
+                </tr>
+            `;
+        });
+        
+        html += `
+                        </tbody>
                     </table>
                 </div>
-            `;
-            document.getElementById('modal-title').innerHTML = `<i class="fas fa-user"></i> Team Details`;
-            document.getElementById('modal-body').innerHTML = html;
-            document.getElementById('modal').style.display = 'block';
-        }
+            </div>
+        `;
+    }
+
+    document.getElementById('modal-title').innerHTML = `<i class="fas fa-user"></i> ${teamName}`;
+    document.getElementById('modal-body').innerHTML = html;
+    document.getElementById('modal').style.display = 'block';
+}
         // Player Stats Functions
         function renderPlayerStats() {
             // Populate team filter based on selected division
