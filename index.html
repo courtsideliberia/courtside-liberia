@@ -470,21 +470,26 @@
             border-radius: var(--border-radius);
             overflow: hidden;
             margin: 2rem 0;
+            overflow-x: auto;
         }
         .table {
             width: 100%;
             border-collapse: collapse;
+            min-width: 600px;
         }
         .table th,
         .table td {
             padding: 1rem 0.8rem;
             text-align: left;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            white-space: nowrap;
         }
         .table th {
             background: white;
             color: var(--text-dark);
             font-weight: bold;
+            position: sticky;
+            top: 0;
         }
         .table tr:hover {
             background: rgba(255, 255, 255, 0.05);
@@ -723,6 +728,16 @@
             .table th, .table td {
                 padding: 0.8rem 0.6rem;
             }
+            .team-vs {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            .vs-divider {
+                margin: 0.5rem 0;
+            }
+            .team-info {
+                justify-content: center;
+            }
         }
         /* Loading States */
         .loading {
@@ -787,6 +802,100 @@
             z-index: 3000;
             text-align: center;
         }
+        /* Player Stats Section */
+        .player-stats-card {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .player-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        .player-photo {
+            width: 60px;
+            height: 60px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: var(--text-dark);
+            font-size: 1.2rem;
+            overflow: hidden;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+        .player-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+        .player-info h3 {
+            margin-bottom: 0.2rem;
+        }
+        .player-info p {
+            opacity: 0.7;
+            font-size: 0.9rem;
+        }
+        .player-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        .player-stat-item {
+            text-align: center;
+            padding: 0.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: var(--border-radius);
+        }
+        .player-stat-value {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--accent-color);
+        }
+        .player-stat-label {
+            font-size: 0.8rem;
+            opacity: 0.7;
+        }
+        /* Game Stats Entry */
+        .game-stats-form {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin: 1rem 0;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .game-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        .game-stat-input {
+            text-align: center;
+        }
+        .game-stat-input input {
+            width: 100%;
+            text-align: center;
+            padding: 0.5rem;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: var(--border-radius);
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 1rem;
+        }
+        /* Scrollable containers for mobile */
+        .scrollable-container {
+            overflow-x: auto;
+            padding-bottom: 1rem;
+        }
     </style>
 </head>
 <body>
@@ -806,6 +915,7 @@
                     <li class="nav-item"><a href="#" class="nav-link" data-section="divisions"><i class="fas fa-trophy"></i> Divisions</a></li>
                     <li class="nav-item"><a href="#" class="nav-link" data-section="fixtures"><i class="fas fa-calendar-alt"></i> Fixtures</a></li>
                     <li class="nav-item"><a href="#" class="nav-link" data-section="results"><i class="fas fa-clipboard-check"></i> Results</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link" data-section="players"><i class="fas fa-basketball"></i> Player Stats</a></li>
                 </ul>
             </nav>
             <button class="mobile-menu-toggle" id="mobile-menu-toggle">
@@ -1011,7 +1121,29 @@
                         <i class="fas fa-chart-line"></i>
                         Regular Season Final Standings
                     </div>
-                    <div id="regular-season-table"></div>
+                    <div class="scrollable-container">
+                        <div class="table-container">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Pos</th>
+                                        <th>Team</th>
+                                        <th>P</th>
+                                        <th>W</th>
+                                        <th>L</th>
+                                        <th>F</th>
+                                        <th>PF</th>
+                                        <th>PA</th>
+                                        <th>PD</th>
+                                        <th>Pts</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="regular-season-table">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
                 <!-- Current Playoff Stage -->
                 <div class="card mb-2">
@@ -1022,7 +1154,23 @@
                     </div>
                     <div class="card-content">
                         <p id="current-stage-description">Top 6 teams compete in round robin format. Top 4 advance to Big Four playoffs.</p>
-                        <div id="current-stage-table"></div>
+                        <div class="scrollable-container">
+                            <div class="table-container">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Seed</th>
+                                            <th>Team</th>
+                                            <th>Regular Season</th>
+                                            <th>Big Six Record</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="current-stage-table">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <!-- Next Playoff Stage -->
@@ -1034,10 +1182,8 @@
                     </div>
                     <div class="card-content">
                         <p id="next-stage-description">Best of 3 or 5 series format. Top 2 teams advance to finals.</p>
-                        <div id="next-stage-bracket">
-                            <div class="text-center">
-                                <p><em>Teams will be determined from Big Six results</em></p>
-                            </div>
+                        <div class="text-center">
+                            <p><em>Teams will be determined from Big Six results</em></p>
                         </div>
                     </div>
                 </div>
@@ -1098,6 +1244,108 @@
             </div>
             <div id="results-list"></div>
         </section>
+        <!-- Players Stats Section -->
+        <section id="players" class="section">
+            <div class="section-title">Player Statistics</div>
+            
+            <div class="filter-section">
+                <div class="form-group">
+                    <label class="form-label">Filter by Division</label>
+                    <select id="players-division-filter" class="form-select" onchange="filterPlayers()">
+                        <option value="all">All Divisions</option>
+                        <option value="first">First Division</option>
+                        <option value="second">Second Division</option>
+                        <option value="female">Female Division</option>
+                        <option value="third-jj">Third Division - JJ Roberts</option>
+                        <option value="third-ej">Third Division - EJ Roye</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Filter by Team</label>
+                    <select id="players-team-filter" class="form-select" onchange="filterPlayers()">
+                        <option value="all">All Teams</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Sort by Statistic</label>
+                    <select id="players-sort-filter" class="form-select" onchange="filterPlayers()">
+                        <option value="points">Points Per Game</option>
+                        <option value="rebounds">Rebounds Per Game</option>
+                        <option value="assists">Assists Per Game</option>
+                        <option value="steals">Steals Per Game</option>
+                        <option value="blocks">Blocks Per Game</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="grid grid-3 mb-2">
+                <div class="card text-center">
+                    <div class="card-title">
+                        <i class="fas fa-fire"></i>
+                        Points Leader
+                    </div>
+                    <div id="points-leader" class="card-content">
+                        <div class="team-logo" style="margin: 0 auto 1rem; width: 60px; height: 60px;">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <h3 id="points-leader-name">-</h3>
+                        <p id="points-leader-stats">-</p>
+                    </div>
+                </div>
+                <div class="card text-center">
+                    <div class="card-title">
+                        <i class="fas fa-hand-paper"></i>
+                        Rebounds Leader
+                    </div>
+                    <div id="rebounds-leader" class="card-content">
+                        <div class="team-logo" style="margin: 0 auto 1rem; width: 60px; height: 60px;">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <h3 id="rebounds-leader-name">-</h3>
+                        <p id="rebounds-leader-stats">-</p>
+                    </div>
+                </div>
+                <div class="card text-center">
+                    <div class="card-title">
+                        <i class="fas fa-handshake"></i>
+                        Assists Leader
+                    </div>
+                    <div id="assists-leader" class="card-content">
+                        <div class="team-logo" style="margin: 0 auto 1rem; width: 60px; height: 60px;">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <h3 id="assists-leader-name">-</h3>
+                        <p id="assists-leader-stats">-</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="scrollable-container">
+                <div class="table-container">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Rank</th>
+                                <th>Player</th>
+                                <th>Team</th>
+                                <th>Pos</th>
+                                <th>GP</th>
+                                <th>PPG</th>
+                                <th>RPG</th>
+                                <th>APG</th>
+                                <th>SPG</th>
+                                <th>BPG</th>
+                            </tr>
+                        </thead>
+                        <tbody id="players-stats-table">
+                            <tr>
+                                <td colspan="10" class="text-center">Loading player statistics...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
         <!-- Admin Panel -->
         <div id="admin-panel" class="admin-panel">
             <h2 class="section-title">Admin Panel</h2>
@@ -1113,6 +1361,9 @@
                 </button>
                 <button class="admin-tab" onclick="showAdminTab('matches')">
                     <i class="fas fa-trophy"></i> Add Results
+                </button>
+                <button class="admin-tab" onclick="showAdminTab('players')">
+                    <i class="fas fa-basketball"></i> Manage Players
                 </button>
                 <button class="admin-tab" onclick="showAdminTab('results')">
                     <i class="fas fa-clipboard-list"></i> Manage Results
@@ -1282,6 +1533,60 @@
                     </div>
                 </div>
             </div>
+            <!-- Players Management -->
+            <div id="admin-players" class="admin-content">
+                <h3><i class="fas fa-basketball"></i> Player Management</h3>
+                <div class="grid grid-2 mb-2">
+                    <div class="card">
+                        <h4>Add New Player</h4>
+                        <div class="form-group">
+                            <label class="form-label">Division</label>
+                            <select id="player-division" class="form-select" onchange="updatePlayerTeams()">
+                                <option value="first">First Division</option>
+                                <option value="second">Second Division</option>
+                                <option value="female">Female Division</option>
+                                <option value="third-jj">Third Division - JJ Roberts</option>
+                                <option value="third-ej">Third Division - EJ Roye</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Team</label>
+                            <select id="player-team" class="form-select">
+                                <option value="">Select Team</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Player Name</label>
+                            <input type="text" id="player-name" class="form-input" placeholder="Enter player's full name">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Jersey Number</label>
+                            <input type="number" id="player-number" class="form-input" placeholder="Enter jersey number" min="0" max="99">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Position</label>
+                            <select id="player-position" class="form-select">
+                                <option value="PG">Point Guard (PG)</option>
+                                <option value="SG">Shooting Guard (SG)</option>
+                                <option value="SF">Small Forward (SF)</option>
+                                <option value="PF">Power Forward (PF)</option>
+                                <option value="C">Center (C)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Player Photo (Base64)</label>
+                            <input type="file" id="player-photo" class="form-input" accept="image/*" onchange="handleImageUpload('player-photo', 'player-photo-preview')">
+                            <div id="player-photo-preview" class="image-preview">
+                                <span>Select player photo</span>
+                            </div>
+                        </div>
+                        <button class="btn btn-success" onclick="addPlayer()">
+                            <i class="fas fa-plus"></i> Add Player
+                        </button>
+                    </div>
+                </div>
+                <div id="admin-players-list"></div>
+            </div>
             <!-- Results Management -->
             <div id="admin-results" class="admin-content">
                 <h3><i class="fas fa-clipboard-list"></i> Results Management</h3>
@@ -1344,6 +1649,16 @@
             <div id="modal-body"></div>
         </div>
     </div>
+    <!-- Player Stats Modal -->
+    <div id="player-stats-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="player-stats-modal-title">Record Player Stats</h2>
+                <button class="modal-close" onclick="closePlayerStatsModal()">&times;</button>
+            </div>
+            <div id="player-stats-modal-body"></div>
+        </div>
+    </div>
     <!-- Admin Access -->
     <div id="admin-access" class="admin-access">
         <h3><i class="fas fa-lock"></i> Admin Access</h3>
@@ -1377,6 +1692,7 @@
             fixtures: [],
             results: [],
             news: [],
+            players: [],
             settings: {
                 mainLogo: null,
                 coverPhoto: null,
@@ -1385,6 +1701,7 @@
         };
         let adminClickCount = 0;
         let currentImageData = {};
+        let currentMatchForStats = null;
         // Initialization
         document.addEventListener('DOMContentLoaded', function() {
             initializeApp();
@@ -1393,6 +1710,12 @@
         function initializeApp() {
             loadAllData();
             showSection('home');
+            // Add event listener for player stats section
+            document.querySelector('[data-section="players"]')?.addEventListener('click', function() {
+                setTimeout(() => {
+                    renderPlayerStats();
+                }, 100);
+            });
         }
         function setupEventListeners() {
             // Navigation
@@ -1417,6 +1740,10 @@
                 const modal = document.getElementById('modal');
                 if (event.target === modal) {
                     closeModal();
+                }
+                const playerStatsModal = document.getElementById('player-stats-modal');
+                if (event.target === playerStatsModal) {
+                    closePlayerStatsModal();
                 }
             });
         }
@@ -1447,6 +1774,11 @@
                     break;
                 case 'results':
                     renderResults();
+                    break;
+                case 'players':
+                    setTimeout(() => {
+                        renderPlayerStats();
+                    }, 100);
                     break;
             }
         }
@@ -1540,33 +1872,14 @@
             });
             // Display regular season table
             displayRegularSeasonTable(standings, division);
-            // Display current playoff stage teams if (division === 'first') {
+            // Display current playoff stage teams
             if (division === 'first') {
                 displayBigSixTable(standings.slice(0, 6));
             }
         }
         function displayRegularSeasonTable(standings, division) {
             const container = document.getElementById('regular-season-table');
-            let html = `
-                <div class="table-container">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>Pos</th>
-                                <th>Team</th>
-                                <th>P</th>
-                                <th>W</th>
-                                <th>L</th>
-                                <th>F</th>
-                                <th>PF</th>
-                                <th>PA</th>
-                                <th>PD</th>
-                                <th>Pts</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-            `;
+            let html = '';
             standings.forEach((team, index) => {
                 let statusBadge = '';
                 if (division === 'first') {
@@ -1597,30 +1910,11 @@
                     </tr>
                 `;
             });
-            html += `
-                        </tbody>
-                    </table>
-                </div>
-            `;
             container.innerHTML = html;
         }
         function displayBigSixTable(bigSixTeams) {
             const container = document.getElementById('current-stage-table');
-            let html = `
-                <h4 style="margin-bottom: 1rem;">Big Six Qualified Teams</h4>
-                <div class="table-container">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>Seed</th>
-                                <th>Team</th>
-                                <th>Regular Season</th>
-                                <th>Big Six Record</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-            `;
+            let html = '';
             bigSixTeams.forEach((team, index) => {
                 html += `
                     <tr>
@@ -1637,15 +1931,6 @@
                     </tr>
                 `;
             });
-            html += `
-                        </tbody>
-                    </table>
-                </div>
-                <div class="text-center mt-1">
-                    <p><strong>Big Six Round Robin starts today at 5:30 PM</strong></p>
-                    <p><em>Top 4 teams will advance to Big Four Playoffs</em></p>
-                </div>
-            `;
             container.innerHTML = html;
         }
         // Data Loading Functions
@@ -1655,6 +1940,7 @@
             loadResults();
             loadNews();
             loadSettings();
+            loadPlayers();
         }
         function loadTeams() {
             db.collection("teams").onSnapshot((snapshot) => {
@@ -1672,6 +1958,7 @@
                 });
                 renderAdminTeams();
                 updateTeamSelects();
+                updatePlayerTeams();
                 updateQuickStats();
             });
         }
@@ -1723,6 +2010,16 @@
                     appData.settings.coverPhoto = doc.data().data;
                     updateCoverPhoto(doc.data().data);
                 }
+            });
+        }
+        function loadPlayers() {
+            db.collection("players").onSnapshot((snapshot) => {
+                appData.players = [];
+                snapshot.forEach((doc) => {
+                    appData.players.push({ id: doc.id, ...doc.data() });
+                });
+                renderAdminPlayers();
+                renderPlayerStats();
             });
         }
         // Image Handling
@@ -1993,6 +2290,138 @@
                 awaySelect.innerHTML += `<option value="${team.name}">${team.name}</option>`;
             });
         }
+        // Player Functions
+        async function addPlayer() {
+            const division = document.getElementById('player-division').value;
+            const team = document.getElementById('player-team').value;
+            const name = document.getElementById('player-name').value.trim();
+            const number = document.getElementById('player-number').value;
+            const position = document.getElementById('player-position').value;
+            const photoData = currentImageData['player-photo'];
+            
+            if (!division || !team) {
+                alert('Please select a division and team');
+                return;
+            }
+            
+            if (!name) {
+                alert('Please enter a player name');
+                return;
+            }
+            
+            try {
+                await db.collection("players").add({
+                    division,
+                    team,
+                    name,
+                    number: number ? parseInt(number, 10) : null,
+                    position,
+                    photo: photoData || null,
+                    gamesPlayed: 0,
+                    totalPoints: 0,
+                    totalRebounds: 0,
+                    totalAssists: 0,
+                    totalSteals: 0,
+                    totalBlocks: 0,
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                });
+                
+                // Reset form
+                document.getElementById('player-name').value = '';
+                document.getElementById('player-number').value = '';
+                document.getElementById('player-position').value = 'PG';
+                document.getElementById('player-photo').value = '';
+                document.getElementById('player-photo-preview').innerHTML = '<span>Select player photo</span>';
+                document.getElementById('player-photo-preview').classList.remove('has-image');
+                delete currentImageData['player-photo'];
+                
+                alert('Player added successfully!');
+                renderAdminPlayers();
+            } catch (error) {
+                console.error("Error adding player:", error);
+                alert('Error adding player. Please try again.');
+            }
+        }
+        
+        async function removePlayer(playerId) {
+            if (!confirm('Are you sure you want to remove this player?')) {
+                return;
+            }
+            try {
+                await db.collection("players").doc(playerId).delete();
+                alert('Player removed successfully!');
+                renderAdminPlayers();
+            } catch (error) {
+                console.error("Error removing player:", error);
+                alert('Error removing player. Please try again.');
+            }
+        }
+        
+        function renderAdminPlayers() {
+            const container = document.getElementById('admin-players-list');
+            let html = '<h4><i class="fas fa-list"></i> Current Players:</h4>';
+            
+            if (!appData.players || appData.players.length === 0) {
+                html += '<p style="text-align: center; opacity: 0.7;">No players added yet.</p>';
+            } else {
+                // Group players by division and team
+                const playersByDivision = {};
+                appData.players.forEach(player => {
+                    if (!playersByDivision[player.division]) {
+                        playersByDivision[player.division] = {};
+                    }
+                    if (!playersByDivision[player.division][player.team]) {
+                        playersByDivision[player.division][player.team] = [];
+                    }
+                    playersByDivision[player.division][player.team].push(player);
+                });
+                
+                Object.keys(playersByDivision).forEach(division => {
+                    html += `<h5>${getDivisionName(division)}:</h5>`;
+                    Object.keys(playersByDivision[division]).forEach(team => {
+                        html += `<h6 style="margin: 1rem 0 0.5rem;">${team}:</h6>`;
+                        playersByDivision[division][team].forEach(player => {
+                            html += `
+                                <div class="card" style="margin-bottom: 0.5rem;">
+                                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                                        <div style="display: flex; align-items: center; gap: 1rem;">
+                                            ${player.photo ? 
+                                                `<div class="team-logo-small"><img src="${player.photo}" alt="${player.name}"></div>` : 
+                                                `<div class="team-logo-small">${player.name.charAt(0)}</div>`}
+                                            <div>
+                                                <strong>${player.name}</strong>
+                                                ${player.number ? `(#${player.number})` : ''}
+                                                <br>
+                                                <small>${player.position} | ${player.gamesPlayed} games</small>
+                                            </div>
+                                        </div>
+                                        <button class="btn btn-danger" style="padding: 0.5rem 1rem; font-size: 0.8rem;" onclick="removePlayer('${player.id}')">
+                                            <i class="fas fa-trash"></i> Remove
+                                        </button>
+                                    </div>
+                                </div>
+                            `;
+                        });
+                    });
+                });
+            }
+            
+            container.innerHTML = html;
+        }
+        
+        function updatePlayerTeams() {
+            const division = document.getElementById('player-division').value;
+            const teamSelect = document.getElementById('player-team');
+            if (!teamSelect) return;
+            
+            teamSelect.innerHTML = '<option value="">Select Team</option>';
+            
+            const teams = appData.teams[division] || [];
+            teams.forEach(team => {
+                teamSelect.innerHTML += `<option value="${team.name}">${team.name}</option>`;
+            });
+        }
+        
         // Fixture Functions
         async function addFixture() {
             const division = document.getElementById('fixture-division').value;
@@ -2153,6 +2582,7 @@
                 resultData.awayScore = forfeitTeam === "away" ? 0 : 20;
             }
             try {
+                let docRef;
                 const querySnapshot = await db.collection("fixtures")
                     .where("division", "==", division)
                     .where("homeTeam", "==", homeTeam)
@@ -2160,11 +2590,28 @@
                     .where("date", "==", date)
                     .limit(1)
                     .get();
+                    
                 if (!querySnapshot.empty) {
-                    await db.collection("fixtures").doc(querySnapshot.docs[0].id).update(resultData);
+                    docRef = querySnapshot.docs[0].ref;
+                    await docRef.update(resultData);
                 } else {
-                    await db.collection("fixtures").add(resultData);
+                    docRef = await db.collection("fixtures").add(resultData);
                 }
+                
+                // If this is a normal game (not forfeit), ask for player stats
+                if (resultType === 'normal') {
+                    currentMatchForStats = {
+                        id: docRef.id,
+                        division: division,
+                        homeTeam: homeTeam,
+                        awayTeam: awayTeam,
+                        date: date
+                    };
+                    setTimeout(() => {
+                        showPlayerStatsModal();
+                    }, 500);
+                }
+                
                 document.getElementById('match-home-score').value = '';
                 document.getElementById('match-away-score').value = '';
                 document.getElementById('match-date').value = '';
@@ -2174,6 +2621,201 @@
                 alert("Error recording match result. Please try again.");
             }
         }
+        
+        function showPlayerStatsModal() {
+            if (!currentMatchForStats) return;
+            
+            const { division, homeTeam, awayTeam } = currentMatchForStats;
+            
+            // Get players for both teams
+            const homePlayers = appData.players.filter(p => p.team === homeTeam && p.division === division);
+            const awayPlayers = appData.players.filter(p => p.team === awayTeam && p.division === division);
+            
+            let html = `
+                <h3><i class="fas fa-basketball"></i> Record Player Stats for ${homeTeam} vs ${awayTeam}</h3>
+                <p>Enter stats for players who participated in this match:</p>
+                <input type="hidden" id="stats-match-id" value="${currentMatchForStats.id}">
+                
+                <h4 style="margin: 2rem 0 1rem;">${homeTeam} Players</h4>
+            `;
+            
+            if (homePlayers.length === 0) {
+                html += '<p style="opacity: 0.7;">No players added for this team yet.</p>';
+            } else {
+                html += '<div class="game-stats-form">';
+                homePlayers.forEach(player => {
+                    html += `
+                        <div class="player-stats-card">
+                            <div class="player-header">
+                                ${player.photo ? 
+                                    `<div class="player-photo"><img src="${player.photo}" alt="${player.name}"></div>` : 
+                                    `<div class="player-photo">${player.name.charAt(0)}</div>`}
+                                <div class="player-info">
+                                    <h3>${player.name}</h3>
+                                    <p>${player.position} ${player.number ? `(#${player.number})` : ''}</p>
+                                </div>
+                            </div>
+                            <div class="game-stats-grid">
+                                <div class="game-stat-input">
+                                    <label class="form-label">Points</label>
+                                    <input type="number" class="form-input" id="stats-${player.id}-points" placeholder="0" min="0" value="0">
+                                </div>
+                                <div class="game-stat-input">
+                                    <label class="form-label">Rebounds</label>
+                                    <input type="number" class="form-input" id="stats-${player.id}-rebounds" placeholder="0" min="0" value="0">
+                                </div>
+                                <div class="game-stat-input">
+                                    <label class="form-label">Assists</label>
+                                    <input type="number" class="form-input" id="stats-${player.id}-assists" placeholder="0" min="0" value="0">
+                                </div>
+                                <div class="game-stat-input">
+                                    <label class="form-label">Steals</label>
+                                    <input type="number" class="form-input" id="stats-${player.id}-steals" placeholder="0" min="0" value="0">
+                                </div>
+                                <div class="game-stat-input">
+                                    <label class="form-label">Blocks</label>
+                                    <input type="number" class="form-input" id="stats-${player.id}-blocks" placeholder="0" min="0" value="0">
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+                html += '</div>';
+            }
+            
+            html += `
+                <h4 style="margin: 2rem 0 1rem;">${awayTeam} Players</h4>
+            `;
+            
+            if (awayPlayers.length === 0) {
+                html += '<p style="opacity: 0.7;">No players added for this team yet.</p>';
+            } else {
+                html += '<div class="game-stats-form">';
+                awayPlayers.forEach(player => {
+                    html += `
+                        <div class="player-stats-card">
+                            <div class="player-header">
+                                ${player.photo ? 
+                                    `<div class="player-photo"><img src="${player.photo}" alt="${player.name}"></div>` : 
+                                    `<div class="player-photo">${player.name.charAt(0)}</div>`}
+                                <div class="player-info">
+                                    <h3>${player.name}</h3>
+                                    <p>${player.position} ${player.number ? `(#${player.number})` : ''}</p>
+                                </div>
+                            </div>
+                            <div class="game-stats-grid">
+                                <div class="game-stat-input">
+                                    <label class="form-label">Points</label>
+                                    <input type="number" class="form-input" id="stats-${player.id}-points" placeholder="0" min="0" value="0">
+                                </div>
+                                <div class="game-stat-input">
+                                    <label class="form-label">Rebounds</label>
+                                    <input type="number" class="form-input" id="stats-${player.id}-rebounds" placeholder="0" min="0" value="0">
+                                </div>
+                                <div class="game-stat-input">
+                                    <label class="form-label">Assists</label>
+                                    <input type="number" class="form-input" id="stats-${player.id}-assists" placeholder="0" min="0" value="0">
+                                </div>
+                                <div class="game-stat-input">
+                                    <label class="form-label">Steals</label>
+                                    <input type="number" class="form-input" id="stats-${player.id}-steals" placeholder="0" min="0" value="0">
+                                </div>
+                                <div class="game-stat-input">
+                                    <label class="form-label">Blocks</label>
+                                    <input type="number" class="form-input" id="stats-${player.id}-blocks" placeholder="0" min="0" value="0">
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+                html += '</div>';
+            }
+            
+            html += `
+                <div style="margin-top: 2rem; text-align: center;">
+                    <button class="btn btn-success" onclick="savePlayerStats()">
+                        <i class="fas fa-save"></i> Save Player Stats
+                    </button>
+                    <button class="btn btn-secondary" onclick="closePlayerStatsModal()">
+                        <i class="fas fa-times"></i> Skip for now
+                    </button>
+                </div>
+            `;
+            
+            document.getElementById('player-stats-modal-title').innerHTML = `<i class="fas fa-basketball"></i> Player Statistics`;
+            document.getElementById('player-stats-modal-body').innerHTML = html;
+            document.getElementById('player-stats-modal').style.display = 'block';
+        }
+        
+        async function savePlayerStats() {
+            if (!currentMatchForStats) return;
+            
+            const matchId = currentMatchForStats.id;
+            const division = currentMatchForStats.division;
+            const homeTeam = currentMatchForStats.homeTeam;
+            const awayTeam = currentMatchForStats.awayTeam;
+            
+            // Get all players for both teams
+            const homePlayers = appData.players.filter(p => p.team === homeTeam && p.division === division);
+            const awayPlayers = appData.players.filter(p => p.team === awayTeam && p.division === division);
+            const allPlayers = [...homePlayers, ...awayPlayers];
+            
+            try {
+                // Create a batch write for all player updates
+                const batch = db.batch();
+                
+                allPlayers.forEach(player => {
+                    const points = parseInt(document.getElementById(`stats-${player.id}-points`).value) || 0;
+                    const rebounds = parseInt(document.getElementById(`stats-${player.id}-rebounds`).value) || 0;
+                    const assists = parseInt(document.getElementById(`stats-${player.id}-assists`).value) || 0;
+                    const steals = parseInt(document.getElementById(`stats-${player.id}-steals`).value) || 0;
+                    const blocks = parseInt(document.getElementById(`stats-${player.id}-blocks`).value) || 0;
+                    
+                    // Only update if any stats were entered
+                    if (points > 0 || rebounds > 0 || assists > 0 || steals > 0 || blocks > 0) {
+                        const playerRef = db.collection("players").doc(player.id);
+                        batch.update(playerRef, {
+                            gamesPlayed: firebase.firestore.FieldValue.increment(1),
+                            totalPoints: firebase.firestore.FieldValue.increment(points),
+                            totalRebounds: firebase.firestore.FieldValue.increment(rebounds),
+                            totalAssists: firebase.firestore.FieldValue.increment(assists),
+                            totalSteals: firebase.firestore.FieldValue.increment(steals),
+                            totalBlocks: firebase.firestore.FieldValue.increment(blocks)
+                        });
+                        
+                        // Also save individual game stats
+                        db.collection("playerStats").add({
+                            playerId: player.id,
+                            playerName: player.name,
+                            team: player.team,
+                            division: player.division,
+                            matchId: matchId,
+                            opponent: player.team === homeTeam ? awayTeam : homeTeam,
+                            points,
+                            rebounds,
+                            assists,
+                            steals,
+                            blocks,
+                            date: currentMatchForStats.date,
+                            timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                        });
+                    }
+                });
+                
+                await batch.commit();
+                closePlayerStatsModal();
+                currentMatchForStats = null;
+                alert('Player stats saved successfully!');
+            } catch (error) {
+                console.error("Error saving player stats:", error);
+                alert('Error saving player stats. Please try again.');
+            }
+        }
+        
+        function closePlayerStatsModal() {
+            document.getElementById('player-stats-modal').style.display = 'none';
+        }
+        
         // Results Functions
         function filterResults() {
             const selectedDivision = document.getElementById('results-division-filter').value;
@@ -2385,23 +3027,24 @@
                 <p style="margin-bottom: 2rem; text-align: center; opacity: 0.8;">
                     <strong>Point System:</strong> 2 points for Win, 1 point for Loss, 0 points for Forfeit
                 </p>
-                <div class="table-container">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>Pos</th>
-                                <th>Team</th>
-                                <th>P</th>
-                                <th>W</th>
-                                <th>L</th>
-                                <th>F</th>
-                                <th>PF</th>
-                                <th>PA</th>
-                                <th>PD</th>
-                                <th>Pts</th>
-                            </tr>
-                        </thead>
-                        <tbody>
+                <div class="scrollable-container">
+                    <div class="table-container">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Pos</th>
+                                    <th>Team</th>
+                                    <th>P</th>
+                                    <th>W</th>
+                                    <th>L</th>
+                                    <th>F</th>
+                                    <th>PF</th>
+                                    <th>PA</th>
+                                    <th>PD</th>
+                                    <th>Pts</th>
+                                </tr>
+                            </thead>
+                            <tbody>
             `;
             standings.forEach((team, index) => {
                 html += `
@@ -2425,8 +3068,9 @@
                 `;
             });
             html += `
-                        </tbody>
-                    </table>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
                 <p style="margin-top: 1rem; font-size: 0.9rem; opacity: 0.7;">
                     <em>P=Played, W=Won, L=Lost, F=Forfeited, PF=Points For, PA=Points Against, PD=Point Difference, Pts=League Points</em>
@@ -2502,6 +3146,305 @@
             document.getElementById('modal-body').innerHTML = html;
             document.getElementById('modal').style.display = 'block';
         }
+        // Player Stats Functions
+        function renderPlayerStats() {
+            // Populate team filter based on selected division
+            const divisionFilter = document.getElementById('players-division-filter');
+            const teamFilter = document.getElementById('players-team-filter');
+            
+            if (teamFilter) {
+                teamFilter.innerHTML = '<option value="all">All Teams</option>';
+                
+                if (divisionFilter.value !== 'all') {
+                    const teams = appData.teams[divisionFilter.value] || [];
+                    teams.forEach(team => {
+                        teamFilter.innerHTML += `<option value="${team.name}">${team.name}</option>`;
+                    });
+                } else {
+                    // Add all teams from all divisions
+                    Object.keys(appData.teams).forEach(division => {
+                        appData.teams[division].forEach(team => {
+                            teamFilter.innerHTML += `<option value="${team.name}">${team.name}</option>`;
+                        });
+                    });
+                }
+            }
+            
+            filterPlayers();
+            updatePlayerLeaders();
+        }
+        
+        function filterPlayers() {
+            const selectedDivision = document.getElementById('players-division-filter').value;
+            const selectedTeam = document.getElementById('players-team-filter').value;
+            const sortBy = document.getElementById('players-sort-filter').value;
+            
+            let players = appData.players || [];
+            
+            // Filter by division
+            if (selectedDivision !== 'all') {
+                players = players.filter(p => p.division === selectedDivision);
+            }
+            
+            // Filter by team
+            if (selectedTeam !== 'all') {
+                players = players.filter(p => p.team === selectedTeam);
+            }
+            
+            // Calculate per-game stats and filter out players with 0 games
+            players = players
+                .filter(p => p.gamesPlayed > 0)
+                .map(player => {
+                    return {
+                        ...player,
+                        ppg: (player.totalPoints / player.gamesPlayed).toFixed(1),
+                        rpg: (player.totalRebounds / player.gamesPlayed).toFixed(1),
+                        apg: (player.totalAssists / player.gamesPlayed).toFixed(1),
+                        spg: (player.totalSteals / player.gamesPlayed).toFixed(1),
+                        bpg: (player.totalBlocks / player.gamesPlayed).toFixed(1)
+                    };
+                });
+            
+            // Sort players
+            players.sort((a, b) => {
+                let aValue, bValue;
+                switch(sortBy) {
+                    case 'points': aValue = parseFloat(a.ppg); bValue = parseFloat(b.ppg); break;
+                    case 'rebounds': aValue = parseFloat(a.rpg); bValue = parseFloat(b.rpg); break;
+                    case 'assists': aValue = parseFloat(a.apg); bValue = parseFloat(b.apg); break;
+                    case 'steals': aValue = parseFloat(a.spg); bValue = parseFloat(b.spg); break;
+                    case 'blocks': aValue = parseFloat(a.bpg); bValue = parseFloat(b.bpg); break;
+                    default: aValue = parseFloat(a.ppg); bValue = parseFloat(b.ppg);
+                }
+                return bValue - aValue; // Descending order
+            });
+            
+            // Render table
+            const container = document.getElementById('players-stats-table');
+            if (players.length === 0) {
+                container.innerHTML = '<tr><td colspan="10" class="text-center">No player statistics available.</td></tr>';
+                return;
+            }
+            
+            let html = '';
+            players.forEach((player, index) => {
+                html += `
+                    <tr onclick="showPlayerDetails('${player.id}')" style="cursor: pointer;">
+                        <td><strong>${index + 1}</strong></td>
+                        <td>
+                            <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                ${player.photo ? 
+                                    `<div class="team-logo-small"><img src="${player.photo}" alt="${player.name}"></div>` : 
+                                    `<div class="team-logo-small">${player.name.charAt(0)}</div>`}
+                                <span>${player.name}</span>
+                                ${player.number ? `(#${player.number})` : ''}
+                            </div>
+                        </td>
+                        <td>${player.team}</td>
+                        <td>${player.position}</td>
+                        <td>${player.gamesPlayed}</td>
+                        <td class="status-win">${player.ppg}</td>
+                        <td class="status-win">${player.rpg}</td>
+                        <td class="status-win">${player.apg}</td>
+                        <td class="status-win">${player.spg}</td>
+                        <td class="status-win">${player.bpg}</td>
+                    </tr>
+                `;
+            });
+            
+            container.innerHTML = html;
+        }
+        
+        function updatePlayerLeaders() {
+            if (!appData.players || appData.players.length === 0) return;
+            
+            const playersWithGames = appData.players.filter(p => p.gamesPlayed > 0);
+            if (playersWithGames.length === 0) return;
+            
+            // Points leader
+            const pointsLeader = [...playersWithGames].sort((a, b) => 
+                (b.totalPoints / b.gamesPlayed) - (a.totalPoints / a.gamesPlayed)
+            )[0];
+            if (pointsLeader) {
+                document.getElementById('points-leader-name').textContent = pointsLeader.name;
+                document.getElementById('points-leader-stats').textContent = 
+                    `${(pointsLeader.totalPoints / pointsLeader.gamesPlayed).toFixed(1)} PPG (${pointsLeader.totalPoints} total)`;
+                if (pointsLeader.photo) {
+                    document.querySelector('#points-leader .team-logo').innerHTML = 
+                        `<img src="${pointsLeader.photo}" alt="${pointsLeader.name}">`;
+                }
+            }
+            
+            // Rebounds leader
+            const reboundsLeader = [...playersWithGames].sort((a, b) => 
+                (b.totalRebounds / b.gamesPlayed) - (a.totalRebounds / a.gamesPlayed)
+            )[0];
+            if (reboundsLeader) {
+                document.getElementById('rebounds-leader-name').textContent = reboundsLeader.name;
+                document.getElementById('rebounds-leader-stats').textContent = 
+                    `${(reboundsLeader.totalRebounds / reboundsLeader.gamesPlayed).toFixed(1)} RPG (${reboundsLeader.totalRebounds} total)`;
+                if (reboundsLeader.photo) {
+                    document.querySelector('#rebounds-leader .team-logo').innerHTML = 
+                        `<img src="${reboundsLeader.photo}" alt="${reboundsLeader.name}">`;
+                }
+            }
+            
+            // Assists leader
+            const assistsLeader = [...playersWithGames].sort((a, b) => 
+                (b.totalAssists / b.gamesPlayed) - (a.totalAssists / a.gamesPlayed)
+            )[0];
+            if (assistsLeader) {
+                document.getElementById('assists-leader-name').textContent = assistsLeader.name;
+                document.getElementById('assists-leader-stats').textContent = 
+                    `${(assistsLeader.totalAssists / assistsLeader.gamesPlayed).toFixed(1)} APG (${assistsLeader.totalAssists} total)`;
+                if (assistsLeader.photo) {
+                    document.querySelector('#assists-leader .team-logo').innerHTML = 
+                        `<img src="${assistsLeader.photo}" alt="${assistsLeader.name}">`;
+                }
+            }
+        }
+        
+        async function showPlayerDetails(playerId) {
+            const player = appData.players.find(p => p.id === playerId);
+            if (!player) return;
+            
+            // Get player's game-by-game stats
+            const statsSnapshot = await db.collection("playerStats")
+                .where("playerId", "==", playerId)
+                .orderBy("timestamp", "desc")
+                .limit(10)
+                .get();
+            
+            const recentGames = statsSnapshot.docs.map(doc => doc.data());
+            
+            let html = `
+                <div style="text-align: center; margin-bottom: 2rem;">
+                    ${player.photo ? 
+                        `<div class="team-logo" style="margin: 0 auto 1rem;"><img src="${player.photo}" alt="${player.name}"></div>` : 
+                        `<div class="team-logo" style="margin: 0 auto 1rem;">${player.name.charAt(0)}</div>`}
+                    <h2>${player.name}</h2>
+                    <p><strong>Team:</strong> ${player.team} ${player.number ? `(#${player.number})` : ''}</p>
+                    <p><strong>Position:</strong> ${player.position}</p>
+                    <p><strong>Games Played:</strong> ${player.gamesPlayed}</p>
+                </div>
+                
+                <div class="grid grid-5 mb-2">
+                    <div class="card text-center">
+                        <div class="card-title">
+                            <i class="fas fa-fire"></i>
+                            Points
+                        </div>
+                        <div class="card-content">
+                            <div style="font-size: 2rem; font-weight: bold; color: var(--accent-color);">
+                                ${(player.totalPoints / player.gamesPlayed).toFixed(1)}
+                            </div>
+                            <div style="font-size: 0.9rem;">PPG</div>
+                            <div style="margin-top: 0.5rem;">${player.totalPoints} Total</div>
+                        </div>
+                    </div>
+                    <div class="card text-center">
+                        <div class="card-title">
+                            <i class="fas fa-hand-paper"></i>
+                            Rebounds
+                        </div>
+                        <div class="card-content">
+                            <div style="font-size: 2rem; font-weight: bold; color: var(--accent-color);">
+                                ${(player.totalRebounds / player.gamesPlayed).toFixed(1)}
+                            </div>
+                            <div style="font-size: 0.9rem;">RPG</div>
+                            <div style="margin-top: 0.5rem;">${player.totalRebounds} Total</div>
+                        </div>
+                    </div>
+                    <div class="card text-center">
+                        <div class="card-title">
+                            <i class="fas fa-handshake"></i>
+                            Assists
+                        </div>
+                        <div class="card-content">
+                            <div style="font-size: 2rem; font-weight: bold; color: var(--accent-color);">
+                                ${(player.totalAssists / player.gamesPlayed).toFixed(1)}
+                            </div>
+                            <div style="font-size: 0.9rem;">APG</div>
+                            <div style="margin-top: 0.5rem;">${player.totalAssists} Total</div>
+                        </div>
+                    </div>
+                    <div class="card text-center">
+                        <div class="card-title">
+                            <i class="fas fa-user-secret"></i>
+                            Steals
+                        </div>
+                        <div class="card-content">
+                            <div style="font-size: 2rem; font-weight: bold; color: var(--accent-color);">
+                                ${(player.totalSteals / player.gamesPlayed).toFixed(1)}
+                            </div>
+                            <div style="font-size: 0.9rem;">SPG</div>
+                            <div style="margin-top: 0.5rem;">${player.totalSteals} Total</div>
+                        </div>
+                    </div>
+                    <div class="card text-center">
+                        <div class="card-title">
+                            <i class="fas fa-shield-alt"></i>
+                            Blocks
+                        </div>
+                        <div class="card-content">
+                            <div style="font-size: 2rem; font-weight: bold; color: var(--accent-color);">
+                                ${(player.totalBlocks / player.gamesPlayed).toFixed(1)}
+                            </div>
+                            <div style="font-size: 0.9rem;">BPG</div>
+                            <div style="margin-top: 0.5rem;">${player.totalBlocks} Total</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <h3 style="margin: 2rem 0 1rem;"><i class="fas fa-history"></i> Recent Games</h3>
+            `;
+            
+            if (recentGames.length === 0) {
+                html += '<p style="text-align: center; opacity: 0.7;">No game stats recorded yet.</p>';
+            } else {
+                html += `
+                    <div class="table-container">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Opponent</th>
+                                    <th>PTS</th>
+                                    <th>REB</th>
+                                    <th>AST</th>
+                                    <th>STL</th>
+                                    <th>BLK</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                `;
+                
+                recentGames.forEach(game => {
+                    html += `
+                        <tr>
+                            <td>${game.date}</td>
+                            <td>${game.opponent}</td>
+                            <td class="status-win">${game.points}</td>
+                            <td class="status-win">${game.rebounds}</td>
+                            <td class="status-win">${game.assists}</td>
+                            <td class="status-win">${game.steals}</td>
+                            <td class="status-win">${game.blocks}</td>
+                        </tr>
+                    `;
+                });
+                
+                html += `
+                            </tbody>
+                        </table>
+                    </div>
+                `;
+            }
+            
+            document.getElementById('modal-title').innerHTML = `<i class="fas fa-user"></i> ${player.name}`;
+            document.getElementById('modal-body').innerHTML = html;
+            document.getElementById('modal').style.display = 'block';
+        }
+        
         // Home Page Functions
         function loadHomeData() {
             updateQuickStats();
@@ -2582,6 +3525,9 @@
                 updateMatchTeams();
             } else if (tabName === 'news') {
                 renderAdminNews();
+            } else if (tabName === 'players') {
+                updatePlayerTeams();
+                renderAdminPlayers();
             } else if (tabName === 'results') {
                 setTimeout(() => {
                     renderAdminResults();
