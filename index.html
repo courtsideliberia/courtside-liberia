@@ -319,10 +319,15 @@
             background: var(--card-bg);
             backdrop-filter: blur(20px);
             border-radius: var(--border-radius);
-            padding: 2rem;
+            padding: 1.5rem;
             border: 1px solid rgba(255, 255, 255, 0.1);
             transition: all 0.3s ease;
             cursor: pointer;
+        }
+        @media (max-width: 768px) {
+            .card {
+                padding: 1rem;
+            }
         }
         .card:hover {
             background: var(--card-hover-bg);
@@ -479,17 +484,30 @@
         }
         .table th,
         .table td {
-            padding: 1rem 0.8rem;
+            padding: 0.6rem 0.4rem;
             text-align: left;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            white-space: nowrap;
+            font-size: 0.85rem;
+        }
+        @media (max-width: 768px) {
+            .table th,
+            .table td {
+                padding: 0.5rem 0.3rem;
+                font-size: 0.8rem;
+            }
         }
         .table th {
             background: white;
             color: var(--text-dark);
             font-weight: bold;
-            position: sticky;
-            top: 0;
+            font-size: 0.9rem;
+            padding: 0.5rem 0.4rem;
+        }
+        @media (max-width: 768px) {
+            .table th {
+                font-size: 0.8rem;
+                padding: 0.4rem 0.3rem;
+            }
         }
         .table tr:hover {
             background: rgba(255, 255, 255, 0.05);
@@ -676,67 +694,58 @@
             .nav-menu.show {
                 left: 0;
             }
-            .mobile-menu-toggle {
-                display: block;
+            .hero {
+                padding: 2rem 0 4rem;
             }
-            .progress-timeline {
-                flex-direction: column;
-                gap: 1rem;
-            }
-            .progress-timeline::before {
-                display: none;
-            }
-            .grid {
-                grid-template-columns: 1fr;
-            }
-            .grid-2, .grid-3, .grid-4 {
-                grid-template-columns: 1fr;
-            }
-            .card {
-                padding: 1.5rem;
-            }
-            .card-title {
-                font-size: 1.3rem;
-            }
-            .section-title {
-                font-size: 2rem;
-            }
-            .hero h1 {
-                font-size: 2.5rem;
-            }
-            .hero-subtitle {
-                font-size: 1.2rem;
+            .section {
+                padding: 2rem 0;
             }
             .main-content {
                 padding: 0 1rem;
             }
-            .nav-item a {
-                padding: 0.5rem 1rem;
-                font-size: 0.9rem;
-            }
-            .btn {
-                padding: 0.8rem 1.5rem;
-                font-size: 0.9rem;
-            }
-            .image-preview {
-                max-width: 200px;
-                height: 150px;
-            }
-            .table {
-                font-size: 0.9rem;
-            }
-            .table th, .table td {
-                padding: 0.8rem 0.6rem;
-            }
             .team-vs {
                 flex-direction: column;
-                gap: 0.5rem;
+                text-align: center;
+                gap: 1rem;
             }
             .vs-divider {
-                margin: 0.5rem 0;
+                order: 2;
             }
-            .team-info {
-                justify-content: center;
+            .table-container {
+                overflow-x: auto;
+            }
+            .modal-content {
+                width: 95%;
+                padding: 1rem;
+                max-height: 85vh;
+            }
+            .admin-tabs {
+                flex-direction: column;
+            }
+            .grid {
+                gap: 1rem;
+            }
+            .card {
+                padding: 1.2rem;
+            }
+            .team-logo {
+                width: 50px;
+                height: 50px;
+            }
+            .team-logo-small {
+                width: 25px;
+                height: 25px;
+                font-size: 0.7rem;
+            }
+            .modal-content h2 {
+                font-size: 1.3rem;
+            }
+            .modal-content h3 {
+                font-size: 1.1rem;
+                margin-bottom: 0.8rem;
+            }
+            .scrollable-container {
+                max-height: 250px;
             }
         }
         /* Loading States */
@@ -897,68 +906,322 @@
             padding-bottom: 1rem;
         }
         /* Smaller table fonts for mobile */
-@media (max-width: 768px) {
-    .table th, .table td {
-        font-size: 0.85rem;
-        padding: 0.6rem 0.4rem;
-    }
-    .section-title {
-        font-size: 1.8rem;
-    }
-    .card-title {
-        font-size: 1.2rem;
-    }
-    .team-logo {
-        width: 60px;
-        height: 60px;
-    }
-    .team-logo-small {
-        width: 30px;
-        height: 30px;
-        font-size: 0.7rem;
-    }
-    .modal-content h2 {
-        font-size: 1.5rem;
-    }
-    .modal-content h3 {
-        font-size: 1.2rem;
-    }
-}
-/* Improved modal for mobile */
-.modal-content {
-    padding: 1.5rem;
-    max-height: 85vh;
-}
-
-@media (max-width: 768px) {
-    .modal-content {
-        padding: 1rem;
-        margin: 1rem;
-        max-height: 80vh;
-    }
-    .modal-header {
-        margin-bottom: 1rem;
-    }
-    .table-container {
-        font-size: 0.9rem;
-    }
-    .scrollable-container {
-        max-height: 300px;
-        overflow-y: auto;
-    }
-}/* Scrollable game results */
-.game-results-container {
-    max-height: 300px;
-    overflow-y: auto;
-    margin-top: 1rem;
-    padding-right: 5px;
-}
-
-@media (max-width: 768px) {
-    .game-results-container {
-        max-height: 250px;
-    }
-}
+        @media (max-width: 768px) {
+            .table th, .table td {
+                font-size: 0.85rem;
+                padding: 0.6rem 0.4rem;
+            }
+            .section-title {
+                font-size: 1.8rem;
+            }
+            .card-title {
+                font-size: 1.2rem;
+            }
+            .team-logo {
+                width: 60px;
+                height: 60px;
+            }
+            .team-logo-small {
+                width: 30px;
+                height: 30px;
+                font-size: 0.7rem;
+            }
+            .modal-content h2 {
+                font-size: 1.5rem;
+            }
+            .modal-content h3 {
+                font-size: 1.2rem;
+            }
+        }
+        /* Improved modal for mobile */
+        .modal-content {
+            padding: 1.5rem;
+            max-height: 85vh;
+        }
+        @media (max-width: 768px) {
+            .modal-content {
+                padding: 1rem;
+                margin: 1rem;
+                max-height: 80vh;
+            }
+            .modal-header {
+                margin-bottom: 1rem;
+            }
+            .table-container {
+                font-size: 0.9rem;
+            }
+            .scrollable-container {
+                max-height: 300px;
+                overflow-y: auto;
+            }
+        }
+        /* Scrollable game results */
+        .game-results-container {
+            max-height: 300px;
+            overflow-y: auto;
+            margin-top: 1rem;
+            padding-right: 5px;
+        }
+        @media (max-width: 768px) {
+            .game-results-container {
+                max-height: 250px;
+            }
+        }
+        /* Compact table container */
+        .table-container {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            margin: 1.5rem 0;
+            max-height: none !important;
+        }
+        /* Remove horizontal scrolling on mobile */
+        @media (max-width: 768px) {
+            .table-container {
+                overflow-x: hidden !important;
+            }
+            /* Make table columns narrower */
+            .table th:nth-child(1), .table td:nth-child(1) { /* Pos */
+                width: 5%;
+            }
+            .table th:nth-child(2), .table td:nth-child(2) { /* Team */
+                width: 25%;
+            }
+            .table th:nth-child(3), .table td:nth-child(3) { /* P */
+                width: 5%;
+            }
+            .table th:nth-child(4), .table td:nth-child(4) { /* W */
+                width: 5%;
+            }
+            .table th:nth-child(5), .table td:nth-child(5) { /* L */
+                width: 5%;
+            }
+            .table th:nth-child(6), .table td:nth-child(6) { /* F */
+                width: 5%;
+            }
+            .table th:nth-child(7), .table td:nth-child(7) { /* PF */
+                width: 8%;
+            }
+            .table th:nth-child(8), .table td:nth-child(8) { /* PA */
+                width: 8%;
+            }
+            .table th:nth-child(9), .table td:nth-child(9) { /* PD */
+                width: 8%;
+            }
+            .table th:nth-child(10), .table td:nth-child(10) { /* Pts */
+                width: 8%;
+            }
+            .table th:nth-child(11), .table td:nth-child(11) { /* Status */
+                width: 18%;
+            }
+        }
+        /* Notification Styles */
+        .notification {
+            background: white;
+            color: var(--text-dark);
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            margin-bottom: 1rem;
+            animation: slideInRight 0.3s ease-out;
+            border-left: 4px solid var(--accent-color);
+            position: relative;
+            overflow: hidden;
+        }
+        .notification.success {
+            border-left-color: #4CAF50;
+        }
+        .notification.info {
+            border-left-color: #2196F3;
+        }
+        @keyframes slideInRight {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        .notification-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+        .notification-close {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            color: #999;
+            padding: 0;
+            margin: 0;
+        }
+        .notification-close:hover {
+            color: #333;
+        }
+        .notification-content {
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+        .notification-time {
+            font-size: 0.8rem;
+            opacity: 0.7;
+            margin-top: 0.5rem;
+        }
+        /* Notification Badge for Mobile Menu */
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: var(--accent-color);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: bold;
+        }
+        /* Notification Bell Icon */
+        .nav-notification {
+            position: relative;
+            padding: 0.8rem 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-light);
+            text-decoration: none;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+        }
+        .nav-notification:hover {
+            background: var(--card-bg);
+            transform: translateY(-2px);
+        }
+        .nav-notification.active {
+            background: var(--card-bg);
+        }
+        /* Notification Animations */
+        @keyframes slideInRight {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        @keyframes slideOutRight {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            to {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+        }
+        /* Comments Section */
+        .comment-card {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .comment-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+        .comment-author {
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+        .comment-date {
+            font-size: 0.8rem;
+            opacity: 0.7;
+        }
+        .comment-content {
+            line-height: 1.6;
+            margin-bottom: 0.5rem;
+        }
+        .comment-reply {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--accent-color);
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        .comment-reply:hover {
+            text-decoration: underline;
+        }
+        .comment-form {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .comment-reply-input {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: var(--border-radius);
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+        }
+        .comment-reply-btn {
+            padding: 0.5rem 1rem;
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        .comment-reply-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 107, 53, 0.3);
+        }
+        /* Loading States for Comments */
+        .comments-loading {
+            text-align: center;
+            padding: 2rem;
+            opacity: 0.7;
+        }
+        .comments-spinner {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--accent-color);
+            animation: spin 1s ease-in-out infinite;
+            margin-bottom: 1rem;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        /* Error Message Styling */
+        .error-message {
+            color: #f44336;
+            text-align: center;
+            padding: 1rem;
+            background: rgba(244, 67, 54, 0.1);
+            border-radius: var(--border-radius);
+            margin: 1rem 0;
+        }
     </style>
 </head>
 <body>
@@ -977,7 +1240,12 @@
                     <li class="nav-item"><a href="#" class="nav-link" data-section="news"><i class="fas fa-newspaper"></i> News</a></li>
                     <li class="nav-item"><a href="#" class="nav-link" data-section="divisions"><i class="fas fa-trophy"></i> Divisions</a></li>
                     <li class="nav-item"><a href="#" class="nav-link" data-section="fixtures"><i class="fas fa-calendar-alt"></i> Fixtures</a></li>
-                    <li class="nav-item"><a href="#" class="nav-link" data-section="results"><i class="fas fa-clipboard-check"></i> Results</a></li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link nav-notification" data-section="results" id="results-notification">
+                            <i class="fas fa-clipboard-check"></i> Results
+                            <span id="notification-badge" class="notification-badge hidden">0</span>
+                        </a>
+                    </li>
                     <li class="nav-item"><a href="#" class="nav-link" data-section="players"><i class="fas fa-basketball"></i> Player Stats</a></li>
                 </ul>
             </nav>
@@ -1310,7 +1578,6 @@
         <!-- Players Stats Section -->
         <section id="players" class="section">
             <div class="section-title">Player Statistics</div>
-            
             <div class="filter-section">
                 <div class="form-group">
                     <label class="form-label">Filter by Division</label>
@@ -1340,7 +1607,6 @@
                     </select>
                 </div>
             </div>
-            
             <div class="grid grid-3 mb-2">
                 <div class="card text-center">
                     <div class="card-title">
@@ -1382,7 +1648,6 @@
                     </div>
                 </div>
             </div>
-            
             <div class="scrollable-container">
                 <div class="table-container">
                     <table class="table">
@@ -1722,6 +1987,10 @@
             <div id="player-stats-modal-body"></div>
         </div>
     </div>
+    <!-- Notification Container -->
+    <div id="notification-container" style="position: fixed; top: 80px; right: 20px; z-index: 3000; max-width: 350px;"></div>
+    <!-- Notification Sound (Optional) -->
+    <audio id="notification-sound" src="data:audio/wav;base64,UklGRl9vT19XQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YU" preload="auto"></audio>
     <!-- Admin Access -->
     <div id="admin-access" class="admin-access">
         <h3><i class="fas fa-lock"></i> Admin Access</h3>
@@ -1809,6 +2078,21 @@
                     closePlayerStatsModal();
                 }
             });
+            // Notification bell click
+            const notificationBell = document.getElementById('results-notification');
+            if (notificationBell) {
+                notificationBell.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    showSection('results');
+                    // Clear notification count when viewing results
+                    notificationCount = 0;
+                    const badge = document.getElementById('notification-badge');
+                    badge.classList.add('hidden');
+                    // Clear all notifications
+                    const container = document.getElementById('notification-container');
+                    container.innerHTML = '';
+                });
+            }
         }
         // Navigation Functions
         function showSection(sectionName) {
@@ -1998,12 +2282,19 @@
         }
         // Data Loading Functions
         function loadAllData() {
-            loadTeams();
-            loadFixtures();
-            loadResults();
-            loadNews();
-            loadSettings();
-            loadPlayers();
+            try {
+                loadTeams();
+                loadFixtures();
+                loadResults();
+                loadNews();
+                loadSettings();
+                loadPlayers();
+                // Initialize comments collection
+                initializeComments();
+            } catch (error) {
+                console.error("Error loading ", error);
+                alert("Error loading data. Please try again later.");
+            }
         }
         function loadTeams() {
             db.collection("teams").onSnapshot((snapshot) => {
@@ -2131,8 +2422,10 @@
                     content,
                     image: imageData || null,
                     timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-                    date: new Date().toISOString().split('T')[0]
+                    date: new Date().toISOString().split('T')[0],
+                    commentCount: 0 // Initialize comment count
                 });
+                // Clear form
                 document.getElementById('news-title').value = '';
                 document.getElementById('news-content').value = '';
                 document.getElementById('news-image').value = '';
@@ -2212,11 +2505,120 @@
             }
             container.innerHTML = html;
         }
+        // Comments Functions
+        function initializeComments() {
+            // Create comments collection if it doesn't exist
+            db.collection("comments").get().then((snapshot) => {
+                console.log("Comments collection initialized");
+            }).catch((error) => {
+                console.log("Comments collection created:", error);
+            });
+        }
+        
+        async function addComment(newsId) {
+            const nameInput = document.getElementById(`comment-name-${newsId}`);
+            const contentInput = document.getElementById(`comment-content-${newsId}`);
+            const name = nameInput.value.trim();
+            const content = contentInput.value.trim();
+            
+            if (!name || !content) {
+                alert('Please enter your name and comment');
+                return;
+            }
+            
+            try {
+                // Add comment to Firestore
+                const commentRef = await db.collection("comments").add({
+                    newsId: newsId,
+                    name: name,
+                    content: content,
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                    date: new Date().toISOString().split('T')[0]
+                });
+                
+                // Clear form
+                nameInput.value = '';
+                contentInput.value = '';
+                
+                // Update comment count for the news article
+                const newsRef = db.collection("news").doc(newsId);
+                await newsRef.update({
+                    commentCount: firebase.firestore.FieldValue.increment(1)
+                });
+                
+                // Reload comments
+                loadComments(newsId);
+                
+                // Show success message
+                alert('Comment added successfully!');
+            } catch (error) {
+                console.error("Error adding comment:", error);
+                alert('Error adding comment. Please try again.');
+            }
+        }
+        
+        async function loadComments(newsId) {
+            const commentsContainer = document.getElementById(`comments-list-${newsId}`);
+            const loadingElement = document.getElementById(`comments-loading-${newsId}`);
+            
+            // Clear previous content
+            if (commentsContainer) {
+                commentsContainer.innerHTML = '';
+            }
+            
+            try {
+                // Get comments for this news article
+                const commentsSnapshot = await db.collection("comments")
+                    .where("newsId", "==", newsId)
+                    .orderBy("timestamp", "asc")
+                    .get();
+                
+                let html = '';
+                
+                if (commentsSnapshot.empty) {
+                    html = '<p style="text-align: center; opacity: 0.7;">No comments yet. Be the first to comment!</p>';
+                } else {
+                    commentsSnapshot.forEach(doc => {
+                        const comment = doc.data();
+                        html += `
+                            <div class="comment-card">
+                                <div class="comment-header">
+                                    <span class="comment-author">${comment.name}</span>
+                                    <span class="comment-date">${comment.date}</span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `;
+                    });
+                }
+                
+                if (commentsContainer) {
+                    commentsContainer.innerHTML = html;
+                }
+                
+                if (loadingElement) {
+                    loadingElement.style.display = 'none';
+                }
+            } catch (error) {
+                console.error("Error loading comments:", error);
+                if (commentsContainer) {
+                    commentsContainer.innerHTML = '<div class="error-message">Comments system is initializing. Please try again in a few moments.</div>';
+                }
+                if (loadingElement) {
+                    loadingElement.style.display = 'none';
+                }
+            }
+        }
+        
         function showNewsDetails(newsId) {
             const article = appData.news.find(n => n.id === newsId);
             if (!article) return;
+            
+            // Set up modal content
             document.getElementById('modal-title').innerHTML = `<i class="fas fa-newspaper"></i> ${article.title}`;
-            document.getElementById('modal-body').innerHTML = `
+            
+            // Create the HTML content
+            let html = `
                 <div style="margin-bottom: 1rem;">
                     ${article.image ? `<img src="${article.image}" alt="${article.title}" style="width: 100%; border-radius: var(--border-radius); margin-bottom: 1rem;">` : ''}
                     <p style="opacity: 0.7;"><i class="fas fa-calendar-alt"></i> ${article.date}</p>
@@ -2225,8 +2627,147 @@
                     ${article.content}
                 </div>
             `;
+            
+            // Add comments section
+            html += `
+                <div style="border-top: 1px solid rgba(255, 255, 255, 0.2); padding-top: 2rem; margin-top: 2rem;">
+                    <h3 style="margin-bottom: 1.5rem;"><i class="fas fa-comments"></i> Comments (${article.commentCount || 0})</h3>
+                    
+                    <!-- Add Comment Form -->
+                    <div class="card" style="margin-bottom: 2rem;">
+                        <h4 style="margin-bottom: 1rem;">Add a Comment</h4>
+                        <div class="form-group">
+                            <input type="text" id="comment-name-${newsId}" class="form-input" placeholder="Your Name" style="margin-bottom: 1rem;">
+                            <textarea id="comment-content-${newsId}" class="form-textarea" placeholder="Write your comment here..." style="margin-bottom: 1rem;"></textarea>
+                            <button class="btn btn-primary" onclick="addComment('${newsId}')">
+                                <i class="fas fa-paper-plane"></i> Post Comment
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Comments List -->
+                    <div id="comments-list-${newsId}" style="max-height: 400px; overflow-y: auto;">
+                        <div class="comments-loading" id="comments-loading-${newsId}">
+                            <div class="comments-spinner"></div>
+                            <p>Loading comments...</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            // Set the modal body content
+            document.getElementById('modal-body').innerHTML = html;
             document.getElementById('modal').style.display = 'block';
+            
+            // Load comments for this article
+            setTimeout(() => {
+                loadComments(newsId);
+            }, 500);
         }
+        
+        // Update your loadNews function to include comment counts
+        function renderNews() {
+            const container = document.getElementById('news-grid');
+            let html = '';
+            if (appData.news.length === 0) {
+                html = '<div class="loading"><div class="spinner"></div><p>Loading news...</p></div>';
+            } else {
+                appData.news.forEach(article => {
+                    html += `
+                        <div class="card news-card" onclick="showNewsDetails('${article.id}')">
+                            <div class="news-image">
+                                ${article.image ? `<img src="${article.image}" alt="${article.title}">` : '<i class="fas fa-newspaper" style="font-size: 3rem; opacity: 0.3;"></i>'}
+                            </div>
+                            <div class="news-meta">
+                                <i class="fas fa-calendar-alt"></i> ${article.date || 'No date'}
+                            </div>
+                            <h3>${article.title}</h3>
+                            <div class="news-excerpt">
+                                ${article.content.substring(0, 150)}${article.content.length > 150 ? '...' : ''}
+                            </div>
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1rem;">
+                                <div style="color: var(--accent-color); font-weight: bold;">
+                                    Read More <i class="fas fa-arrow-right"></i>
+                                </div>
+                                <div style="background: rgba(255, 255, 255, 0.1); padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.8rem;">
+                                    <i class="fas fa-comments"></i> ${article.commentCount || 0} Comments
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+            container.innerHTML = html;
+        }
+        
+        // Update your renderAdminNews function
+        function renderAdminNews() {
+            const container = document.getElementById('admin-news-list');
+            let html = '<h4><i class="fas fa-list"></i> Published Articles:</h4>';
+            if (appData.news.length === 0) {
+                html += '<p style="text-align: center; opacity: 0.7;">No news articles yet.</p>';
+            } else {
+                appData.news.forEach(article => {
+                    html += `
+                        <div class="card" style="margin-bottom: 1rem;">
+                            <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem;">
+                                <div style="flex: 1;">
+                                    <h4>${article.title}</h4>
+                                    <p style="opacity: 0.7; margin: 0.5rem 0;">${article.date}</p>
+                                    <p>${article.content.substring(0, 100)}${article.content.length > 100 ? '...' : ''}</p>
+                                    <p style="font-size: 0.9rem; margin-top: 0.5rem;">
+                                        <i class="fas fa-comments"></i> ${article.commentCount || 0} Comments
+                                    </p>
+                                </div>
+                                <div style="display: flex; gap: 0.5rem;">
+                                    <button class="btn btn-danger" style="padding: 0.5rem 1rem; font-size: 0.8rem;" onclick="removeNews('${article.id}')">
+                                        <i class="fas fa-trash"></i> Remove
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+            container.innerHTML = html;
+        }
+        
+        // Update your showNewsDetails function in the home page preview
+        function renderHomeNewsPreview() {
+            const container = document.getElementById('home-news-grid');
+            const latestNews = appData.news.slice(0, 3); // Show latest 3 articles
+            let html = '';
+            if (latestNews.length === 0) {
+                html = '<div class="loading"><p>No news articles yet.</p></div>';
+            } else {
+                latestNews.forEach(article => {
+                    html += `
+                        <div class="card news-card" onclick="showNewsDetails('${article.id}')">
+                            <div class="news-image">
+                                ${article.image ? `<img src="${article.image}" alt="${article.title}">` : '<i class="fas fa-newspaper" style="font-size: 3rem; opacity: 0.3;"></i>'}
+                            </div>
+                            <div class="news-meta">
+                                <i class="fas fa-calendar-alt"></i> ${article.date || 'No date'}
+                            </div>
+                            <h3>${article.title}</h3>
+                            <div class="news-excerpt">
+                                ${article.content.substring(0, 100)}${article.content.length > 100 ? '...' : ''}
+                            </div>
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1rem;">
+                                <div style="color: var(--accent-color); font-weight: bold;">
+                                    Read More <i class="fas fa-arrow-right"></i>
+                                </div>
+                                <div style="background: rgba(255, 255, 255, 0.1); padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.8rem;">
+                                    <i class="fas fa-comments"></i> ${article.commentCount || 0} Comments
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+            container.innerHTML = html;
+        }
+        
         // Team Functions
         async function addTeam() {
             const division = document.getElementById('team-division').value;
@@ -2361,17 +2902,14 @@
             const number = document.getElementById('player-number').value;
             const position = document.getElementById('player-position').value;
             const photoData = currentImageData['player-photo'];
-            
             if (!division || !team) {
                 alert('Please select a division and team');
                 return;
             }
-            
             if (!name) {
                 alert('Please enter a player name');
                 return;
             }
-            
             try {
                 await db.collection("players").add({
                     division,
@@ -2388,7 +2926,6 @@
                     totalBlocks: 0,
                     timestamp: firebase.firestore.FieldValue.serverTimestamp()
                 });
-                
                 // Reset form
                 document.getElementById('player-name').value = '';
                 document.getElementById('player-number').value = '';
@@ -2397,7 +2934,6 @@
                 document.getElementById('player-photo-preview').innerHTML = '<span>Select player photo</span>';
                 document.getElementById('player-photo-preview').classList.remove('has-image');
                 delete currentImageData['player-photo'];
-                
                 alert('Player added successfully!');
                 renderAdminPlayers();
             } catch (error) {
@@ -2405,7 +2941,6 @@
                 alert('Error adding player. Please try again.');
             }
         }
-        
         async function removePlayer(playerId) {
             if (!confirm('Are you sure you want to remove this player?')) {
                 return;
@@ -2419,11 +2954,9 @@
                 alert('Error removing player. Please try again.');
             }
         }
-        
         function renderAdminPlayers() {
             const container = document.getElementById('admin-players-list');
             let html = '<h4><i class="fas fa-list"></i> Current Players:</h4>';
-            
             if (!appData.players || appData.players.length === 0) {
                 html += '<p style="text-align: center; opacity: 0.7;">No players added yet.</p>';
             } else {
@@ -2438,7 +2971,6 @@
                     }
                     playersByDivision[player.division][player.team].push(player);
                 });
-                
                 Object.keys(playersByDivision).forEach(division => {
                     html += `<h5>${getDivisionName(division)}:</h5>`;
                     Object.keys(playersByDivision[division]).forEach(team => {
@@ -2468,23 +3000,18 @@
                     });
                 });
             }
-            
             container.innerHTML = html;
         }
-        
         function updatePlayerTeams() {
             const division = document.getElementById('player-division').value;
             const teamSelect = document.getElementById('player-team');
             if (!teamSelect) return;
-            
             teamSelect.innerHTML = '<option value="">Select Team</option>';
-            
             const teams = appData.teams[division] || [];
             teams.forEach(team => {
                 teamSelect.innerHTML += `<option value="${team.name}">${team.name}</option>`;
             });
         }
-        
         // Fixture Functions
         async function addFixture() {
             const division = document.getElementById('fixture-division').value;
@@ -2653,14 +3180,12 @@
                     .where("date", "==", date)
                     .limit(1)
                     .get();
-                    
                 if (!querySnapshot.empty) {
                     docRef = querySnapshot.docs[0].ref;
                     await docRef.update(resultData);
                 } else {
                     docRef = await db.collection("fixtures").add(resultData);
                 }
-                
                 // If this is a normal game (not forfeit), ask for player stats
                 if (resultType === 'normal') {
                     currentMatchForStats = {
@@ -2674,6 +3199,25 @@
                         showPlayerStatsModal();
                     }, 500);
                 }
+                // Show notification for new result
+                let resultText, winnerText;
+                if (resultType === 'forfeit') {
+                    const forfeitingTeam = resultData.forfeitTeam === 'home' ? homeTeam : awayTeam;
+                    const winningTeam = resultData.forfeitTeam === 'home' ? awayTeam : homeTeam;
+                    resultText = 'FORFEIT';
+                    winnerText = `${winningTeam} wins by forfeit`;
+                } else {
+                    resultText = `${resultData.homeScore} - ${resultData.awayScore}`;
+                    const winner = resultData.homeScore > resultData.awayScore ? homeTeam : 
+                                  resultData.homeScore < resultData.awayScore ? awayTeam : 'Draw';
+                    winnerText = winner === 'Draw' ? 'Match ended in a draw' : `${winner} wins`;
+                }
+                
+                showNotification(
+                    '🏀 New Match Result!',
+                    `${homeTeam} ${resultData.homeScore} - ${resultData.awayScore} ${awayTeam}<br><strong>${winnerText}</strong><br><em>${getDivisionName(division)}</em>`,
+                    'success'
+                );
                 
                 document.getElementById('match-home-score').value = '';
                 document.getElementById('match-away-score').value = '';
@@ -2684,24 +3228,18 @@
                 alert("Error recording match result. Please try again.");
             }
         }
-        
         function showPlayerStatsModal() {
             if (!currentMatchForStats) return;
-            
             const { division, homeTeam, awayTeam } = currentMatchForStats;
-            
             // Get players for both teams
             const homePlayers = appData.players.filter(p => p.team === homeTeam && p.division === division);
             const awayPlayers = appData.players.filter(p => p.team === awayTeam && p.division === division);
-            
             let html = `
                 <h3><i class="fas fa-basketball"></i> Record Player Stats for ${homeTeam} vs ${awayTeam}</h3>
                 <p>Enter stats for players who participated in this match:</p>
                 <input type="hidden" id="stats-match-id" value="${currentMatchForStats.id}">
-                
                 <h4 style="margin: 2rem 0 1rem;">${homeTeam} Players</h4>
             `;
-            
             if (homePlayers.length === 0) {
                 html += '<p style="opacity: 0.7;">No players added for this team yet.</p>';
             } else {
@@ -2745,11 +3283,9 @@
                 });
                 html += '</div>';
             }
-            
             html += `
                 <h4 style="margin: 2rem 0 1rem;">${awayTeam} Players</h4>
             `;
-            
             if (awayPlayers.length === 0) {
                 html += '<p style="opacity: 0.7;">No players added for this team yet.</p>';
             } else {
@@ -2793,7 +3329,6 @@
                 });
                 html += '</div>';
             }
-            
             html += `
                 <div style="margin-top: 2rem; text-align: center;">
                     <button class="btn btn-success" onclick="savePlayerStats()">
@@ -2804,36 +3339,29 @@
                     </button>
                 </div>
             `;
-            
             document.getElementById('player-stats-modal-title').innerHTML = `<i class="fas fa-basketball"></i> Player Statistics`;
             document.getElementById('player-stats-modal-body').innerHTML = html;
             document.getElementById('player-stats-modal').style.display = 'block';
         }
-        
         async function savePlayerStats() {
             if (!currentMatchForStats) return;
-            
             const matchId = currentMatchForStats.id;
             const division = currentMatchForStats.division;
             const homeTeam = currentMatchForStats.homeTeam;
             const awayTeam = currentMatchForStats.awayTeam;
-            
             // Get all players for both teams
             const homePlayers = appData.players.filter(p => p.team === homeTeam && p.division === division);
             const awayPlayers = appData.players.filter(p => p.team === awayTeam && p.division === division);
             const allPlayers = [...homePlayers, ...awayPlayers];
-            
             try {
                 // Create a batch write for all player updates
                 const batch = db.batch();
-                
                 allPlayers.forEach(player => {
                     const points = parseInt(document.getElementById(`stats-${player.id}-points`).value) || 0;
                     const rebounds = parseInt(document.getElementById(`stats-${player.id}-rebounds`).value) || 0;
                     const assists = parseInt(document.getElementById(`stats-${player.id}-assists`).value) || 0;
                     const steals = parseInt(document.getElementById(`stats-${player.id}-steals`).value) || 0;
                     const blocks = parseInt(document.getElementById(`stats-${player.id}-blocks`).value) || 0;
-                    
                     // Only update if any stats were entered
                     if (points > 0 || rebounds > 0 || assists > 0 || steals > 0 || blocks > 0) {
                         const playerRef = db.collection("players").doc(player.id);
@@ -2845,7 +3373,6 @@
                             totalSteals: firebase.firestore.FieldValue.increment(steals),
                             totalBlocks: firebase.firestore.FieldValue.increment(blocks)
                         });
-                        
                         // Also save individual game stats
                         db.collection("playerStats").add({
                             playerId: player.id,
@@ -2864,7 +3391,6 @@
                         });
                     }
                 });
-                
                 await batch.commit();
                 closePlayerStatsModal();
                 currentMatchForStats = null;
@@ -2874,11 +3400,9 @@
                 alert('Error saving player stats. Please try again.');
             }
         }
-        
         function closePlayerStatsModal() {
             document.getElementById('player-stats-modal').style.display = 'none';
         }
-        
         // Results Functions
         function filterResults() {
             const selectedDivision = document.getElementById('results-division-filter').value;
@@ -3010,7 +3534,7 @@
             }
             try {
                 await db.collection("settings").doc("mainLogo").set({
-                    data: logoData,
+                     logoData,
                     timestamp: firebase.firestore.FieldValue.serverTimestamp()
                 });
                 updateMainLogo(logoData);
@@ -3028,7 +3552,7 @@
             }
             try {
                 await db.collection("settings").doc("coverPhoto").set({
-                    data: coverData,
+                     coverData,
                     timestamp: firebase.firestore.FieldValue.serverTimestamp()
                 });
                 updateCoverPhoto(coverData);
@@ -3144,156 +3668,123 @@
             document.getElementById('modal').style.display = 'block';
         }
         async function showTeamDetails(division, teamName) {
-    const resultsSnapshot = await db.collection("fixtures")
-        .where("played", "==", true)
-        .where("division", "==", division)
-        .get();
-    const teamResults = resultsSnapshot.docs
-        .filter(doc => {
-            const result = doc.data();
-            return result.homeTeam === teamName || result.awayTeam === teamName;
-        })
-        .map(doc => doc.data());
-    let wins = 0, losses = 0, forfeits = 0, totalPointsScored = 0, totalPointsConceded = 0;
-    teamResults.forEach(result => {
-        const isHome = result.homeTeam === teamName;
-        const teamScore = isHome ? result.homeScore : result.awayScore;
-        const opponentScore = isHome ? result.awayScore : result.homeScore;
-        totalPointsScored += teamScore;
-        totalPointsConceded += opponentScore;
-        if (result.forfeit) {
-            if ((isHome && result.forfeitTeam === 'home') || (!isHome && result.forfeitTeam === 'away')) {
-                forfeits++;
-            } else {
-                wins++;
-            }
-        } else {
-            if (teamScore > opponentScore) {
-                wins++;
-            } else {
-                losses++;
-            }
-        }
-    });
-    const totalLeaguePoints = (wins * 2) + (losses * 1) + (forfeits * 0);
-    const avgPointsScored = teamResults.length > 0 ? (totalPointsScored / teamResults.length).toFixed(1) : 0;
-    const avgPointsConceded = teamResults.length > 0 ? (totalPointsConceded / teamResults.length).toFixed(1) : 0;
-    const winRate = teamResults.length > 0 ? ((wins/teamResults.length) * 100).toFixed(1) : 0;
-    const logoSrc = appData.settings.teamLogos[`${division}-${teamName}`];
-    const teamLogo = logoSrc ? 
-        `<div class="team-logo" style="margin: 0 auto 1rem; width: 60px; height: 60px;"><img src="${logoSrc}" alt="${teamName}"></div>` :
-        `<div class="team-logo" style="margin: 0 auto 1rem; width: 60px; height: 60px;">${teamName.charAt(0)}</div>`;
-    let html = `
-        <div style="text-align: center; margin-bottom: 1.5rem;">
-            ${teamLogo}
-            <h2 style="font-size: 1.5rem; margin-bottom: 0.5rem;">${teamName}</h2>
-            <p style="opacity: 0.8; font-size: 0.9rem; margin-bottom: 1.5rem;"><strong>Division:</strong> ${getDivisionName(division)}</p>
-        </div>
-        
-        <div class="table-container">
-            <h3 style="margin-bottom: 1rem; font-size: 1.2rem;"><i class="fas fa-chart-line"></i> Season Statistics</h3>
-            <table class="table" style="font-size: 0.9rem;">
-                <tr><td><strong>Games Played</strong></td><td>${teamResults.length}</td></tr>
-                <tr><td><strong>Wins</strong></td><td class="status-win">${wins}</td></tr>
-                <tr><td><strong>Losses</strong></td><td class="status-loss">${losses}</td></tr>
-                <tr><td><strong>Forfeits</strong></td><td class="status-forfeit">${forfeits}</td></tr>
-                <tr><td><strong>Total Points Scored</strong></td><td>${totalPointsScored}</td></tr>
-                <tr><td><strong>Total Points Conceded</strong></td><td>${totalPointsConceded}</td></tr>
-                <tr><td><strong>Avg Points Scored</strong></td><td>${avgPointsScored}</td></tr>
-                <tr><td><strong>Avg Points Conceded</strong></td><td>${avgPointsConceded}</td></tr>
-                <tr><td><strong>League Points</strong></td><td style="font-weight: bold; color: var(--accent-color);">${totalLeaguePoints}</td></tr>
-                <tr><td><strong>Win Rate</strong></td><td>${winRate}%</td></tr>
-            </table>
-        </div>
-    `;
-
-    // Add Recent Games section
-    if (teamResults.length > 0) {
-        html += `
-            <h3 style="margin: 2rem 0 1rem; font-size: 1.2rem;"><i class="fas fa-history"></i> Recent Games</h3>
-            <div class="scrollable-container">
+            const resultsSnapshot = await db.collection("fixtures")
+                .where("played", "==", true)
+                .where("division", "==", division)
+                .get();
+            const teamResults = resultsSnapshot.docs
+                .filter(doc => {
+                    const result = doc.data();
+                    return result.homeTeam === teamName || result.awayTeam === teamName;
+                })
+                .map(doc => doc.data());
+            let wins = 0, losses = 0, forfeits = 0, totalPointsScored = 0, totalPointsConceded = 0;
+            teamResults.forEach(result => {
+                const isHome = result.homeTeam === teamName;
+                const teamScore = isHome ? result.homeScore : result.awayScore;
+                const opponentScore = isHome ? result.awayScore : result.homeScore;
+                totalPointsScored += teamScore;
+                totalPointsConceded += opponentScore;
+                if (result.forfeit) {
+                    if ((isHome && result.forfeitTeam === 'home') || (!isHome && result.forfeitTeam === 'away')) {
+                        forfeits++;
+                    } else {
+                        wins++;
+                    }
+                } else {
+                    if (teamScore > opponentScore) {
+                        wins++;
+                    } else {
+                        losses++;
+                    }
+                }
+            });
+            const totalLeaguePoints = (wins * 2) + (losses * 1) + (forfeits * 0);
+            const avgPointsScored = teamResults.length > 0 ? (totalPointsScored / teamResults.length).toFixed(1) : 0;
+            const avgPointsConceded = teamResults.length > 0 ? (totalPointsConceded / teamResults.length).toFixed(1) : 0;
+            const winRate = teamResults.length > 0 ? ((wins/teamResults.length) * 100).toFixed(1) : 0;
+            const logoSrc = appData.settings.teamLogos[`${division}-${teamName}`];
+            const teamLogo = logoSrc ? 
+                `<div class="team-logo" style="margin: 0 auto 0.5rem; width: 50px; height: 50px;"><img src="${logoSrc}" alt="${teamName}"></div>` :
+                `<div class="team-logo" style="margin: 0 auto 0.5rem; width: 50px; height: 50px;">${teamName.charAt(0)}</div>`;
+            let html = `
+                <div style="text-align: center; margin-bottom: 1rem;">
+                    ${teamLogo}
+                    <h2 style="font-size: 1.3rem; margin-bottom: 0.3rem;">${teamName}</h2>
+                    <p style="opacity: 0.8; font-size: 0.8rem; margin-bottom: 1rem;"><strong>Division:</strong> ${getDivisionName(division)}</p>
+                </div>
                 <div class="table-container">
+                    <h3 style="margin-bottom: 0.8rem; font-size: 1.1rem;"><i class="fas fa-chart-line"></i> Season Statistics</h3>
                     <table class="table" style="font-size: 0.85rem;">
-                        <thead>
-                            <tr>
-                                <th>Date</th>
-                                <th>Opponent</th>
-                                <th>Result</th>
-                                <th>Score</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-        `;
-        
-        // Sort by most recent first
-        teamResults.sort((a, b) => new Date(b.date) - new Date(a.date));
-        
-        teamResults.forEach(result => {
-            const isHome = result.homeTeam === teamName;
-            const opponent = isHome ? result.awayTeam : result.homeTeam;
-            const teamScore = isHome ? result.homeScore : result.awayScore;
-            const opponentScore = isHome ? result.awayScore : result.homeScore;
-            let resultText, statusText, statusClass = '';
-            
-            if (result.forfeit) {
-                if ((isHome && result.forfeitTeam === 'home') || (!isHome && result.forfeitTeam === 'away')) {
-                    resultText = 'L';
-                    statusText = 'Forfeit';
-                    statusClass = 'status-forfeit';
-                } else {
-                    resultText = 'W';
-                    statusText = 'Won by Forfeit';
-                    statusClass = 'status-win';
-                }
-            } else {
-                if (teamScore > opponentScore) {
-                    resultText = 'W';
-                    statusText = 'Win';
-                    statusClass = 'status-win';
-                } else if (teamScore < opponentScore) {
-                    resultText = 'L';
-                    statusText = 'Loss';
-                    statusClass = 'status-loss';
-                } else {
-                    resultText = 'T';
-                    statusText = 'Tie';
-                    statusClass = '';
-                }
-            }
-            
-            html += `
-                <tr>
-                    <td>${result.date}</td>
-                    <td>${opponent}</td>
-                    <td class="${statusClass}">${resultText}</td>
-                    <td>${teamScore}-${opponentScore}</td>
-                    <td>${statusText}</td>
-                </tr>
-            `;
-        });
-        
-        html += `
-                        </tbody>
+                        <tr><td><strong>Games</strong></td><td>${teamResults.length}</td></tr>
+                        <tr><td><strong>Wins</strong></td><td class="status-win">${wins}</td></tr>
+                        <tr><td><strong>Losses</strong></td><td class="status-loss">${losses}</td></tr>
+                        <tr><td><strong>Forfeits</strong></td><td class="status-forfeit">${forfeits}</td></tr>
+                        <tr><td><strong>Points Scored</strong></td><td>${totalPointsScored}</td></tr>
+                        <tr><td><strong>Points Against</strong></td><td>${totalPointsConceded}</td></tr>
+                        <tr><td><strong>Avg Scored</strong></td><td>${avgPointsScored}</td></tr>
+                        <tr><td><strong>Avg Against</strong></td><td>${avgPointsConceded}</td></tr>
+                        <tr><td><strong>League Pts</strong></td><td style="font-weight: bold; color: var(--accent-color);">${totalLeaguePoints}</td></tr>
+                        <tr><td><strong>Win Rate</strong></td><td>${winRate}%</td></tr>
                     </table>
                 </div>
-            </div>
-        `;
-    }
-
-    document.getElementById('modal-title').innerHTML = `<i class="fas fa-user"></i> ${teamName}`;
-    document.getElementById('modal-body').innerHTML = html;
-    document.getElementById('modal').style.display = 'block';
-}
+            `;
+            // Add Recent Games section (limited to 5 games for compact view)
+            if (teamResults.length > 0) {
+                html += `
+                    <h3 style="margin: 1.5rem 0 0.8rem; font-size: 1.1rem;"><i class="fas fa-history"></i> Recent Results</h3>
+                `;
+                // Sort by most recent first and limit to 5 games
+                const recentResults = [...teamResults].sort((a, b) => new Date(b.date) - new Date(a.date)).slice(0, 5);
+                recentResults.forEach(result => {
+                    const isHome = result.homeTeam === teamName;
+                    const opponent = isHome ? result.awayTeam : result.homeTeam;
+                    const teamScore = isHome ? result.homeScore : result.awayScore;
+                    const opponentScore = isHome ? result.awayScore : result.homeScore;
+                    let outcome, outcomeClass, resultText;
+                    if (result.forfeit) {
+                        if ((isHome && result.forfeitTeam === 'home') || (!isHome && result.forfeitTeam === 'away')) {
+                            outcome = 'F';
+                            outcomeClass = 'status-forfeit';
+                            resultText = 'FORFEIT';
+                        } else {
+                            outcome = 'W';
+                            outcomeClass = 'status-win';
+                            resultText = 'WIN';
+                        }
+                    } else {
+                        if (teamScore > opponentScore) {
+                            outcome = 'W';
+                            outcomeClass = 'status-win';
+                            resultText = `${teamScore}-${opponentScore}`;
+                        } else {
+                            outcome = 'L';
+                            outcomeClass = 'status-loss';
+                            resultText = `${teamScore}-${opponentScore}`;
+                        }
+                    }
+                    html += `
+                        <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; margin: 0.4rem 0; padding: 0.4rem; background: rgba(255, 255, 255, 0.05); border-radius: 8px;">
+                            <span style="flex: 2;">${isHome ? 'vs' : '@'} ${opponent}</span>
+                            <span style="flex: 1; text-align: center;"><strong>${resultText}</strong></span>
+                            <span class="${outcomeClass}" style="padding: 0.2rem 0.6rem; border-radius: 6px; font-weight: bold; font-size: 0.8rem;">${outcome}</span>
+                        </div>
+                    `;
+                });
+            } else {
+                html += '<div class="loading"><p>No games played yet.</p></div>';
+            }
+            document.getElementById('modal-title').innerHTML = `<i class="fas fa-user"></i> ${teamName}`;
+            document.getElementById('modal-body').innerHTML = html;
+            document.getElementById('modal').style.display = 'block';
+        }
         // Player Stats Functions
         function renderPlayerStats() {
             // Populate team filter based on selected division
             const divisionFilter = document.getElementById('players-division-filter');
             const teamFilter = document.getElementById('players-team-filter');
-            
             if (teamFilter) {
                 teamFilter.innerHTML = '<option value="all">All Teams</option>';
-                
                 if (divisionFilter.value !== 'all') {
                     const teams = appData.teams[divisionFilter.value] || [];
                     teams.forEach(team => {
@@ -3308,28 +3799,22 @@
                     });
                 }
             }
-            
             filterPlayers();
             updatePlayerLeaders();
         }
-        
         function filterPlayers() {
             const selectedDivision = document.getElementById('players-division-filter').value;
             const selectedTeam = document.getElementById('players-team-filter').value;
             const sortBy = document.getElementById('players-sort-filter').value;
-            
             let players = appData.players || [];
-            
             // Filter by division
             if (selectedDivision !== 'all') {
                 players = players.filter(p => p.division === selectedDivision);
             }
-            
             // Filter by team
             if (selectedTeam !== 'all') {
                 players = players.filter(p => p.team === selectedTeam);
             }
-            
             // Calculate per-game stats and filter out players with 0 games
             players = players
                 .filter(p => p.gamesPlayed > 0)
@@ -3343,7 +3828,6 @@
                         bpg: (player.totalBlocks / player.gamesPlayed).toFixed(1)
                     };
                 });
-            
             // Sort players
             players.sort((a, b) => {
                 let aValue, bValue;
@@ -3357,14 +3841,12 @@
                 }
                 return bValue - aValue; // Descending order
             });
-            
             // Render table
             const container = document.getElementById('players-stats-table');
             if (players.length === 0) {
                 container.innerHTML = '<tr><td colspan="10" class="text-center">No player statistics available.</td></tr>';
                 return;
             }
-            
             let html = '';
             players.forEach((player, index) => {
                 html += `
@@ -3390,16 +3872,12 @@
                     </tr>
                 `;
             });
-            
             container.innerHTML = html;
         }
-        
         function updatePlayerLeaders() {
             if (!appData.players || appData.players.length === 0) return;
-            
             const playersWithGames = appData.players.filter(p => p.gamesPlayed > 0);
             if (playersWithGames.length === 0) return;
-            
             // Points leader
             const pointsLeader = [...playersWithGames].sort((a, b) => 
                 (b.totalPoints / b.gamesPlayed) - (a.totalPoints / a.gamesPlayed)
@@ -3413,7 +3891,6 @@
                         `<img src="${pointsLeader.photo}" alt="${pointsLeader.name}">`;
                 }
             }
-            
             // Rebounds leader
             const reboundsLeader = [...playersWithGames].sort((a, b) => 
                 (b.totalRebounds / b.gamesPlayed) - (a.totalRebounds / a.gamesPlayed)
@@ -3427,7 +3904,6 @@
                         `<img src="${reboundsLeader.photo}" alt="${reboundsLeader.name}">`;
                 }
             }
-            
             // Assists leader
             const assistsLeader = [...playersWithGames].sort((a, b) => 
                 (b.totalAssists / b.gamesPlayed) - (a.totalAssists / a.gamesPlayed)
@@ -3442,20 +3918,16 @@
                 }
             }
         }
-        
         async function showPlayerDetails(playerId) {
             const player = appData.players.find(p => p.id === playerId);
             if (!player) return;
-            
             // Get player's game-by-game stats
             const statsSnapshot = await db.collection("playerStats")
                 .where("playerId", "==", playerId)
                 .orderBy("timestamp", "desc")
                 .limit(10)
                 .get();
-            
             const recentGames = statsSnapshot.docs.map(doc => doc.data());
-            
             let html = `
                 <div style="text-align: center; margin-bottom: 2rem;">
                     ${player.photo ? 
@@ -3466,7 +3938,6 @@
                     <p><strong>Position:</strong> ${player.position}</p>
                     <p><strong>Games Played:</strong> ${player.gamesPlayed}</p>
                 </div>
-                
                 <div class="grid grid-5 mb-2">
                     <div class="card text-center">
                         <div class="card-title">
@@ -3534,10 +4005,8 @@
                         </div>
                     </div>
                 </div>
-                
                 <h3 style="margin: 2rem 0 1rem;"><i class="fas fa-history"></i> Recent Games</h3>
             `;
-            
             if (recentGames.length === 0) {
                 html += '<p style="text-align: center; opacity: 0.7;">No game stats recorded yet.</p>';
             } else {
@@ -3557,7 +4026,6 @@
                             </thead>
                             <tbody>
                 `;
-                
                 recentGames.forEach(game => {
                     html += `
                         <tr>
@@ -3571,19 +4039,16 @@
                         </tr>
                     `;
                 });
-                
                 html += `
                             </tbody>
                         </table>
                     </div>
                 `;
             }
-            
             document.getElementById('modal-title').innerHTML = `<i class="fas fa-user"></i> ${player.name}`;
             document.getElementById('modal-body').innerHTML = html;
             document.getElementById('modal').style.display = 'block';
         }
-        
         // Home Page Functions
         function loadHomeData() {
             updateQuickStats();
@@ -3599,35 +4064,6 @@
             document.getElementById('total-teams').textContent = totalTeams;
             document.getElementById('total-games').textContent = totalGames;
             document.getElementById('total-fixtures').textContent = totalFixtures;
-        }
-        function renderHomeNewsPreview() {
-            const container = document.getElementById('home-news-grid');
-            const latestNews = appData.news.slice(0, 3);
-            let html = '';
-            if (latestNews.length === 0) {
-                html = '<div class="loading"><p>No news articles yet.</p></div>';
-            } else {
-                latestNews.forEach(article => {
-                    html += `
-                        <div class="card news-card" onclick="showNewsDetails('${article.id}')">
-                            <div class="news-image">
-                                ${article.image ? `<img src="${article.image}" alt="${article.title}">` : '<i class="fas fa-newspaper" style="font-size: 3rem; opacity: 0.3;"></i>'}
-                            </div>
-                            <div class="news-meta">
-                                <i class="fas fa-calendar-alt"></i> ${article.date || 'No date'}
-                            </div>
-                            <h3>${article.title}</h3>
-                            <div class="news-excerpt">
-                                ${article.content.substring(0, 100)}${article.content.length > 100 ? '...' : ''}
-                            </div>
-                            <div style="color: var(--accent-color); font-weight: bold;">
-                                Read More <i class="fas fa-arrow-right"></i>
-                            </div>
-                        </div>
-                    `;
-                });
-            }
-            container.innerHTML = html;
         }
         // Admin Functions
         function adminAccess() {
@@ -3688,13 +4124,78 @@
             const logoKey = `${division}-${teamName}`;
             const logoSrc = appData.settings.teamLogos[logoKey];
             if (logoSrc) {
-                return `<div class="team-logo-small"><img src="${logoSrc}" alt="${teamName}"></div>`;
+                return `<div class="team-logo-small"><img src="${logoSrc}" alt="${teamName}" style="width: 25px; height: 25px;"></div>`;
             } else {
-                return `<div class="team-logo-small">${teamName.charAt(0)}</div>`;
+                return `<div class="team-logo-small" style="width: 25px; height: 25px; font-size: 0.7rem;">${teamName.charAt(0)}</div>`;
             }
         }
         function closeModal() {
             document.getElementById('modal').style.display = 'none';
+        }
+        // Notification System
+        let notificationCount = 0;
+        let notifications = [];
+        function showNotification(title, message, type = 'info') {
+            const notificationId = Date.now();
+            const now = new Date();
+            const timeString = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            const notification = {
+                id: notificationId,
+                title,
+                message,
+                type,
+                time: timeString,
+                timestamp: now.getTime()
+            };
+            notifications.push(notification);
+            notificationCount++;
+            // Update badge
+            const badge = document.getElementById('notification-badge');
+            badge.textContent = notificationCount;
+            badge.classList.remove('hidden');
+            // Create notification element
+            const notificationElement = document.createElement('div');
+            notificationElement.className = `notification ${type}`;
+            notificationElement.id = `notification-${notificationId}`;
+            notificationElement.innerHTML = `
+                <div class="notification-header">
+                    <span>${title}</span>
+                    <button class="notification-close" onclick="closeNotification(${notificationId})">×</button>
+                </div>
+                <div class="notification-content">${message}</div>
+                <div class="notification-time">${timeString}</div>
+            `;
+            // Add to container
+            const container = document.getElementById('notification-container');
+            container.appendChild(notificationElement);
+            // Play sound (optional)
+            const sound = document.getElementById('notification-sound');
+            if (sound) {
+                sound.play().catch(e => console.log('Sound play error:', e));
+            }
+            // Auto-remove after 5 seconds
+            setTimeout(() => {
+                closeNotification(notificationId);
+            }, 5000);
+        }
+        function closeNotification(notificationId) {
+            const notificationElement = document.getElementById(`notification-${notificationId}`);
+            if (notificationElement) {
+                notificationElement.style.animation = 'slideOutRight 0.3s ease-out';
+                notificationElement.addEventListener('animationend', () => {
+                    notificationElement.remove();
+                });
+                // Update notifications array
+                notifications = notifications.filter(n => n.id !== notificationId);
+                notificationCount = Math.max(0, notificationCount - 1);
+                // Update badge
+                const badge = document.getElementById('notification-badge');
+                if (notificationCount > 0) {
+                    badge.textContent = notificationCount;
+                } else {
+                    badge.classList.add('hidden');
+                }
+            }
         }
         // Error Handling
         window.addEventListener('error', function(e) {
