@@ -679,75 +679,61 @@
             color: #FF9800;
         }
         /* Responsive Design */
-        @media (max-width: 768px) {
-            .nav-menu {
-                position: fixed;
-                top: 80px;
-                left: -100%;
-                width: 100%;
-                height: calc(100vh - 80px);
-                background: rgba(15, 27, 60, 0.98);
-                flex-direction: column;
-                padding: 2rem;
-                transition: left 0.3s ease;
-            }
-            .nav-menu.show {
-                left: 0;
-            }
-            .hero {
-                padding: 2rem 0 4rem;
-            }
-            .section {
-                padding: 2rem 0;
-            }
-            .main-content {
-                padding: 0 1rem;
-            }
-            .team-vs {
-                flex-direction: column;
-                text-align: center;
-                gap: 1rem;
-            }
-            .vs-divider {
-                order: 2;
-            }
-            .table-container {
-                overflow-x: auto;
-            }
-            .modal-content {
-                width: 95%;
-                padding: 1rem;
-                max-height: 85vh;
-            }
-            .admin-tabs {
-                flex-direction: column;
-            }
-            .grid {
-                gap: 1rem;
-            }
-            .card {
-                padding: 1.2rem;
-            }
-            .team-logo {
-                width: 50px;
-                height: 50px;
-            }
-            .team-logo-small {
-                width: 25px;
-                height: 25px;
-                font-size: 0.7rem;
-            }
-            .modal-content h2 {
-                font-size: 1.3rem;
-            }
-            .modal-content h3 {
-                font-size: 1.1rem;
-                margin-bottom: 0.8rem;
-            }
-            .scrollable-container {
-                max-height: 250px;
-            }
-        }
+@media (max-width: 768px) {
+    .nav-menu {
+        position: fixed;
+        top: 80px;
+        left: -100%;
+        width: 100%;
+        height: calc(100vh - 80px);
+        background: rgba(15, 27, 60, 0.98);
+        flex-direction: column;
+        padding: 2rem;
+        transition: left 0.3s ease;
+    }
+    .nav-menu.show {
+        left: 0;
+    }
+    .mobile-menu-toggle {
+        display: block;
+    }
+    .hero {
+        padding: 2rem 0 4rem;
+    }
+    .section {
+        padding: 2rem 0;
+    }
+    .main-content {
+        padding: 0 1rem;
+    }
+    .team-vs {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+    }
+    .vs-divider {
+        order: 2;
+    }
+    .table-container {
+        overflow-x: auto;
+    }
+    .table th,
+    .table td {
+        padding: 0.5rem;
+        font-size: 0.9rem;
+        white-space: nowrap;
+    }
+    .modal-content {
+        width: 95%;
+        padding: 1.5rem;
+    }
+    .admin-tabs {
+        flex-direction: column;
+    }
+    .grid {
+        gap: 1rem;
+    }
+}
         /* Loading States */
         .loading {
             text-align: center;
@@ -955,6 +941,7 @@
                 overflow-y: auto;
             }
         }
+
         /* Scrollable game results */
         .game-results-container {
             max-height: 300px;
@@ -968,53 +955,55 @@
             }
         }
         /* Compact table container */
-        .table-container {
-            background: var(--card-bg);
-            border-radius: var(--border-radius);
-            overflow: hidden;
-            margin: 1.5rem 0;
-            max-height: none !important;
-        }
-        /* Remove horizontal scrolling on mobile */
-        @media (max-width: 768px) {
-            .table-container {
-                overflow-x: hidden !important;
-            }
-            /* Make table columns narrower */
-            .table th:nth-child(1), .table td:nth-child(1) { /* Pos */
-                width: 5%;
-            }
-            .table th:nth-child(2), .table td:nth-child(2) { /* Team */
-                width: 25%;
-            }
-            .table th:nth-child(3), .table td:nth-child(3) { /* P */
-                width: 5%;
-            }
-            .table th:nth-child(4), .table td:nth-child(4) { /* W */
-                width: 5%;
-            }
-            .table th:nth-child(5), .table td:nth-child(5) { /* L */
-                width: 5%;
-            }
-            .table th:nth-child(6), .table td:nth-child(6) { /* F */
-                width: 5%;
-            }
-            .table th:nth-child(7), .table td:nth-child(7) { /* PF */
-                width: 8%;
-            }
-            .table th:nth-child(8), .table td:nth-child(8) { /* PA */
-                width: 8%;
-            }
-            .table th:nth-child(9), .table td:nth-child(9) { /* PD */
-                width: 8%;
-            }
-            .table th:nth-child(10), .table td:nth-child(10) { /* Pts */
-                width: 8%;
-            }
-            .table th:nth-child(11), .table td:nth-child(11) { /* Status */
-                width: 18%;
-            }
-        }
+        /* Compact table container */
+.table-container {
+    background: var(--card-bg);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    margin: 1.5rem 0;
+    max-height: none !important;
+}
+
+/* Remove horizontal scrolling on mobile */
+@media (max-width: 768px) {
+    .table-container {
+        overflow-x: hidden !important;
+    }
+    /* Make table columns narrower */
+    .table th:nth-child(1), .table td:nth-child(1) { /* Pos */
+        width: 5%;
+    }
+    .table th:nth-child(2), .table td:nth-child(2) { /* Team */
+        width: 25%;
+    }
+    .table th:nth-child(3), .table td:nth-child(3) { /* P */
+        width: 5%;
+    }
+    .table th:nth-child(4), .table td:nth-child(4) { /* W */
+        width: 5%;
+    }
+    .table th:nth-child(5), .table td:nth-child(5) { /* L */
+        width: 5%;
+    }
+    .table th:nth-child(6), .table td:nth-child(6) { /* F */
+        width: 5%;
+    }
+    .table th:nth-child(7), .table td:nth-child(7) { /* PF */
+        width: 8%;
+    }
+    .table th:nth-child(8), .table td:nth-child(8) { /* PA */
+        width: 8%;
+    }
+    .table th:nth-child(9), .table td:nth-child(9) { /* PD */
+        width: 8%;
+    }
+    .table th:nth-child(10), .table td:nth-child(10) { /* Pts */
+        width: 8%;
+    }
+    .table th:nth-child(11), .table td:nth-child(11) { /* Status */
+        width: 18%;
+    }
+}
         /* Notification Styles */
         .notification {
             background: white;
